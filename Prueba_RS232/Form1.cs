@@ -253,7 +253,7 @@ namespace Prueba_RS232
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnHyperTerminal_Click(object sender, EventArgs e)
         {
             string Command1 = txtCommand.Text;
             string CommandSent;

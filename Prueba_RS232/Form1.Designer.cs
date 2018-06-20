@@ -43,7 +43,7 @@
             this.btnHello = new System.Windows.Forms.Button();
             this.rtbIncoming = new System.Windows.Forms.RichTextBox();
             this.rtbOutgoing = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnHyperTerminal = new System.Windows.Forms.Button();
             this.txtCommand = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -178,15 +178,15 @@
             this.rtbOutgoing.Text = "";
             this.rtbOutgoing.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rtbOutgoing_KeyPress);
             // 
-            // button1
+            // btnHyperTerminal
             // 
-            this.button1.Location = new System.Drawing.Point(232, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(114, 23);
-            this.button1.TabIndex = 18;
-            this.button1.Text = "Hyper Terminal";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnHyperTerminal.Location = new System.Drawing.Point(232, 12);
+            this.btnHyperTerminal.Name = "btnHyperTerminal";
+            this.btnHyperTerminal.Size = new System.Drawing.Size(114, 23);
+            this.btnHyperTerminal.TabIndex = 18;
+            this.btnHyperTerminal.Text = "Hyper Terminal";
+            this.btnHyperTerminal.UseVisualStyleBackColor = true;
+            this.btnHyperTerminal.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtCommand
             // 
@@ -201,7 +201,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(615, 352);
             this.Controls.Add(this.txtCommand);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnHyperTerminal);
             this.Controls.Add(this.rtbOutgoing);
             this.Controls.Add(this.rtbIncoming);
             this.Controls.Add(this.btnHello);
@@ -242,7 +242,7 @@
         private System.Windows.Forms.Button btnHello;
         private System.Windows.Forms.RichTextBox rtbIncoming;
         private System.Windows.Forms.RichTextBox rtbOutgoing;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnHyperTerminal;
         private System.Windows.Forms.TextBox txtCommand;
     }
 }
