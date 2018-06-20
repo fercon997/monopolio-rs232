@@ -120,17 +120,11 @@ namespace Prueba_RS232
         private void port_DataReceived_1(object sender, SerialDataReceivedEventArgs e)
         {
             InputData = comPort.ReadExisting();
-            System.Diagnostics.Debug.WriteLine("Coño muestrame algo");
+            System.Diagnostics.Debug.WriteLine(InputData);
             if (InputData != String.Empty)
             {
                 this.BeginInvoke(new SetTextCallback(SetText), new object[] { InputData });
             }
-        }
-
-        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            comPort.ReadLine();
-            System.Diagnostics.Debug.WriteLine("Coño muestrame algo");
         }
 
         private void SetText(string text)
