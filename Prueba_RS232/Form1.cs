@@ -229,5 +229,49 @@ namespace Prueba_RS232
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void rtbOutgoing_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13) // enter key  
+            {
+                try
+                {
+                    comPort.Write("\r\n");
+                } catch(InvalidOperationException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                rtbOutgoing.Text = "";
+            }
+            else if (e.KeyChar < 32 || e.KeyChar > 126)
+            {
+                e.Handled = true; // ignores anything else outside printable ASCII range  
+            }
+            else
+            {
+                try
+                {
+                    comPort.Write(e.KeyChar.ToString());
+                } catch (InvalidOperationException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string Command1 = txtCommand.Text;
+            string CommandSent;
+            int Length, j = 0;
+
+            Length = Command1.Length;
+            for (int i = 0; i < Length; i++)
+            {
+                CommandSent = Command1.Substring(j, 1);
+                comPort.Write(CommandSent);
+                j++;
+            }
+        }
     }
 }

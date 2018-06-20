@@ -42,6 +42,9 @@
             this.cboDataBits = new System.Windows.Forms.ComboBox();
             this.btnHello = new System.Windows.Forms.Button();
             this.rtbIncoming = new System.Windows.Forms.RichTextBox();
+            this.rtbOutgoing = new System.Windows.Forms.RichTextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.txtCommand = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnGetSerialPorts
@@ -160,17 +163,46 @@
             // 
             // rtbIncoming
             // 
-            this.rtbIncoming.Location = new System.Drawing.Point(371, 122);
+            this.rtbIncoming.Location = new System.Drawing.Point(369, 124);
             this.rtbIncoming.Name = "rtbIncoming";
             this.rtbIncoming.Size = new System.Drawing.Size(197, 131);
             this.rtbIncoming.TabIndex = 15;
             this.rtbIncoming.Text = "";
+            // 
+            // rtbOutgoing
+            // 
+            this.rtbOutgoing.Location = new System.Drawing.Point(369, 97);
+            this.rtbOutgoing.Name = "rtbOutgoing";
+            this.rtbOutgoing.Size = new System.Drawing.Size(197, 21);
+            this.rtbOutgoing.TabIndex = 16;
+            this.rtbOutgoing.Text = "";
+            this.rtbOutgoing.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rtbOutgoing_KeyPress);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(232, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(114, 23);
+            this.button1.TabIndex = 18;
+            this.button1.Text = "Hyper Terminal";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // txtCommand
+            // 
+            this.txtCommand.Location = new System.Drawing.Point(201, 41);
+            this.txtCommand.Name = "txtCommand";
+            this.txtCommand.Size = new System.Drawing.Size(172, 20);
+            this.txtCommand.TabIndex = 19;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(615, 352);
+            this.Controls.Add(this.txtCommand);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.rtbOutgoing);
             this.Controls.Add(this.rtbIncoming);
             this.Controls.Add(this.btnHello);
             this.Controls.Add(this.cboDataBits);
@@ -209,6 +241,9 @@
         private System.Windows.Forms.ComboBox cboDataBits;
         private System.Windows.Forms.Button btnHello;
         private System.Windows.Forms.RichTextBox rtbIncoming;
+        private System.Windows.Forms.RichTextBox rtbOutgoing;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txtCommand;
     }
 }
 
