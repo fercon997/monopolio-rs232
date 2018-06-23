@@ -12,6 +12,13 @@ using System.Windows.Forms;
 
 namespace Prueba_RS232
 {
+    /*
+        En esta ventana deberiamos poner nada mas el select del puerto,
+        la configuracion de velocidad, paridad, etc se hace directo en
+        el codigo. 
+
+        Aqui deberiamos poner el boton de crear partida o unirse
+    */
     public partial class Form1 : Form
     {
         private SerialPort comPort = new SerialPort();
@@ -27,14 +34,13 @@ namespace Prueba_RS232
         delegate void SetTextCallback(string text);
 
         string InputData = String.Empty;
+        SerialDataReceivedEventHandler dataReceivedSubscription; 
 
         public Form1()
         {
             InitializeComponent();
-            SerialPinChangedEventHandler1 = new SerialPinChangedEventHandler(PinChanged);
-            comPort.DataReceived +=
-              new System.IO.Ports.SerialDataReceivedEventHandler(port_DataReceived_1);
-
+            dataReceivedSubscription = new System.IO.Ports.SerialDataReceivedEventHandler(port_DataReceived_1);
+            comPort.DataReceived += dataReceivedSubscription;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -119,72 +125,26 @@ namespace Prueba_RS232
 
         private void port_DataReceived_1(object sender, SerialDataReceivedEventArgs e)
         {
+            if (comPort.BytesToRead < 4)
+            {
+                return;
+            }
             InputData = comPort.ReadExisting();
+            
+            byte[] bytes = Encoding.ASCII.GetBytes(InputData);
             System.Diagnostics.Debug.WriteLine(InputData);
+            Console.WriteLine(InputData);
             if (InputData != String.Empty)
             {
                 this.BeginInvoke(new SetTextCallback(SetText), new object[] { InputData });
+
             }
         }
 
         private void SetText(string text)
         {
             this.rtbIncoming.Text += text;
-        }
-
-       /* private void btnTest_Click(object sender, EventArgs e)
-        {
-            SerialPinChangedEventHandler1 = new SerialPinChangedEventHandler(PinChanged);
-            comPort.PinChanged += SerialPinChangedEventHandler1;
-            try
-            {
-                comPort.Open();
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            comPort.RtsEnable = true;
-            comPort.DtrEnable = true;
-            btnTest.Enabled = false;
-        }*/
-
-        internal void PinChanged(object sender, SerialPinChangedEventArgs e)
-        {
-            SerialPinChange SerialPinChange1 = 0;
-            bool signalState = false;
-            SerialPinChange1 = e.EventType;
-            lblCTSStatus.BackColor = Color.Green;
-            lblDSRStatus.BackColor = Color.Green;
-            lblRIStatus.BackColor = Color.Green;
-            lblBreakStatus.BackColor = Color.Green;
-
-            switch (SerialPinChange1)
-            {
-                case SerialPinChange.Break:
-                    lblBreakStatus.BackColor = Color.Red;
-                    //MessageBox.Show("Break is Set");
-                    break;
-                case SerialPinChange.CDChanged:
-                    signalState = comPort.CtsHolding;
-                    //  MessageBox.Show("CD = " + signalState.ToString());
-                    break;
-                case SerialPinChange.CtsChanged:
-                    signalState = comPort.CDHolding;
-                    lblCTSStatus.BackColor = Color.Red;
-                    //MessageBox.Show("CTS = " + signalState.ToString());
-                    break;
-                case SerialPinChange.DsrChanged:
-                    signalState = comPort.DsrHolding;
-                    lblDSRStatus.BackColor = Color.Red;
-                    // MessageBox.Show("DSR = " + signalState.ToString());
-                    break;
-                case SerialPinChange.Ring:
-                    lblRIStatus.BackColor = Color.Red;
-                    //MessageBox.Show("Ring Detected");
-                    break;
-            }
-        }
+        }      
 
         private void btnPortState_Click(object sender, EventArgs e)
         {
@@ -253,19 +213,31 @@ namespace Prueba_RS232
             }
         }
 
-        private void btnHyperTerminal_Click(object sender, EventArgs e)
+        private void btnContinue_Click(object sender, EventArgs e)
         {
-            string Command1 = txtCommand.Text;
-            string CommandSent;
-            int Length, j = 0;
+            var nextWindow = new Principal();
+            nextWindow.SetComPort(this.comPort);
+            // Importante cancelar la subscripcion, asi permitimos a la nueva ventana
+            // manejar los datos del puerto
+            comPort.DataReceived -= dataReceivedSubscription;
+            nextWindow.ShowDialog();
+            this.Hide();
+        }
 
-            Length = Command1.Length;
-            for (int i = 0; i < Length; i++)
-            {
-                CommandSent = Command1.Substring(j, 1);
-                comPort.Write(CommandSent);
-                j++;
-            }
+
+        private void btnCrearPartida_Click(object sender, EventArgs e)
+        {
+            btnUnirseAPartida.Enabled = false;
+            // Enviar trama de inicio de partida
+            comPort.Write(new byte[] { 0x7E, 0b0000_0000, 0b1000_0000, 0x7E }, 0, 4);
+        }
+
+        private void btnUnirseAPartida_Click(object sender, EventArgs e)
+        {
+            /*
+                Esperar a que recibamos una instruccion de inicio de partida
+                
+             */
         }
     }
 }

@@ -33,23 +33,20 @@
             this.cboBaudRate = new System.Windows.Forms.ComboBox();
             this.cboStopBits = new System.Windows.Forms.ComboBox();
             this.cboHandShaking = new System.Windows.Forms.ComboBox();
-            this.lblBreakStatus = new System.Windows.Forms.Label();
-            this.lblCTSStatus = new System.Windows.Forms.Label();
-            this.lblDSRStatus = new System.Windows.Forms.Label();
-            this.lblRIStatus = new System.Windows.Forms.Label();
             this.btnPortState = new System.Windows.Forms.Button();
             this.cboParity = new System.Windows.Forms.ComboBox();
             this.cboDataBits = new System.Windows.Forms.ComboBox();
             this.btnHello = new System.Windows.Forms.Button();
             this.rtbIncoming = new System.Windows.Forms.RichTextBox();
             this.rtbOutgoing = new System.Windows.Forms.RichTextBox();
-            this.btnHyperTerminal = new System.Windows.Forms.Button();
-            this.txtCommand = new System.Windows.Forms.TextBox();
+            this.btnContinue = new System.Windows.Forms.Button();
+            this.btnUnirseAPartida = new System.Windows.Forms.Button();
+            this.btnCrearPartida = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnGetSerialPorts
             // 
-            this.btnGetSerialPorts.Location = new System.Drawing.Point(38, 95);
+            this.btnGetSerialPorts.Location = new System.Drawing.Point(38, 56);
             this.btnGetSerialPorts.Name = "btnGetSerialPorts";
             this.btnGetSerialPorts.Size = new System.Drawing.Size(125, 33);
             this.btnGetSerialPorts.TabIndex = 0;
@@ -60,7 +57,7 @@
             // cboPorts
             // 
             this.cboPorts.FormattingEnabled = true;
-            this.cboPorts.Location = new System.Drawing.Point(192, 95);
+            this.cboPorts.Location = new System.Drawing.Point(192, 56);
             this.cboPorts.Name = "cboPorts";
             this.cboPorts.Size = new System.Drawing.Size(121, 21);
             this.cboPorts.TabIndex = 2;
@@ -68,7 +65,7 @@
             // cboBaudRate
             // 
             this.cboBaudRate.FormattingEnabled = true;
-            this.cboBaudRate.Location = new System.Drawing.Point(192, 122);
+            this.cboBaudRate.Location = new System.Drawing.Point(192, 83);
             this.cboBaudRate.Name = "cboBaudRate";
             this.cboBaudRate.Size = new System.Drawing.Size(121, 21);
             this.cboBaudRate.TabIndex = 3;
@@ -76,7 +73,7 @@
             // cboStopBits
             // 
             this.cboStopBits.FormattingEnabled = true;
-            this.cboStopBits.Location = new System.Drawing.Point(192, 153);
+            this.cboStopBits.Location = new System.Drawing.Point(192, 114);
             this.cboStopBits.Name = "cboStopBits";
             this.cboStopBits.Size = new System.Drawing.Size(121, 21);
             this.cboStopBits.TabIndex = 4;
@@ -84,50 +81,14 @@
             // cboHandShaking
             // 
             this.cboHandShaking.FormattingEnabled = true;
-            this.cboHandShaking.Location = new System.Drawing.Point(192, 180);
+            this.cboHandShaking.Location = new System.Drawing.Point(192, 141);
             this.cboHandShaking.Name = "cboHandShaking";
             this.cboHandShaking.Size = new System.Drawing.Size(121, 21);
             this.cboHandShaking.TabIndex = 5;
             // 
-            // lblBreakStatus
-            // 
-            this.lblBreakStatus.AutoSize = true;
-            this.lblBreakStatus.Location = new System.Drawing.Point(36, 309);
-            this.lblBreakStatus.Name = "lblBreakStatus";
-            this.lblBreakStatus.Size = new System.Drawing.Size(35, 13);
-            this.lblBreakStatus.TabIndex = 6;
-            this.lblBreakStatus.Text = "Break";
-            // 
-            // lblCTSStatus
-            // 
-            this.lblCTSStatus.AutoSize = true;
-            this.lblCTSStatus.Location = new System.Drawing.Point(97, 309);
-            this.lblCTSStatus.Name = "lblCTSStatus";
-            this.lblCTSStatus.Size = new System.Drawing.Size(28, 13);
-            this.lblCTSStatus.TabIndex = 7;
-            this.lblCTSStatus.Text = "CTS";
-            // 
-            // lblDSRStatus
-            // 
-            this.lblDSRStatus.AutoSize = true;
-            this.lblDSRStatus.Location = new System.Drawing.Point(158, 309);
-            this.lblDSRStatus.Name = "lblDSRStatus";
-            this.lblDSRStatus.Size = new System.Drawing.Size(30, 13);
-            this.lblDSRStatus.TabIndex = 8;
-            this.lblDSRStatus.Text = "DSR";
-            // 
-            // lblRIStatus
-            // 
-            this.lblRIStatus.AutoSize = true;
-            this.lblRIStatus.Location = new System.Drawing.Point(219, 309);
-            this.lblRIStatus.Name = "lblRIStatus";
-            this.lblRIStatus.Size = new System.Drawing.Size(18, 13);
-            this.lblRIStatus.TabIndex = 9;
-            this.lblRIStatus.Text = "RI";
-            // 
             // btnPortState
             // 
-            this.btnPortState.Location = new System.Drawing.Point(38, 134);
+            this.btnPortState.Location = new System.Drawing.Point(38, 95);
             this.btnPortState.Name = "btnPortState";
             this.btnPortState.Size = new System.Drawing.Size(125, 30);
             this.btnPortState.TabIndex = 11;
@@ -138,7 +99,7 @@
             // cboParity
             // 
             this.cboParity.FormattingEnabled = true;
-            this.cboParity.Location = new System.Drawing.Point(192, 234);
+            this.cboParity.Location = new System.Drawing.Point(192, 195);
             this.cboParity.Name = "cboParity";
             this.cboParity.Size = new System.Drawing.Size(121, 21);
             this.cboParity.TabIndex = 12;
@@ -146,14 +107,14 @@
             // cboDataBits
             // 
             this.cboDataBits.FormattingEnabled = true;
-            this.cboDataBits.Location = new System.Drawing.Point(192, 207);
+            this.cboDataBits.Location = new System.Drawing.Point(192, 168);
             this.cboDataBits.Name = "cboDataBits";
             this.cboDataBits.Size = new System.Drawing.Size(121, 21);
             this.cboDataBits.TabIndex = 13;
             // 
             // btnHello
             // 
-            this.btnHello.Location = new System.Drawing.Point(38, 170);
+            this.btnHello.Location = new System.Drawing.Point(38, 131);
             this.btnHello.Name = "btnHello";
             this.btnHello.Size = new System.Drawing.Size(125, 30);
             this.btnHello.TabIndex = 14;
@@ -163,7 +124,7 @@
             // 
             // rtbIncoming
             // 
-            this.rtbIncoming.Location = new System.Drawing.Point(369, 124);
+            this.rtbIncoming.Location = new System.Drawing.Point(369, 85);
             this.rtbIncoming.Name = "rtbIncoming";
             this.rtbIncoming.Size = new System.Drawing.Size(197, 131);
             this.rtbIncoming.TabIndex = 15;
@@ -171,47 +132,57 @@
             // 
             // rtbOutgoing
             // 
-            this.rtbOutgoing.Location = new System.Drawing.Point(369, 97);
+            this.rtbOutgoing.Location = new System.Drawing.Point(369, 58);
             this.rtbOutgoing.Name = "rtbOutgoing";
             this.rtbOutgoing.Size = new System.Drawing.Size(197, 21);
             this.rtbOutgoing.TabIndex = 16;
             this.rtbOutgoing.Text = "";
             this.rtbOutgoing.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rtbOutgoing_KeyPress);
             // 
-            // btnHyperTerminal
+            // btnContinue
             // 
-            this.btnHyperTerminal.Location = new System.Drawing.Point(232, 12);
-            this.btnHyperTerminal.Name = "btnHyperTerminal";
-            this.btnHyperTerminal.Size = new System.Drawing.Size(114, 23);
-            this.btnHyperTerminal.TabIndex = 18;
-            this.btnHyperTerminal.Text = "Hyper Terminal";
-            this.btnHyperTerminal.UseVisualStyleBackColor = true;
-            this.btnHyperTerminal.Click += new System.EventHandler(this.button1_Click);
+            this.btnContinue.Location = new System.Drawing.Point(435, 255);
+            this.btnContinue.Name = "btnContinue";
+            this.btnContinue.Size = new System.Drawing.Size(75, 23);
+            this.btnContinue.TabIndex = 20;
+            this.btnContinue.Text = "Continuar";
+            this.btnContinue.UseVisualStyleBackColor = true;
+            this.btnContinue.Click += new System.EventHandler(this.btnContinue_Click);
             // 
-            // txtCommand
+            // btnUnirseAPartida
             // 
-            this.txtCommand.Location = new System.Drawing.Point(201, 41);
-            this.txtCommand.Name = "txtCommand";
-            this.txtCommand.Size = new System.Drawing.Size(172, 20);
-            this.txtCommand.TabIndex = 19;
+            this.btnUnirseAPartida.Location = new System.Drawing.Point(38, 282);
+            this.btnUnirseAPartida.Name = "btnUnirseAPartida";
+            this.btnUnirseAPartida.Size = new System.Drawing.Size(138, 23);
+            this.btnUnirseAPartida.TabIndex = 21;
+            this.btnUnirseAPartida.Text = "Unirse a partida";
+            this.btnUnirseAPartida.UseVisualStyleBackColor = true;
+            this.btnUnirseAPartida.Click += new System.EventHandler(this.btnUnirseAPartida_Click);
+            // 
+            // btnCrearPartida
+            // 
+            this.btnCrearPartida.Location = new System.Drawing.Point(38, 255);
+            this.btnCrearPartida.Name = "btnCrearPartida";
+            this.btnCrearPartida.Size = new System.Drawing.Size(138, 23);
+            this.btnCrearPartida.TabIndex = 22;
+            this.btnCrearPartida.Text = "Crear partida";
+            this.btnCrearPartida.UseVisualStyleBackColor = true;
+            this.btnCrearPartida.Click += new System.EventHandler(this.btnCrearPartida_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(615, 352);
-            this.Controls.Add(this.txtCommand);
-            this.Controls.Add(this.btnHyperTerminal);
+            this.ClientSize = new System.Drawing.Size(606, 317);
+            this.Controls.Add(this.btnCrearPartida);
+            this.Controls.Add(this.btnUnirseAPartida);
+            this.Controls.Add(this.btnContinue);
             this.Controls.Add(this.rtbOutgoing);
             this.Controls.Add(this.rtbIncoming);
             this.Controls.Add(this.btnHello);
             this.Controls.Add(this.cboDataBits);
             this.Controls.Add(this.cboParity);
             this.Controls.Add(this.btnPortState);
-            this.Controls.Add(this.lblRIStatus);
-            this.Controls.Add(this.lblDSRStatus);
-            this.Controls.Add(this.lblCTSStatus);
-            this.Controls.Add(this.lblBreakStatus);
             this.Controls.Add(this.cboHandShaking);
             this.Controls.Add(this.cboStopBits);
             this.Controls.Add(this.cboBaudRate);
@@ -221,7 +192,6 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -232,18 +202,15 @@
         private System.Windows.Forms.ComboBox cboBaudRate;
         private System.Windows.Forms.ComboBox cboStopBits;
         private System.Windows.Forms.ComboBox cboHandShaking;
-        private System.Windows.Forms.Label lblBreakStatus;
-        private System.Windows.Forms.Label lblCTSStatus;
-        private System.Windows.Forms.Label lblDSRStatus;
-        private System.Windows.Forms.Label lblRIStatus;
         private System.Windows.Forms.Button btnPortState;
         private System.Windows.Forms.ComboBox cboParity;
         private System.Windows.Forms.ComboBox cboDataBits;
         private System.Windows.Forms.Button btnHello;
         private System.Windows.Forms.RichTextBox rtbIncoming;
         private System.Windows.Forms.RichTextBox rtbOutgoing;
-        private System.Windows.Forms.Button btnHyperTerminal;
-        private System.Windows.Forms.TextBox txtCommand;
+        private System.Windows.Forms.Button btnContinue;
+        private System.Windows.Forms.Button btnUnirseAPartida;
+        private System.Windows.Forms.Button btnCrearPartida;
     }
 }
 
