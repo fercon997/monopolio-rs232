@@ -136,9 +136,9 @@ namespace Prueba_RS232
             byte[] receivedBytes = new byte[4];
             comPort.Read(receivedBytes, 0, 4);
             string control = Convert.ToString(receivedBytes[1], 2);
-            control = control.PadLeft(9 - control.Length, '0');
+            control = control.PadLeft(8, '0');
             string inst = Convert.ToString(receivedBytes[2], 2);
-            inst = inst.PadLeft(9 - inst.Length, '0');
+            inst = inst.PadLeft(8, '0');
 
             Console.WriteLine("Control: " + control);
             string origen = control.Substring(0, 2);
@@ -151,14 +151,17 @@ namespace Prueba_RS232
                     if (nMaquina != destino)
                     {
                         Console.WriteLine("Uniendose a partida");
-                        var nJugador = Convert.ToInt32(inst.Substring(6, 2) + 1);
-                        var strNumeroJugador = Convert.ToString(nJugador, 2);
-                        strNumeroJugador = strNumeroJugador.PadLeft(3 - strNumeroJugador.Length, '0');
+                        var nJugador = Convert.ToInt32(inst.Substring(6, 2), 2);
+                        Console.WriteLine("Int: " + nJugador );
+                        var strNumeroJugador = Convert.ToString(nJugador + 1, 2);
+                        strNumeroJugador = strNumeroJugador.PadLeft(2, '0');
+                        Console.WriteLine(String.Format("nJugador: {0}  str: {1}", inst.Substring(6, 2), strNumeroJugador));
                         this.BeginInvoke(new SetNumeroMaquinaCallback(SetMaquina), new object[] { strNumeroJugador });
 
                         Console.WriteLine(strNumeroJugador);
+
                         comPort.Write(Instruccion.FormarTrama(
-                            Instruccion.FormarPrimerByte("00", "00", "0000"),
+                            Instruccion.FormarPrimerByte(origen, destino, "0000"),
                             Instruccion.FormarSegundoByte("100000", strNumeroJugador)),
                             0, 4);
                     }              
@@ -268,8 +271,8 @@ namespace Prueba_RS232
             // Enviar trama de inicio de partida
             this.SetMaquina("00");
             comPort.Write(Instruccion.FormarTrama(
-                Instruccion.FormarPrimerByte(this.nMaquina, "00", "0000"),
-                Instruccion.FormarSegundoByte("100", "00000")),
+                Instruccion.FormarPrimerByte(this.nMaquina, this.nMaquina, "0000"),
+                Instruccion.FormarSegundoByte("100", "000" + this.nMaquina)),
                 0, 4);
         }
 
