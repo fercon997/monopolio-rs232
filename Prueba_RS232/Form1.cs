@@ -29,9 +29,13 @@ namespace Prueba_RS232
         internal delegate void SerialPinChangedEventHandlerDelegate(
                  object sender, SerialPinChangedEventArgs e);
 
+        delegate void SetNumeroMaquinaCallback(string numero);
+
         private SerialPinChangedEventHandler SerialPinChangedEventHandler1;
 
         delegate void SetTextCallback(string text);
+
+        string nMaquina = "sin asignar";
 
         string InputData = String.Empty;
         SerialDataReceivedEventHandler dataReceivedSubscription; 
@@ -129,9 +133,42 @@ namespace Prueba_RS232
             {
                 return;
             }
-            InputData = comPort.ReadExisting();
-            
-            byte[] bytes = Encoding.ASCII.GetBytes(InputData);
+            byte[] receivedBytes = new byte[4];
+            comPort.Read(receivedBytes, 0, 4);
+            string control = Convert.ToString(receivedBytes[1], 2);
+            control = control.PadLeft(9 - control.Length, '0');
+            string inst = Convert.ToString(receivedBytes[2], 2);
+            inst = inst.PadLeft(9 - inst.Length, '0');
+
+            Console.WriteLine("Control: " + control);
+            string origen = control.Substring(0, 2);
+            string destino = control.Substring(2, 2);
+
+            if (control.Substring(4,4) == "0000")
+            {
+                if (inst.Substring(0,5) == "10000")
+                {
+                    if (nMaquina != destino)
+                    {
+                        Console.WriteLine("Uniendose a partida");
+                        var nJugador = Convert.ToInt32(inst.Substring(6, 2) + 1);
+                        var strNumeroJugador = Convert.ToString(nJugador, 2);
+                        strNumeroJugador = strNumeroJugador.PadLeft(3 - strNumeroJugador.Length, '0');
+                        this.BeginInvoke(new SetNumeroMaquinaCallback(SetMaquina), new object[] { strNumeroJugador });
+
+                        Console.WriteLine(strNumeroJugador);
+                        comPort.Write(Instruccion.FormarTrama(
+                            Instruccion.FormarPrimerByte("00", "00", "0000"),
+                            Instruccion.FormarSegundoByte("100000", strNumeroJugador)),
+                            0, 4);
+                    }              
+                }
+            } else
+            {
+                Console.WriteLine("Fuckit");
+            }
+
+            InputData = BitConverter.ToString(receivedBytes);
             System.Diagnostics.Debug.WriteLine(InputData);
             Console.WriteLine(InputData);
             if (InputData != String.Empty)
@@ -227,17 +264,26 @@ namespace Prueba_RS232
 
         private void btnCrearPartida_Click(object sender, EventArgs e)
         {
-            btnUnirseAPartida.Enabled = false;
+            // btnUnirseAPartida.Enabled = false;
             // Enviar trama de inicio de partida
-            comPort.Write(new byte[] { 0x7E, 0b0000_0000, 0b1000_0000, 0x7E }, 0, 4);
+            this.SetMaquina("00");
+            comPort.Write(Instruccion.FormarTrama(
+                Instruccion.FormarPrimerByte(this.nMaquina, "00", "0000"),
+                Instruccion.FormarSegundoByte("100", "00000")),
+                0, 4);
         }
 
         private void btnUnirseAPartida_Click(object sender, EventArgs e)
         {
             /*
-                Esperar a que recibamos una instruccion de inicio de partida
-                
-             */
+                Esperar a que recibamos una instruccion de inicio de partida           
+            */
+        }
+
+        private void SetMaquina(string numero)
+        {
+            this.nMaquina = numero;
+            this.nMaquinaLabel.Text = this.nMaquina;
         }
     }
 }

@@ -42,6 +42,7 @@
             this.btnContinue = new System.Windows.Forms.Button();
             this.btnUnirseAPartida = new System.Windows.Forms.Button();
             this.btnCrearPartida = new System.Windows.Forms.Button();
+            this.nMaquinaLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnGetSerialPorts
@@ -169,11 +170,21 @@
             this.btnCrearPartida.UseVisualStyleBackColor = true;
             this.btnCrearPartida.Click += new System.EventHandler(this.btnCrearPartida_Click);
             // 
+            // nMaquinaLabel
+            // 
+            this.nMaquinaLabel.AutoSize = true;
+            this.nMaquinaLabel.Location = new System.Drawing.Point(426, 13);
+            this.nMaquinaLabel.Name = "nMaquinaLabel";
+            this.nMaquinaLabel.Size = new System.Drawing.Size(56, 15);
+            this.nMaquinaLabel.TabIndex = 23;
+            this.nMaquinaLabel.Text = "Maquina";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(606, 317);
+            this.Controls.Add(this.nMaquinaLabel);
             this.Controls.Add(this.btnCrearPartida);
             this.Controls.Add(this.btnUnirseAPartida);
             this.Controls.Add(this.btnContinue);
@@ -192,6 +203,7 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -211,6 +223,7 @@
         private System.Windows.Forms.Button btnContinue;
         private System.Windows.Forms.Button btnUnirseAPartida;
         private System.Windows.Forms.Button btnCrearPartida;
+        private System.Windows.Forms.Label nMaquinaLabel;
     }
 }
 
