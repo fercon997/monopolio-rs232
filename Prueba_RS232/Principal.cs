@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Prueba_RS232.Logica;
 
 namespace Prueba_RS232
 {
@@ -16,6 +17,7 @@ namespace Prueba_RS232
     */
     public partial class Principal : Form
     {
+        private Form inicial;
         string InputData = string.Empty;
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
@@ -24,11 +26,25 @@ namespace Prueba_RS232
         delegate void SetTextCallback(string text);
         SerialDataReceivedEventHandler dataReceivedSubscription;
 
-        public Principal()
+        public Principal(Form inicial)
         {
             InitializeComponent();
-           
+            this.inicial = inicial;
             this.lbPuerto.Text = this.comPort.PortName;
+            Closing += this.OnWindowClosing;
+        }
+
+        public void OnWindowClosing(object sender, CancelEventArgs e)
+        {          
+            DialogResult dialogResult = MessageBox.Show("De verdad quieres salir?", "Saliendo de la partida", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                inicial.Show();
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
         }
 
         /*
@@ -48,6 +64,7 @@ namespace Prueba_RS232
         private void SetText(string text)
         {
             this.tbDataReceived.Text += text;
+            
         }
 
         public void SetComPort(SerialPort port)

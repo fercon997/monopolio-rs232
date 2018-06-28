@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using System.Windows.Forms;
-
+using Prueba_RS232.Logica;
+using System.Diagnostics;
+using Prueba_RS232.Comunicacion;
 
 namespace Prueba_RS232
 {
@@ -22,6 +24,8 @@ namespace Prueba_RS232
     public partial class Form1 : Form
     {
         private SerialPort comPort = new SerialPort();
+        private List<Player> jugadores = new List<Player>();
+        private bool JOIN_MATCH = false;
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
                  object sender, SerialDataReceivedEventArgs e);
@@ -29,13 +33,9 @@ namespace Prueba_RS232
         internal delegate void SerialPinChangedEventHandlerDelegate(
                  object sender, SerialPinChangedEventArgs e);
 
-        delegate void SetNumeroMaquinaCallback(string numero);
-
-        private SerialPinChangedEventHandler SerialPinChangedEventHandler1;
+        delegate void SetJugadorCallback(Player jugador);
 
         delegate void SetTextCallback(string text);
-
-        string nMaquina = "sin asignar";
 
         string InputData = String.Empty;
         SerialDataReceivedEventHandler dataReceivedSubscription; 
@@ -77,10 +77,10 @@ namespace Prueba_RS232
             cboPorts.Text = ArrayComPortsNames[0];
 
             //Baud Rate
+            cboBaudRate.Items.Add(2400);
             cboBaudRate.Items.Add(300);
             cboBaudRate.Items.Add(600);
             cboBaudRate.Items.Add(1200);
-            cboBaudRate.Items.Add(2400);
             cboBaudRate.Items.Add(9600);
             cboBaudRate.Items.Add(14400);
             cboBaudRate.Items.Add(19200);
@@ -92,8 +92,8 @@ namespace Prueba_RS232
             //get first item print in text
             cboBaudRate.Text = cboBaudRate.Items[0].ToString();
             //Data Bits
-            cboDataBits.Items.Add(7);
             cboDataBits.Items.Add(8);
+            cboDataBits.Items.Add(7);
             //get the first item print it in the text 
             cboDataBits.Text = cboDataBits.Items[0].ToString();
 
@@ -123,8 +123,6 @@ namespace Prueba_RS232
 
             //get the first item print it in the text 
             cboHandShaking.Text = cboHandShaking.Items[0].ToString();
-
-
         }
 
         private void port_DataReceived_1(object sender, SerialDataReceivedEventArgs e)
@@ -133,52 +131,99 @@ namespace Prueba_RS232
             {
                 return;
             }
+            Trace.WriteLine("Recibiendo");
             byte[] receivedBytes = new byte[4];
             comPort.Read(receivedBytes, 0, 4);
-            string control = Convert.ToString(receivedBytes[1], 2);
-            control = control.PadLeft(8, '0');
-            string inst = Convert.ToString(receivedBytes[2], 2);
-            inst = inst.PadLeft(8, '0');
+            string primerByte = Instruccion.ByteToString(receivedBytes[1]);
+            string segundoByte = Instruccion.ByteToString(receivedBytes[2]);
+            Trace.WriteLine("Primer byte: " + primerByte);
+            Trace.WriteLine("Segundo byte: " + segundoByte);
 
-            Console.WriteLine("Control: " + control);
-            string origen = control.Substring(0, 2);
-            string destino = control.Substring(2, 2);
+            string origen = primerByte.Substring(0, 2);
+            string destino = primerByte.Substring(2, 2);
+            string currentPlayer = "Sin asignar";
+            if (jugadores.Count != 0)
+                currentPlayer = jugadores[0].GetIdAsString(); 
 
-            if (control.Substring(4,4) == "0000")
+            if (primerByte.Substring(4,4) == Instruccion.PrimerByte.INICIAR_PARTIDA)
             {
-                if (inst.Substring(0,5) == "10000")
+                if (segundoByte.Substring(0,5) == Instruccion.SegundoByte.CONFIGURAR_PARTIDA)
                 {
-                    if (nMaquina != destino)
+                    Trace.WriteLine("Anunciar o crear: " + segundoByte.Substring(5, 1));
+                    if (segundoByte.Substring(5, 1) == Instruccion.SegundoByte.ANUNCIAR)
                     {
-                        Console.WriteLine("Uniendose a partida");
-                        var nJugador = Convert.ToInt32(inst.Substring(6, 2), 2);
-                        Console.WriteLine("Int: " + nJugador );
-                        var strNumeroJugador = Convert.ToString(nJugador + 1, 2);
-                        strNumeroJugador = strNumeroJugador.PadLeft(2, '0');
-                        Console.WriteLine(String.Format("nJugador: {0}  str: {1}", inst.Substring(6, 2), strNumeroJugador));
-                        this.BeginInvoke(new SetNumeroMaquinaCallback(SetMaquina), new object[] { strNumeroJugador });
+                        var binaryJugadoresPorAgregar = segundoByte.Substring(6, 2);
+                        var jugadoresPorAgregar = Convert.ToInt32(segundoByte.Substring(6, 2), 2);
+                        Trace.WriteLine("Numero de jugadores que debemos crear localmente: " + jugadoresPorAgregar);
 
-                        Console.WriteLine(strNumeroJugador);
+                        //Creamos los jugadores faltantes
+                        for (int i = 1; i <= jugadoresPorAgregar; i++)
+                        {
+                            jugadores.Add(new Player(i, i.ToString()));
+                        }
 
-                        comPort.Write(Instruccion.FormarTrama(
-                            Instruccion.FormarPrimerByte(origen, destino, "0000"),
-                            Instruccion.FormarSegundoByte("100000", strNumeroJugador)),
-                            0, 4);
-                    }              
+                        if (currentPlayer != destino)
+                            AnunciarJugadores(origen, destino, binaryJugadoresPorAgregar);
+                        else
+                            Trace.WriteLine("Ya todas las maquinas recibieron y manejaron el anuncio de jugadores");
+                    } else
+                    {
+                        if (currentPlayer != destino)
+                        {
+                            Trace.WriteLine("Uniendose a partida");
+                            var nJugador = Convert.ToInt32(segundoByte.Substring(6, 2), 2);
+                            Trace.WriteLine("Numero de jugador recibido: " + nJugador);
+                            nJugador = nJugador + 1;
+                            var strNumeroJugador = Convert.ToString(nJugador, 2).PadLeft(2, '0');
+                            Trace.WriteLine("Nuevo numero de jugador: " + strNumeroJugador);
+                            Player newPlayer = new Player(nJugador, strNumeroJugador);
+                            this.BeginInvoke(new SetJugadorCallback(SetJugador), new object[] { newPlayer });
+
+                            Trace.WriteLine("Emitiendo mensaje de crear partida");
+                            comPort.Write(Instruccion.FormarTrama(
+                                Instruccion.FormarPrimerByte(origen, destino, Instruccion.PrimerByte.INICIAR_PARTIDA),
+                                Instruccion.FormarSegundoByte(
+                                    Instruccion.SegundoByte.CONFIGURAR_PARTIDA + Instruccion.SegundoByte.CONTAR,
+                                    newPlayer.GetIdAsString())),
+                                    0, 4);
+                        }
+                        else
+                        {
+                            Trace.WriteLine("Mensaje llego al destino");
+                            var binaryJugadoresPorAgregar = segundoByte.Substring(6, 2);
+                            // Anunciamos la cantidad de jugadores, y cuando el mensaje vuelva a llegar
+                            // a la maquina creadora, esta actualiza su lista de jugadores
+                            AnunciarJugadores(origen, destino, binaryJugadoresPorAgregar);
+                        }
+                    }
+                    
                 }
             } else
             {
-                Console.WriteLine("Fuckit");
+                Trace.WriteLine("Fuckit");
             }
 
             InputData = BitConverter.ToString(receivedBytes);
-            System.Diagnostics.Debug.WriteLine(InputData);
-            Console.WriteLine(InputData);
+            Trace.WriteLine(InputData);
             if (InputData != String.Empty)
             {
                 this.BeginInvoke(new SetTextCallback(SetText), new object[] { InputData });
 
             }
+        }
+
+        private void AnunciarJugadores(string origen, string destino, string numeroFaltante)
+        {
+            byte[] toSend = Instruccion.FormarTrama(
+                                Instruccion.FormarPrimerByte(origen, destino, Instruccion.PrimerByte.INICIAR_PARTIDA),
+                                Instruccion.FormarSegundoByte(
+                                    Instruccion.SegundoByte.CONFIGURAR_PARTIDA + Instruccion.SegundoByte.ANUNCIAR,
+                                    numeroFaltante));
+            foreach (byte b in toSend)
+            {
+                Trace.WriteLine(Instruccion.ByteToString(b));
+            }
+            comPort.Write(toSend, 0, 4);
         }
 
         private void SetText(string text)
@@ -255,24 +300,31 @@ namespace Prueba_RS232
 
         private void btnContinue_Click(object sender, EventArgs e)
         {
-            var nextWindow = new Principal();
+            var nextWindow = new Principal(this);
             nextWindow.SetComPort(this.comPort);
             // Importante cancelar la subscripcion, asi permitimos a la nueva ventana
             // manejar los datos del puerto
             comPort.DataReceived -= dataReceivedSubscription;
-            nextWindow.ShowDialog();
+            nextWindow.Show();
             this.Hide();
         }
 
 
         private void btnCrearPartida_Click(object sender, EventArgs e)
         {
-            // btnUnirseAPartida.Enabled = false;
+            this.jugadores.Clear();
+            btnUnirseAPartida.Enabled = false;
+            this.JOIN_MATCH = true;
             // Enviar trama de inicio de partida
-            this.SetMaquina("00");
+            Player jugadorLocal = new Player(0, "Nombre que quieran");
+            this.SetJugador(jugadorLocal);
+
+            Trace.WriteLine("Creando partida");
             comPort.Write(Instruccion.FormarTrama(
-                Instruccion.FormarPrimerByte(this.nMaquina, this.nMaquina, "0000"),
-                Instruccion.FormarSegundoByte("100", "000" + this.nMaquina)),
+                Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.INICIAR_PARTIDA),
+                Instruccion.FormarSegundoByte(
+                    Instruccion.SegundoByte.CONFIGURAR_PARTIDA + Instruccion.SegundoByte.CONTAR, 
+                    jugadorLocal.GetIdAsString())),
                 0, 4);
         }
 
@@ -281,12 +333,15 @@ namespace Prueba_RS232
             /*
                 Esperar a que recibamos una instruccion de inicio de partida           
             */
+            this.jugadores.Clear();
+            //this.btnCrearPartida.Enabled = false;
+            this.JOIN_MATCH = true;
         }
 
-        private void SetMaquina(string numero)
+        private void SetJugador(Player jugador)
         {
-            this.nMaquina = numero;
-            this.nMaquinaLabel.Text = this.nMaquina;
+            this.jugadores.Add(jugador);
+            this.nMaquinaLabel.Text = String.Format("({0}) {1}", jugador.GetIdAsString(), jugador.getName()) ;
         }
     }
 }
