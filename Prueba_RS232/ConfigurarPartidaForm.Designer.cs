@@ -1,6 +1,6 @@
-﻿namespace Prueba_RS232
+﻿namespace Monopolio_RS232
 {
-    partial class Form1
+    partial class ConfigurarPartidaForm
     {
         /// <summary>
         /// Required designer variable.
@@ -47,9 +47,10 @@
             // 
             // btnGetSerialPorts
             // 
-            this.btnGetSerialPorts.Location = new System.Drawing.Point(38, 56);
+            this.btnGetSerialPorts.Location = new System.Drawing.Point(101, 134);
+            this.btnGetSerialPorts.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnGetSerialPorts.Name = "btnGetSerialPorts";
-            this.btnGetSerialPorts.Size = new System.Drawing.Size(125, 33);
+            this.btnGetSerialPorts.Size = new System.Drawing.Size(333, 79);
             this.btnGetSerialPorts.TabIndex = 0;
             this.btnGetSerialPorts.Text = "Ports";
             this.btnGetSerialPorts.UseVisualStyleBackColor = true;
@@ -58,40 +59,45 @@
             // cboPorts
             // 
             this.cboPorts.FormattingEnabled = true;
-            this.cboPorts.Location = new System.Drawing.Point(192, 56);
+            this.cboPorts.Location = new System.Drawing.Point(512, 134);
+            this.cboPorts.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cboPorts.Name = "cboPorts";
-            this.cboPorts.Size = new System.Drawing.Size(121, 21);
+            this.cboPorts.Size = new System.Drawing.Size(316, 39);
             this.cboPorts.TabIndex = 2;
             // 
             // cboBaudRate
             // 
             this.cboBaudRate.FormattingEnabled = true;
-            this.cboBaudRate.Location = new System.Drawing.Point(192, 83);
+            this.cboBaudRate.Location = new System.Drawing.Point(512, 198);
+            this.cboBaudRate.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cboBaudRate.Name = "cboBaudRate";
-            this.cboBaudRate.Size = new System.Drawing.Size(121, 21);
+            this.cboBaudRate.Size = new System.Drawing.Size(316, 39);
             this.cboBaudRate.TabIndex = 3;
             // 
             // cboStopBits
             // 
             this.cboStopBits.FormattingEnabled = true;
-            this.cboStopBits.Location = new System.Drawing.Point(192, 114);
+            this.cboStopBits.Location = new System.Drawing.Point(512, 272);
+            this.cboStopBits.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cboStopBits.Name = "cboStopBits";
-            this.cboStopBits.Size = new System.Drawing.Size(121, 21);
+            this.cboStopBits.Size = new System.Drawing.Size(316, 39);
             this.cboStopBits.TabIndex = 4;
             // 
             // cboHandShaking
             // 
             this.cboHandShaking.FormattingEnabled = true;
-            this.cboHandShaking.Location = new System.Drawing.Point(192, 141);
+            this.cboHandShaking.Location = new System.Drawing.Point(512, 336);
+            this.cboHandShaking.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cboHandShaking.Name = "cboHandShaking";
-            this.cboHandShaking.Size = new System.Drawing.Size(121, 21);
+            this.cboHandShaking.Size = new System.Drawing.Size(316, 39);
             this.cboHandShaking.TabIndex = 5;
             // 
             // btnPortState
             // 
-            this.btnPortState.Location = new System.Drawing.Point(38, 95);
+            this.btnPortState.Location = new System.Drawing.Point(101, 227);
+            this.btnPortState.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnPortState.Name = "btnPortState";
-            this.btnPortState.Size = new System.Drawing.Size(125, 30);
+            this.btnPortState.Size = new System.Drawing.Size(333, 72);
             this.btnPortState.TabIndex = 11;
             this.btnPortState.Text = "Closed";
             this.btnPortState.UseVisualStyleBackColor = true;
@@ -100,24 +106,27 @@
             // cboParity
             // 
             this.cboParity.FormattingEnabled = true;
-            this.cboParity.Location = new System.Drawing.Point(192, 195);
+            this.cboParity.Location = new System.Drawing.Point(512, 465);
+            this.cboParity.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cboParity.Name = "cboParity";
-            this.cboParity.Size = new System.Drawing.Size(121, 21);
+            this.cboParity.Size = new System.Drawing.Size(316, 39);
             this.cboParity.TabIndex = 12;
             // 
             // cboDataBits
             // 
             this.cboDataBits.FormattingEnabled = true;
-            this.cboDataBits.Location = new System.Drawing.Point(192, 168);
+            this.cboDataBits.Location = new System.Drawing.Point(512, 401);
+            this.cboDataBits.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cboDataBits.Name = "cboDataBits";
-            this.cboDataBits.Size = new System.Drawing.Size(121, 21);
+            this.cboDataBits.Size = new System.Drawing.Size(316, 39);
             this.cboDataBits.TabIndex = 13;
             // 
             // btnHello
             // 
-            this.btnHello.Location = new System.Drawing.Point(38, 131);
+            this.btnHello.Location = new System.Drawing.Point(101, 312);
+            this.btnHello.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnHello.Name = "btnHello";
-            this.btnHello.Size = new System.Drawing.Size(125, 30);
+            this.btnHello.Size = new System.Drawing.Size(333, 72);
             this.btnHello.TabIndex = 14;
             this.btnHello.Text = "Hello";
             this.btnHello.UseVisualStyleBackColor = true;
@@ -125,26 +134,29 @@
             // 
             // rtbIncoming
             // 
-            this.rtbIncoming.Location = new System.Drawing.Point(369, 85);
+            this.rtbIncoming.Location = new System.Drawing.Point(984, 203);
+            this.rtbIncoming.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.rtbIncoming.Name = "rtbIncoming";
-            this.rtbIncoming.Size = new System.Drawing.Size(197, 131);
+            this.rtbIncoming.Size = new System.Drawing.Size(519, 307);
             this.rtbIncoming.TabIndex = 15;
             this.rtbIncoming.Text = "";
             // 
             // rtbOutgoing
             // 
-            this.rtbOutgoing.Location = new System.Drawing.Point(369, 58);
+            this.rtbOutgoing.Location = new System.Drawing.Point(984, 138);
+            this.rtbOutgoing.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.rtbOutgoing.Name = "rtbOutgoing";
-            this.rtbOutgoing.Size = new System.Drawing.Size(197, 21);
+            this.rtbOutgoing.Size = new System.Drawing.Size(519, 45);
             this.rtbOutgoing.TabIndex = 16;
             this.rtbOutgoing.Text = "";
             this.rtbOutgoing.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rtbOutgoing_KeyPress);
             // 
             // btnContinue
             // 
-            this.btnContinue.Location = new System.Drawing.Point(435, 255);
+            this.btnContinue.Location = new System.Drawing.Point(1160, 608);
+            this.btnContinue.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnContinue.Name = "btnContinue";
-            this.btnContinue.Size = new System.Drawing.Size(75, 23);
+            this.btnContinue.Size = new System.Drawing.Size(200, 55);
             this.btnContinue.TabIndex = 20;
             this.btnContinue.Text = "Continuar";
             this.btnContinue.UseVisualStyleBackColor = true;
@@ -152,9 +164,10 @@
             // 
             // btnUnirseAPartida
             // 
-            this.btnUnirseAPartida.Location = new System.Drawing.Point(38, 282);
+            this.btnUnirseAPartida.Location = new System.Drawing.Point(101, 672);
+            this.btnUnirseAPartida.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnUnirseAPartida.Name = "btnUnirseAPartida";
-            this.btnUnirseAPartida.Size = new System.Drawing.Size(138, 23);
+            this.btnUnirseAPartida.Size = new System.Drawing.Size(368, 55);
             this.btnUnirseAPartida.TabIndex = 21;
             this.btnUnirseAPartida.Text = "Unirse a partida";
             this.btnUnirseAPartida.UseVisualStyleBackColor = true;
@@ -162,9 +175,10 @@
             // 
             // btnCrearPartida
             // 
-            this.btnCrearPartida.Location = new System.Drawing.Point(38, 255);
+            this.btnCrearPartida.Location = new System.Drawing.Point(101, 608);
+            this.btnCrearPartida.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnCrearPartida.Name = "btnCrearPartida";
-            this.btnCrearPartida.Size = new System.Drawing.Size(138, 23);
+            this.btnCrearPartida.Size = new System.Drawing.Size(368, 55);
             this.btnCrearPartida.TabIndex = 22;
             this.btnCrearPartida.Text = "Crear partida";
             this.btnCrearPartida.UseVisualStyleBackColor = true;
@@ -173,17 +187,18 @@
             // nMaquinaLabel
             // 
             this.nMaquinaLabel.AutoSize = true;
-            this.nMaquinaLabel.Location = new System.Drawing.Point(426, 13);
+            this.nMaquinaLabel.Location = new System.Drawing.Point(1136, 31);
+            this.nMaquinaLabel.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.nMaquinaLabel.Name = "nMaquinaLabel";
-            this.nMaquinaLabel.Size = new System.Drawing.Size(56, 15);
+            this.nMaquinaLabel.Size = new System.Drawing.Size(125, 32);
             this.nMaquinaLabel.TabIndex = 23;
             this.nMaquinaLabel.Text = "Maquina";
             // 
-            // Form1
+            // ConfigurarPartidaForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(606, 317);
+            this.ClientSize = new System.Drawing.Size(1616, 756);
             this.Controls.Add(this.nMaquinaLabel);
             this.Controls.Add(this.btnCrearPartida);
             this.Controls.Add(this.btnUnirseAPartida);
@@ -199,8 +214,9 @@
             this.Controls.Add(this.cboBaudRate);
             this.Controls.Add(this.cboPorts);
             this.Controls.Add(this.btnGetSerialPorts);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.Name = "ConfigurarPartidaForm";
+            this.Text = "Monopolio";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

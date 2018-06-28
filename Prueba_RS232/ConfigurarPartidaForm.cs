@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO.Ports;
 using System.Windows.Forms;
-using Prueba_RS232.Logica;
+using Monopolio_RS232.Logica;
 using System.Diagnostics;
-using Prueba_RS232.Comunicacion;
+using Monopolio_RS232.Comunicacion;
 
-namespace Prueba_RS232
+namespace Monopolio_RS232
 {
     /*
         En esta ventana deberiamos poner nada mas el select del puerto,
@@ -21,7 +15,7 @@ namespace Prueba_RS232
 
         Aqui deberiamos poner el boton de crear partida o unirse
     */
-    public partial class Form1 : Form
+    public partial class ConfigurarPartidaForm : Form
     {
         private SerialPort comPort = new SerialPort();
         private List<Player> jugadores = new List<Player>();
@@ -40,7 +34,7 @@ namespace Prueba_RS232
         string InputData = String.Empty;
         SerialDataReceivedEventHandler dataReceivedSubscription; 
 
-        public Form1()
+        public ConfigurarPartidaForm()
         {
             InitializeComponent();
             dataReceivedSubscription = new System.IO.Ports.SerialDataReceivedEventHandler(port_DataReceived_1);

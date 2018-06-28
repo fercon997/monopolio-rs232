@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Prueba_RS232.Comunicacion
+namespace Monopolio_RS232.Comunicacion
 {
     /* TODO:
              Esta clase es la que se debe encargar de manejar el SerialPort, es decir,

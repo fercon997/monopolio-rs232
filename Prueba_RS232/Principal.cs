@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Prueba_RS232.Logica;
 
-namespace Prueba_RS232
+namespace Monopolio_RS232
 {
     /*
         Esta seria la ventana principal donde estaria el tablero. 

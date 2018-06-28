@@ -1,4 +1,4 @@
-﻿namespace Prueba_RS232
+﻿namespace Monopolio_RS232
 {
     partial class Principal
     {

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Prueba_RS232
+namespace Monopolio_RS232
 {
     static class Program
     {
@@ -16,7 +13,7 @@ namespace Prueba_RS232
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new ConfigurarPartidaForm());
         }
     }
 }
