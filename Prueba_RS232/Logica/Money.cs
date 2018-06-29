@@ -6,11 +6,16 @@ namespace Monopolio_RS232.Logica
 {
     class Money
     {
-        private int money;
+        int money;
 
-        public Money(int amount)
+        public Money()
         {
-            this.money = amount;
+            money = 0;
+        }
+
+        public Money(int money)
+        {
+            this.money = money;
         }
 
         public int getMoney()
