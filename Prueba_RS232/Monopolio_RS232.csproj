@@ -48,8 +48,12 @@
     <Compile Include="Comunicacion\ServicioTransmicion.cs" />
     <Compile Include="Logica\Board.cs" />
     <Compile Include="Logica\GoSquare.cs" />
+    <Compile Include="Logica\GoToJailSquare.cs" />
+    <Compile Include="Logica\HouseSquare.cs" />
+    <Compile Include="Logica\JailSquare.cs" />
     <Compile Include="Logica\Money.cs" />
     <Compile Include="Logica\Square.cs" />
+    <Compile Include="Logica\VacationSquare.cs" />
     <Compile Include="Vistas\ConfigurarPartidaForm.cs">
       <SubType>Form</SubType>
     </Compile>
