@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO.Ports;
+using Monopolio_RS232.Logica;
 
 namespace Monopolio_RS232.Comunicacion
 {
@@ -39,6 +40,16 @@ namespace Monopolio_RS232.Comunicacion
             comPort.Write(toSend, 0, 4);
         }
 
+        public void CrearPartida()
+        {
+            var jugadorLocal = new Player(0, "holder");
+            comPort.Write(Instruccion.FormarTrama(
+                Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.INICIAR_PARTIDA),
+                Instruccion.FormarSegundoByte(
+                    Instruccion.SegundoByte.CONFIGURAR_PARTIDA + Instruccion.SegundoByte.CONTAR,
+                    jugadorLocal.GetIdAsString())),
+                0, 4);
+        }
 
     }
 }

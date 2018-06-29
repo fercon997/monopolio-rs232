@@ -13,15 +13,13 @@ namespace Monopolio_RS232.Logica
         Square[] squares = new Square[40];
         String[] names = new String[] { "House", "Villa", "Town", "City", "Peace", "Village", "Jade", "Soi 4", "White", "Dark" };
 
-        public Board(int totalPlayer)
+        public Board()
         {
-            players = new Player[totalPlayer];
-            this.totalPlayer = totalPlayer;
-            for (int i = 0; i < players.Length; i++)
-            {
-                players[i] = new Player(i, "Player " + (i + 1));
-            }
             Random rand = new Random();
+            /*
+                TODO: Crear lista con los nombres de las propiedades de verdad,
+                      en el orden que es y con el precio correcto
+             */
             for (int i = 0; i < squares.Length; i++)
             {
                 if (i == 0)
@@ -46,6 +44,17 @@ namespace Monopolio_RS232.Logica
                     //squares[i] = new HouseSquare(names[rand.nextInt(names.Length)] + " " + names[rand.nextInt(names.Length)], 400 + rand.nextInt(300));
                 }
             }
+        }
+
+        public void GeneratePlayers(int totalPlayer)
+        {
+            
+            players = new Player[totalPlayer];
+            this.totalPlayer = totalPlayer;
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i] = new Player(i, "Player " + (i + 1));
+            }       
         }
 
         public Square movePlayer(Player player, int face)
