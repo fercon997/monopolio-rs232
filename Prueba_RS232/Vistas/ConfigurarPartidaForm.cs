@@ -19,6 +19,8 @@ namespace Monopolio_RS232
     {
         private SerialPort comPort = new SerialPort();
         private List<Player> jugadores = new List<Player>();
+        Player jugadorLocal;
+        private Board BOARD = new Board();
         private ServicioTransmicion servicioTransmicion;
         private bool JOIN_MATCH = false;
 
@@ -151,20 +153,20 @@ namespace Monopolio_RS232
                         var binaryJugadoresPorAgregar = segundoByte.Substring(6, 2);
                         var jugadoresPorAgregar = Convert.ToInt32(segundoByte.Substring(6, 2), 2);
                         Trace.WriteLine("Numero de jugadores que debemos crear localmente: " + jugadoresPorAgregar);
-
+                        var jugadoresTotales = jugadoresPorAgregar + 1;
                         //Creamos los jugadores faltantes
                         for (int i = 1; i <= jugadoresPorAgregar; i++)
                         {
                             jugadores.Add(new Player(i, i.ToString()));
                         }
 
-                        if (currentPlayer != destino)
+                        if ( jugadorLocal == null ||  jugadorLocal.GetIdAsString() != destino) //currentPlayer != destino)
                             AnunciarJugadores(origen, destino, binaryJugadoresPorAgregar);
                         else
                             Trace.WriteLine("Ya todas las maquinas recibieron y manejaron el anuncio de jugadores");
                     } else
                     {
-                        if (currentPlayer != destino)
+                        if (jugadorLocal == null || jugadorLocal.GetIdAsString() != destino) //if (currentPlayer != destino)
                         {
                             Trace.WriteLine("Uniendose a partida");
                             var nJugador = Convert.ToInt32(segundoByte.Substring(6, 2), 2);
@@ -312,9 +314,8 @@ namespace Monopolio_RS232
             btnUnirseAPartida.Enabled = false;
             this.JOIN_MATCH = true;
             // Enviar trama de inicio de partida
-            Player jugadorLocal = new Player(0, "Nombre que quieran");
+            this.jugadorLocal = new Player(0, "Creador de partida");
             this.SetJugador(jugadorLocal);
-
             Trace.WriteLine("Creando partida");
             comPort.Write(Instruccion.FormarTrama(
                 Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.INICIAR_PARTIDA),
@@ -330,7 +331,7 @@ namespace Monopolio_RS232
                 Esperar a que recibamos una instruccion de inicio de partida           
             */
             this.jugadores.Clear();
-            //this.btnCrearPartida.Enabled = false;
+            
             this.JOIN_MATCH = true;
         }
 
