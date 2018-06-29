@@ -5,15 +5,10 @@ namespace Monopolio_RS232.Logica
     class Player
     {
         int totalWalk = 0;
-
         int position = 0;
-
         int id;
-
         String name;
-
         bool brokeout = false;
-
         Money money = new Money(5000);
 
         public Player(int id, String name)

@@ -40,8 +40,7 @@ namespace Monopolio_RS232.Logica
                 }
                 else
                 {
-                    // TODO: Pila aqui en como ua el random, este es el de Java. Hay que pasarlo al de C#
-                    //squares[i] = new HouseSquare(names[rand.nextInt(names.Length)] + " " + names[rand.nextInt(names.Length)], 400 + rand.nextInt(300));
+                    //squares[i] = new HouseSquare(names[rand.Next(names.Length)] + " " + names[rand.Next(names.Length)], 400 + rand.nextInt(300));
                 }
             }
         }
@@ -64,7 +63,10 @@ namespace Monopolio_RS232.Logica
 
         public Square movePlayer(Player player, int face, bool count)
         {
-            if (player.isBrokeOut()) { return squares[player.getCurrentPosition()]; }
+            if (player.isBrokeOut())
+            {
+                return squares[player.getCurrentPosition()];
+            }
             int newPosition = normalizePosition(player.getCurrentPosition() + face);
             player.setPosition(newPosition);
             Trace.WriteLine(player, player.getName() + " goes to " + squares[player.getCurrentPosition()].getName());
