@@ -14,7 +14,7 @@ namespace Monopolio_RS232.Logica
 
         bool brokeout = false;
 
-        int money = 5000;
+        Money money = new Money(5000);
 
         public Player(int id, String name)
         {
@@ -34,6 +34,10 @@ namespace Monopolio_RS232.Logica
             return face;
         }
 
+        public Money getMoney()
+        {
+            return money;
+        }
         public int getCurrentPosition()
         {
             return this.position;
@@ -52,11 +56,6 @@ namespace Monopolio_RS232.Logica
         public String getName()
         {
             return this.name;
-        }
-
-        public int getMoney()
-        {
-            return this.money;
         }
 
         public int getID()

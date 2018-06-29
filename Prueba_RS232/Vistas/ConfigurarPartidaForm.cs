@@ -19,6 +19,7 @@ namespace Monopolio_RS232
     {
         private SerialPort comPort = new SerialPort();
         private List<Player> jugadores = new List<Player>();
+        private ServicioTransmicion servicioTransmicion;
         private bool JOIN_MATCH = false;
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
@@ -37,6 +38,7 @@ namespace Monopolio_RS232
         public ConfigurarPartidaForm()
         {
             InitializeComponent();
+            servicioTransmicion = new ServicioTransmicion(comPort);
             dataReceivedSubscription = new System.IO.Ports.SerialDataReceivedEventHandler(port_DataReceived_1);
             comPort.DataReceived += dataReceivedSubscription;
         }

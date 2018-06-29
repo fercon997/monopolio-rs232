@@ -13,7 +13,12 @@ namespace Monopolio_RS232.Comunicacion
     */
     class ServicioTransmicion
     {
+        public event DatosRecibidosHandler OnDatosRecibidos;
         private SerialPort comPort;
+
+        private SerialDataReceivedEventHandler dataReceivedSubscription;
+        internal delegate void SerialDataReceivedEventHandlerDelegate(
+                         object sender, SerialDataReceivedEventArgs e);
 
         public ServicioTransmicion(SerialPort serialPort)
         {
@@ -33,5 +38,7 @@ namespace Monopolio_RS232.Comunicacion
             }
             comPort.Write(toSend, 0, 4);
         }
+
+
     }
 }

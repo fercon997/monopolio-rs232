@@ -44,28 +44,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comunicacion\DatosRecibidosEvent.cs" />
     <Compile Include="Comunicacion\ServicioTransmicion.cs" />
-    <Compile Include="ConfigurarPartidaForm.cs">
+    <Compile Include="Logica\Board.cs" />
+    <Compile Include="Logica\GoSquare.cs" />
+    <Compile Include="Logica\Square.cs" />
+    <Compile Include="Vistas\ConfigurarPartidaForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfigurarPartidaForm.Designer.cs">
+    <Compile Include="Vistas\ConfigurarPartidaForm.Designer.cs">
       <DependentUpon>ConfigurarPartidaForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Comunicacion\Instruccion.cs" />
     <Compile Include="Logica\Die.cs" />
     <Compile Include="Logica\Player.cs" />
-    <Compile Include="Principal.cs">
+    <Compile Include="Vistas\Principal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Principal.Designer.cs">
+    <Compile Include="Vistas\Principal.Designer.cs">
       <DependentUpon>Principal.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ConfigurarPartidaForm.resx">
+    <EmbeddedResource Include="Vistas\ConfigurarPartidaForm.resx">
       <DependentUpon>ConfigurarPartidaForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Principal.resx">
+    <EmbeddedResource Include="Vistas\Principal.resx">
       <DependentUpon>Principal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
