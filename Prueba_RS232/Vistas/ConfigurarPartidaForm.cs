@@ -171,7 +171,7 @@ namespace Monopolio_RS232
                         BOARD.SetPlayers(listaJugadores.ToArray());
                         // Boleteo temporal para cambiarle el texto al label desde otro thread
                         this.lbNumeroJugadores.BeginInvoke((MethodInvoker)delegate () {
-                            this.lbNumeroJugadores.Text = "Numero de jugadores: " + BOARD.getPlayers()[1].getName(); ;
+                            this.lbNumeroJugadores.Text = "Numero de jugadores: " + BOARD.getPlayers().Length; ;
                         });
 
                         if (jugadorLocal.GetIdAsString() != destino)
