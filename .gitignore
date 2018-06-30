@@ -263,3 +263,7 @@ __pycache__/
 
 # Pdf
 *.pdf
+
+# Ports files
+*.workspace
+*.pdsbak

@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comunicacion\DatosRecibidosEvent.cs" />
-    <Compile Include="Comunicacion\ServicioTransmicion.cs" />
+    <Compile Include="Comunicacion\ServicioTransmision.cs" />
     <Compile Include="Logica\Board.cs" />
     <Compile Include="Logica\GoSquare.cs" />
     <Compile Include="Logica\GoToJailSquare.cs" />
@@ -105,6 +105,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\tablero.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\dado1.png" />
+    <Content Include="Resources\dado2.png" />
+    <Content Include="Resources\dado3.png" />
+    <Content Include="Resources\dado4.png" />
+    <Content Include="Resources\dado5.png" />
+    <Content Include="Resources\dado6.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
