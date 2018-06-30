@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO.Ports;
 using System.Windows.Forms;
 using System.Drawing;
+using Monopolio_RS232.Logica;
 
 namespace Monopolio_RS232
 {

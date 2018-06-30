@@ -5,14 +5,32 @@ using System.Diagnostics;
 
 namespace Monopolio_RS232.Logica
 {
+    public enum Group
+    {
+        PURPLE, LIGHT_BLUE, VIOLET, ORANGE,
+        RED, YELLOW, DARK_GREEN, DARK_BLUE,
+        UTILITY, RAILROAD
+    }
+
     class HouseSquare: Square
     {
-        int price;
-        int owner = -1;
+        private int price;
+        private int position;
+        private int rent;
+        private Group group;
+        private int owner = -1;
 
-        public HouseSquare(String name, int price): base(name)
+        public HouseSquare(string name, int price): base(name)
         {
             this.price = price;
+        }
+
+        public HouseSquare(string name, int position, int price, int rent, Group group): base(name)
+        {
+            this.price = price;
+            this.position = position;
+            this.rent = rent;
+            this.group = group;
         }
 
         public void setOwner(int owner)
@@ -60,6 +78,9 @@ namespace Monopolio_RS232.Logica
             }
         }
 
-        
+        public int GetPosition()
+        {
+            return this.position;
+       }
     }
 }
