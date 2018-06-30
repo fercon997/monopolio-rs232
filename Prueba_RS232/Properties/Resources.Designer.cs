@@ -61,6 +61,31 @@ namespace Monopolio_RS232.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mediterranean Ave.,2,60,2,Purple
+        ///Baltic Ave.,4,60,4,Purple
+        ///Oriental Ave.,7,100,6,Light-Blue
+        ///Vermont Ave.,9,100,6,Light-Blue
+        ///Connecticut Ave.,10,120,8,Light-Blue
+        ///St. Charles Place,12,140,10,Violet
+        ///States Ave.,14,140,10,Violet
+        ///Virginia Ave.,15,160,12,Violet
+        ///St. James Place,17,180,14,Orange
+        ///Tennessee Ave.,19,180,14,Orange
+        ///New York Ave.,20,200,16,Orange
+        ///Kentucky Ave.,22,220,18,Red
+        ///Indiana Ave.,24,220,18,Red
+        ///Illinois Ave.,25,240,20,Red
+        ///Atlantic Ave.,27,260,22,Yellow
+        ///Ventnor Ave.,28,260,22,Yellow
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Propiedades {
+            get {
+                return ResourceManager.GetString("Propiedades", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap dado1 {

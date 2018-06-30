@@ -52,6 +52,7 @@
     <Compile Include="Logica\HouseSquare.cs" />
     <Compile Include="Logica\JailSquare.cs" />
     <Compile Include="Logica\Money.cs" />
+    <Compile Include="Logica\PropiedadFactory.cs" />
     <Compile Include="Logica\Square.cs" />
     <Compile Include="Logica\VacationSquare.cs" />
     <Compile Include="Vistas\ConfigurarPartidaForm.cs">
@@ -101,9 +102,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Tablero.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\tablero.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +115,7 @@
     <None Include="Resources\player3.png" />
     <None Include="Resources\player2.png" />
     <None Include="Resources\player1.png" />
+    <None Include="Resources\Properties.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
