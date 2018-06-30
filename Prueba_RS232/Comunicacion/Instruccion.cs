@@ -49,6 +49,12 @@ namespace Monopolio_RS232.Comunicacion
             return Convert.ToByte(v, 2);
         }
 
+        public static byte FormarSegundoByteDados(string dado1, string dado2)
+        {
+            string v = String.Format("10{0}{1}", dado1, dado2);
+            return Convert.ToByte(v, 2);
+        }
+
         public static String ByteToString(byte b)
         {
             string bStr = Convert.ToString(b, 2);

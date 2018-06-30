@@ -28,19 +28,19 @@ namespace Monopolio_RS232.Logica
                 }
                 else if (i == 9)
                 {
-                    //squares[i] = new JailSquare("Jail");
+                    squares[i] = new JailSquare("Jail");
                 }
                 else if (i == 19)
                 {
-                    //squares[i] = new VacationSquare("Vacation");
+                    squares[i] = new VacationSquare("Vacation");
                 }
                 else if (i == 29)
                 {
-                    //squares[i] = new GoToJailSquare("Go to Jail");
+                    squares[i] = new GoToJailSquare("Go to Jail");
                 }
                 else
                 {
-                    //squares[i] = new HouseSquare(names[rand.Next(names.Length)] + " " + names[rand.Next(names.Length)], 400 + rand.nextInt(300));
+                    squares[i] = new HouseSquare(names[rand.Next(names.Length)] + " " + names[rand.Next(names.Length)], 400 + rand.Next(300));
                 }
             }
         }
