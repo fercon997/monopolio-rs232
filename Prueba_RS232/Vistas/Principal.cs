@@ -62,7 +62,30 @@ namespace Monopolio_RS232
             string segundoByte = Instruccion.ByteToString(receivedBytes[2]);
             Trace.WriteLine("Primer byte: " + primerByte);
             Trace.WriteLine("Segundo byte: " + segundoByte);
-            //this.tbDataReceived.Text = Convert.To primerByte + segundoByte;
+            string origen = primerByte.Substring(0, 2);
+            string destino = primerByte.Substring(2, 2);
+
+            if (primerByte.Substring(4,4) == Instruccion.PrimerByte.TIRAR_DADOS)
+            {
+                if (jugadorLocal.GetIdAsString() != destino) {
+                    string dado1Str = segundoByte.Substring(2, 3);
+                    string dado2Str = segundoByte.Substring(5, 3);
+
+                    int dado1 = Convert.ToInt32(dado1Str, 2);
+                    Trace.WriteLine(dado1);
+                    int dado2 = Convert.ToInt32(dado2Str, 2);
+                    Trace.WriteLine(dado2);
+
+                    dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado1);
+                    dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado2);
+
+                    this.comPort.Write(Instruccion.FormarTrama(
+                        Instruccion.FormarPrimerByte(origen, destino, Instruccion.PrimerByte.TIRAR_DADOS),
+                        Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
+                        ), 0, 4);
+                }
+            }
+
 
             InputData = comPort.ReadExisting();
             Console.WriteLine();
@@ -86,31 +109,35 @@ namespace Monopolio_RS232
             this.lbPuerto.Text = this.comPort.PortName;
         }
 
-        // public void SetJugadorLocal(Player jugadorLocal)
-        //{
-        //    this.jugadorLocal = jugadorLocal;
-        //}
+        public void SetJugadorLocal(Player jugadorLocal)
+        {
+            this.jugadorLocal = jugadorLocal;
+        }
 
         private void btnRollDices_Click(object sender, EventArgs e)
         {
             Random randDado = new Random();
-            int numeroDado1 = randDado.Next(6);
-            int numeroDado2 = randDado.Next(6);
-            this.dice1.Image = Image.FromFile("../../Resources/" + dados[numeroDado1] + ".png");
-            this.dice2.Image = Image.FromFile("../../Resources/" + dados[numeroDado2] + ".png");
+            int numeroDado1 = randDado.Next(6) + 1;
+            int numeroDado2 = randDado.Next(6) + 1;
+            dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado1);
+            dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado2);
 
-            string numeroDado1Byte = Instruccion.ByteToString(Convert.ToByte(numeroDado1 + 1));
+            string numeroDado1Byte = Instruccion.ByteToString(Convert.ToByte(numeroDado1));
             string numeroDado1Str = numeroDado1Byte.Substring(5);
-            string numeroDado2Byte = Instruccion.ByteToString(Convert.ToByte(numeroDado2 + 1));
+            string numeroDado2Byte = Instruccion.ByteToString(Convert.ToByte(numeroDado2));
             string numeroDado2Str = numeroDado2Byte.Substring(5);
 
             this.comPort.Write(Instruccion.FormarTrama(
-                Instruccion.FormarPrimerByte("00", "00", Instruccion.PrimerByte.TIRAR_DADOS),
+                Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS),
                 Instruccion.FormarSegundoByteDados(numeroDado1Str, numeroDado2Str)
                 ), 0, 4);
 
 
         }
 
+        private void tbDataReceived_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

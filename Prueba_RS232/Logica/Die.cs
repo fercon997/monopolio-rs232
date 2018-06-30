@@ -2,7 +2,7 @@
 
 namespace Monopolio_RS232.Logica
 {
-    class Die
+    public class Die
     {
         public int getFace()
         {

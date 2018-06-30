@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Monopolio_RS232.Logica
 {
-    class Money
+    public class Money
     {
         int money;
 

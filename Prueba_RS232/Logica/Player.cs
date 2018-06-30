@@ -2,7 +2,7 @@
 
 namespace Monopolio_RS232.Logica
 {
-    class Player
+    public class Player
     {
         int totalWalk = 0;
         int position = 0;

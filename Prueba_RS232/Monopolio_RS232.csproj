@@ -113,6 +113,10 @@
     <Content Include="Resources\dado4.png" />
     <Content Include="Resources\dado5.png" />
     <Content Include="Resources\dado6.png" />
+    <None Include="Resources\player4.png" />
+    <None Include="Resources\player3.png" />
+    <None Include="Resources\player2.png" />
+    <None Include="Resources\player1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
