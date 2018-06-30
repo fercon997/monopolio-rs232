@@ -9,7 +9,7 @@ namespace Monopolio_RS232.Logica
     {
         /*
             Este metodo carga el archivo de texto con las propiedades y sus
-            respectivos datos, y devuelve un Diccionario fromado por la 
+            respectivos datos, y devuelve un Diccionario formado por la 
             posicion y el Square correspondiente a la propiedad.
         */
         public static Dictionary<int, Square> GenerarTableroDeArchivo(string informacion)
