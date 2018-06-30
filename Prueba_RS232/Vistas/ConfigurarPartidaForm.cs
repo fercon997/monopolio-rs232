@@ -18,7 +18,6 @@ namespace Monopolio_RS232
     public partial class ConfigurarPartidaForm : Form
     {
         private SerialPort comPort = new SerialPort();
-        private List<Player> jugadores = new List<Player>();
         Player jugadorLocal;
         private Board BOARD = new Board();
         private ServicioTransmision servicioTransmision;
@@ -140,8 +139,8 @@ namespace Monopolio_RS232
             string origen = primerByte.Substring(0, 2);
             string destino = primerByte.Substring(2, 2);
             string currentPlayer = "Sin asignar";
-            if (jugadores.Count != 0)
-                currentPlayer = jugadores[0].GetIdAsString(); 
+            if (jugadorLocal != null)
+                currentPlayer = jugadorLocal.GetIdAsString(); 
 
             if (primerByte.Substring(4,4) == Instruccion.PrimerByte.INICIAR_PARTIDA)
             {
@@ -158,17 +157,18 @@ namespace Monopolio_RS232
                         // Como solo son dos bits, el maximo valor que se puede representar es 3, 
                         // pero el 11 representa 4 jugadores.
                         var jugadoresTotales = jugadoresPorAgregar + 1;
-                        Player[] jugadores = new Player[jugadoresTotales];
-                        jugadores[0] = jugadorLocal;
+                        var listaJugadores = new List<Player>();
+                        listaJugadores.Add(jugadorLocal);
+                        Trace.WriteLine("Local id: " + jugadorLocal.getID());
                         //Creamos los jugadores faltantes
-                        for (int i = 0; i < jugadoresPorAgregar; i++)
+                        for (int i = 0; i <= jugadoresPorAgregar; i++)
                         {
                             if (i != jugadorLocal.getID())
                             {
-                                jugadores[i] = new Player(i, i.ToString());
+                                listaJugadores.Add(new Player(i, i.ToString()));
                             }
                         }
-                        BOARD.SetPlayers(jugadores);
+                        BOARD.SetPlayers(listaJugadores.ToArray());
                         // Boleteo temporal para cambiarle el texto al label desde otro thread
                         this.lbNumeroJugadores.BeginInvoke((MethodInvoker)delegate () {
                             this.lbNumeroJugadores.Text = "Numero de jugadores: " + BOARD.getPlayers().Length; ;
@@ -328,7 +328,6 @@ namespace Monopolio_RS232
 
         private void btnCrearPartida_Click(object sender, EventArgs e)
         {
-            this.jugadores.Clear();
             btnUnirseAPartida.Enabled = false;
             this.JOIN_MATCH = true;
             // Enviar trama de inicio de partida
@@ -348,7 +347,6 @@ namespace Monopolio_RS232
             /*
                 Esperar a que recibamos una instruccion de inicio de partida           
             */
-            this.jugadores.Clear();
             
             this.JOIN_MATCH = true;
         }

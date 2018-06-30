@@ -32,8 +32,7 @@ namespace Monopolio_RS232
             this.inicial = inicial;
             //this.lbPuerto.Text = this.comPort.PortName;
             this.jugadorLocal = jugadorLocal;
-            this.board = board;
-            Trace.WriteLine(this.jugadorLocal.GetIdAsString());
+            this.board = board;           
             this.btnRollDices.Enabled = false;
             if (jugadorLocal.GetIdAsString() == "00")
             {
