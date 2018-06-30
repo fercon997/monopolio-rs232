@@ -12,7 +12,7 @@ namespace Monopolio_RS232.Comunicacion
              Deberia tener sus propios delegates o algo por el estilo que implementen
              los Forms que quieran manejar los eventos de recibir datos etc.
     */
-    class ServicioTransmicion
+    class ServicioTransmision
     {
         public event DatosRecibidosHandler OnDatosRecibidos;
         private SerialPort comPort;
@@ -21,7 +21,7 @@ namespace Monopolio_RS232.Comunicacion
         internal delegate void SerialDataReceivedEventHandlerDelegate(
                          object sender, SerialDataReceivedEventArgs e);
 
-        public ServicioTransmicion(SerialPort serialPort)
+        public ServicioTransmision(SerialPort serialPort)
         {
             this.comPort = serialPort;
         }

@@ -34,50 +34,93 @@
             this.lbPuerto = new System.Windows.Forms.Label();
             this.comPort = new System.IO.Ports.SerialPort(this.components);
             this.pbTablero = new System.Windows.Forms.PictureBox();
+            this.dice1 = new System.Windows.Forms.PictureBox();
+            this.dice2 = new System.Windows.Forms.PictureBox();
+            this.btnRollDices = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbTablero)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dice1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dice2)).BeginInit();
             this.SuspendLayout();
             // 
             // tbDataReceived
             // 
-            this.tbDataReceived.Location = new System.Drawing.Point(1300, 170);
-            this.tbDataReceived.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.tbDataReceived.Location = new System.Drawing.Point(967, 453);
+            this.tbDataReceived.Margin = new System.Windows.Forms.Padding(6);
             this.tbDataReceived.Multiline = true;
             this.tbDataReceived.Name = "tbDataReceived";
-            this.tbDataReceived.Size = new System.Drawing.Size(553, 254);
+            this.tbDataReceived.Size = new System.Drawing.Size(416, 206);
             this.tbDataReceived.TabIndex = 0;
             // 
             // lbPuerto
             // 
             this.lbPuerto.AutoSize = true;
-            this.lbPuerto.Location = new System.Drawing.Point(1310, 108);
-            this.lbPuerto.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lbPuerto.Location = new System.Drawing.Point(974, 403);
+            this.lbPuerto.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lbPuerto.Name = "lbPuerto";
-            this.lbPuerto.Size = new System.Drawing.Size(99, 32);
+            this.lbPuerto.Size = new System.Drawing.Size(75, 25);
             this.lbPuerto.TabIndex = 1;
             this.lbPuerto.Text = "Puerto";
             // 
             // pbTablero
             // 
             this.pbTablero.Image = ((System.Drawing.Image)(resources.GetObject("pbTablero.Image")));
-            this.pbTablero.Location = new System.Drawing.Point(95, 62);
+            this.pbTablero.Location = new System.Drawing.Point(71, 50);
+            this.pbTablero.Margin = new System.Windows.Forms.Padding(2);
             this.pbTablero.Name = "pbTablero";
-            this.pbTablero.Size = new System.Drawing.Size(900, 900);
+            this.pbTablero.Size = new System.Drawing.Size(675, 726);
             this.pbTablero.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbTablero.TabIndex = 2;
             this.pbTablero.TabStop = false;
             // 
+            // dice1
+            // 
+            this.dice1.Image = ((System.Drawing.Image)(resources.GetObject("dice1.Image")));
+            this.dice1.Location = new System.Drawing.Point(979, 50);
+            this.dice1.Margin = new System.Windows.Forms.Padding(2);
+            this.dice1.Name = "dice1";
+            this.dice1.Size = new System.Drawing.Size(121, 114);
+            this.dice1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.dice1.TabIndex = 3;
+            this.dice1.TabStop = false;
+            // 
+            // dice2
+            // 
+            this.dice2.Image = ((System.Drawing.Image)(resources.GetObject("dice2.Image")));
+            this.dice2.Location = new System.Drawing.Point(1181, 50);
+            this.dice2.Margin = new System.Windows.Forms.Padding(2);
+            this.dice2.Name = "dice2";
+            this.dice2.Size = new System.Drawing.Size(121, 114);
+            this.dice2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.dice2.TabIndex = 4;
+            this.dice2.TabStop = false;
+            // 
+            // btnRollDices
+            // 
+            this.btnRollDices.Location = new System.Drawing.Point(1023, 258);
+            this.btnRollDices.Margin = new System.Windows.Forms.Padding(6);
+            this.btnRollDices.Name = "btnRollDices";
+            this.btnRollDices.Size = new System.Drawing.Size(246, 44);
+            this.btnRollDices.TabIndex = 21;
+            this.btnRollDices.Text = "Lanzar dados";
+            this.btnRollDices.UseVisualStyleBackColor = true;
+            // 
             // Principal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1959, 1049);
+            this.ClientSize = new System.Drawing.Size(1469, 846);
+            this.Controls.Add(this.btnRollDices);
+            this.Controls.Add(this.dice2);
+            this.Controls.Add(this.dice1);
             this.Controls.Add(this.pbTablero);
             this.Controls.Add(this.lbPuerto);
             this.Controls.Add(this.tbDataReceived);
-            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "Principal";
             this.Text = "Principal";
             ((System.ComponentModel.ISupportInitialize)(this.pbTablero)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dice1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dice2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -89,5 +132,8 @@
         private System.Windows.Forms.Label lbPuerto;
         private System.IO.Ports.SerialPort comPort;
         private System.Windows.Forms.PictureBox pbTablero;
+        private System.Windows.Forms.PictureBox dice1;
+        private System.Windows.Forms.PictureBox dice2;
+        private System.Windows.Forms.Button btnRollDices;
     }
 }

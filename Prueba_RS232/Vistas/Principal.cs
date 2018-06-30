@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO.Ports;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace Monopolio_RS232
 {
@@ -12,6 +13,7 @@ namespace Monopolio_RS232
     {
         private Form inicial;
         string InputData = string.Empty;
+        private string[] dados = new string[] { "dado1", "dado2", "dado3", "dado4", "dado5", "dado6" };
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
                  object sender, SerialDataReceivedEventArgs e);
@@ -24,6 +26,8 @@ namespace Monopolio_RS232
             InitializeComponent();
             this.inicial = inicial;
             this.lbPuerto.Text = this.comPort.PortName;
+
+            this.btnRollDices.Click += new EventHandler(this.btnRollDices_Click);
             Closing += this.OnWindowClosing;
         }
 
@@ -65,6 +69,13 @@ namespace Monopolio_RS232
             this.comPort = port;
             dataReceivedSubscription = new System.IO.Ports.SerialDataReceivedEventHandler(OnDatosRecebidos);
             comPort.DataReceived += dataReceivedSubscription;
+        }
+
+        private void btnRollDices_Click(object sender, EventArgs e)
+        {
+            Random dado1rand = new Random();
+            this.dice1.Image = Image.FromFile("../../Resources/" + dados[dado1rand.Next(6)] + ".png");
+            this.dice2.Image = Image.FromFile("../../Resources/" + dados[dado1rand.Next(6)] + ".png");
         }
     }
 }

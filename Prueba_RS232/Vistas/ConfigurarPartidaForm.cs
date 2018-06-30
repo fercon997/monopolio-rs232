@@ -21,7 +21,7 @@ namespace Monopolio_RS232
         private List<Player> jugadores = new List<Player>();
         Player jugadorLocal;
         private Board BOARD = new Board();
-        private ServicioTransmicion servicioTransmicion;
+        private ServicioTransmision servicioTransmision;
         private bool JOIN_MATCH = false;
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
@@ -40,8 +40,8 @@ namespace Monopolio_RS232
         public ConfigurarPartidaForm()
         {
             InitializeComponent();
-            servicioTransmicion = new ServicioTransmicion(comPort);
-            dataReceivedSubscription = new System.IO.Ports.SerialDataReceivedEventHandler(port_DataReceived_1);
+            servicioTransmision = new ServicioTransmision(comPort);
+            dataReceivedSubscription = new SerialDataReceivedEventHandler(port_DataReceived_1);
             comPort.DataReceived += dataReceivedSubscription;
         }
 
@@ -249,9 +249,9 @@ namespace Monopolio_RS232
 
         private void btnPortState_Click(object sender, EventArgs e)
         {
-            if (btnPortState.Text == "Closed")
+            if (btnPortState.Text == "Open")
             {
-                btnPortState.Text = "Open";
+                btnPortState.Text = "Close";
                 comPort.PortName = Convert.ToString(cboPorts.Text);
                 comPort.BaudRate = Convert.ToInt32(cboBaudRate.Text);
                 comPort.DataBits = Convert.ToInt16(cboDataBits.Text);
@@ -267,9 +267,9 @@ namespace Monopolio_RS232
                     MessageBox.Show(ex.Message);
                 }
             }
-            else if (btnPortState.Text == "Open")
+            else if (btnPortState.Text == "Close")
             {
-                btnPortState.Text = "Closed";
+                btnPortState.Text = "Open";
                 comPort.Close();
             }
         }
@@ -335,7 +335,7 @@ namespace Monopolio_RS232
             this.jugadorLocal = new Player(0, "Creador de partida");
             this.SetJugador(jugadorLocal);
             Trace.WriteLine("Creando partida");
-            comPort.Write(Instruccion.FormarTrama(
+             comPort.Write(Instruccion.FormarTrama(
                 Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.INICIAR_PARTIDA),
                 Instruccion.FormarSegundoByte(
                     Instruccion.SegundoByte.CONFIGURAR_PARTIDA + Instruccion.SegundoByte.CONTAR, 
