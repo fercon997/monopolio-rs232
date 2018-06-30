@@ -45,6 +45,11 @@ namespace Monopolio_RS232.Logica
             }
         }
 
+        public void SetPlayers(Player[] players)
+        {
+            this.players = players;
+        }
+
         public void GeneratePlayers(int totalPlayer)
         {
             

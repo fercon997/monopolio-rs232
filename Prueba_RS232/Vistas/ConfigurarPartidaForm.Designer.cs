@@ -43,6 +43,7 @@
             this.btnUnirseAPartida = new System.Windows.Forms.Button();
             this.btnCrearPartida = new System.Windows.Forms.Button();
             this.nMaquinaLabel = new System.Windows.Forms.Label();
+            this.lbNumeroJugadores = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnGetSerialPorts
@@ -153,6 +154,9 @@
             // 
             // btnContinue
             // 
+
+            //this.btnContinue.Location = new System.Drawing.Point(1303, 608);
+            //this.btnContinue.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnContinue.Location = new System.Drawing.Point(870, 490);
             this.btnContinue.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnContinue.Name = "btnContinue";
@@ -194,10 +198,21 @@
             this.nMaquinaLabel.TabIndex = 23;
             this.nMaquinaLabel.Text = "Maquina";
             // 
+            // lbNumeroJugadores
+            // 
+            this.lbNumeroJugadores.AutoSize = true;
+            this.lbNumeroJugadores.Location = new System.Drawing.Point(112, 31);
+            this.lbNumeroJugadores.Name = "lbNumeroJugadores";
+            this.lbNumeroJugadores.Size = new System.Drawing.Size(295, 32);
+            this.lbNumeroJugadores.TabIndex = 24;
+            this.lbNumeroJugadores.Text = "Numero de jugadores:";
+            // 
             // ConfigurarPartidaForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            //this.ClientSize = new System.Drawing.Size(1616, 756);
+            this.Controls.Add(this.lbNumeroJugadores);
             this.ClientSize = new System.Drawing.Size(1212, 610);
             this.Controls.Add(this.nMaquinaLabel);
             this.Controls.Add(this.btnCrearPartida);
@@ -240,6 +255,7 @@
         private System.Windows.Forms.Button btnUnirseAPartida;
         private System.Windows.Forms.Button btnCrearPartida;
         private System.Windows.Forms.Label nMaquinaLabel;
+        private System.Windows.Forms.Label lbNumeroJugadores;
     }
 }
 
