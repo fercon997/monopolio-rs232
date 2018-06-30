@@ -150,23 +150,41 @@ namespace Monopolio_RS232
                     Trace.WriteLine("Anunciar o crear: " + segundoByte.Substring(5, 1));
                     if (segundoByte.Substring(5, 1) == Instruccion.SegundoByte.ANUNCIAR)
                     {
+                        // Obtenemos los dos ultimos bits del segundo byte que representan el numero de
+                        // jugadores y lo convertimos a una variable de tipo int para poder sumarle
                         var binaryJugadoresPorAgregar = segundoByte.Substring(6, 2);
                         var jugadoresPorAgregar = Convert.ToInt32(segundoByte.Substring(6, 2), 2);
                         Trace.WriteLine("Numero de jugadores que debemos crear localmente: " + jugadoresPorAgregar);
+                        // Como solo son dos bits, el maximo valor que se puede representar es 3, 
+                        // pero el 11 representa 4 jugadores.
                         var jugadoresTotales = jugadoresPorAgregar + 1;
+                        Player[] jugadores = new Player[jugadoresTotales];
+                        jugadores[0] = jugadorLocal;
                         //Creamos los jugadores faltantes
-                        for (int i = 1; i <= jugadoresPorAgregar; i++)
+                        for (int i = 0; i < jugadoresPorAgregar; i++)
                         {
-                            jugadores.Add(new Player(i, i.ToString()));
+                            if (i != jugadorLocal.getID())
+                            {
+                                jugadores[i] = new Player(i, i.ToString());
+                            }
                         }
+                        BOARD.SetPlayers(jugadores);
+                        // Boleteo temporal para cambiarle el texto al label desde otro thread
+                        this.lbNumeroJugadores.BeginInvoke((MethodInvoker)delegate () {
+                            this.lbNumeroJugadores.Text = "Numero de jugadores: " + BOARD.getPlayers().Length; ;
+                        });
 
-                        if ( jugadorLocal == null ||  jugadorLocal.GetIdAsString() != destino) //currentPlayer != destino)
+                        if (jugadorLocal.GetIdAsString() != destino)
                             AnunciarJugadores(origen, destino, binaryJugadoresPorAgregar);
                         else
+                            // Ya terminamos de configurar la partida, ahora se deberia 
+                            // mostrar el tablero con las opciones para continuar el juego
                             Trace.WriteLine("Ya todas las maquinas recibieron y manejaron el anuncio de jugadores");
                     } else
                     {
-                        if (jugadorLocal == null || jugadorLocal.GetIdAsString() != destino) //if (currentPlayer != destino)
+                        // Como estamos configurando una partida, esto pasara en las maquinas que 
+                        // todavia no han recibido la trama de creacion de partida
+                        if (jugadorLocal == null)
                         {
                             Trace.WriteLine("Uniendose a partida");
                             var nJugador = Convert.ToInt32(segundoByte.Substring(6, 2), 2);
@@ -337,7 +355,7 @@ namespace Monopolio_RS232
 
         private void SetJugador(Player jugador)
         {
-            this.jugadores.Add(jugador);
+            this.jugadorLocal = jugador;
             this.nMaquinaLabel.Text = String.Format("({0}) {1}", jugador.GetIdAsString(), jugador.getName()) ;
         }
     }
