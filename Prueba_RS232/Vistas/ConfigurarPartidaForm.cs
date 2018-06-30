@@ -334,12 +334,18 @@ namespace Monopolio_RS232
             this.jugadorLocal = new Player(0, "Creador de partida");
             this.SetJugador(jugadorLocal);
             Trace.WriteLine("Creando partida");
-             comPort.Write(Instruccion.FormarTrama(
+            try
+            {
+                comPort.Write(Instruccion.FormarTrama(
                 Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.INICIAR_PARTIDA),
                 Instruccion.FormarSegundoByte(
-                    Instruccion.SegundoByte.CONFIGURAR_PARTIDA + Instruccion.SegundoByte.CONTAR, 
+                    Instruccion.SegundoByte.CONFIGURAR_PARTIDA + Instruccion.SegundoByte.CONTAR,
                     jugadorLocal.GetIdAsString())),
                 0, 4);
+            } catch(InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnUnirseAPartida_Click(object sender, EventArgs e)
