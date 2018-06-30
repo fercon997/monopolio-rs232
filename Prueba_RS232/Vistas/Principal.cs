@@ -18,6 +18,7 @@ namespace Monopolio_RS232
         private Form inicial;
         string InputData = string.Empty;
         private Player jugadorLocal;
+        private Board board;
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
                  object sender, SerialDataReceivedEventArgs e);
@@ -31,6 +32,7 @@ namespace Monopolio_RS232
             this.inicial = inicial;
             //this.lbPuerto.Text = this.comPort.PortName;
             this.jugadorLocal = jugadorLocal;
+            this.board = board;
             Trace.WriteLine(this.jugadorLocal.GetIdAsString());
             this.btnRollDices.Enabled = false;
             if (jugadorLocal.GetIdAsString() == "00")
@@ -73,15 +75,15 @@ namespace Monopolio_RS232
 
             if (primerByte.Substring(4,4) == Instruccion.PrimerByte.TIRAR_DADOS)
             {
+                string dado1Str = segundoByte.Substring(2, 3);
+                string dado2Str = segundoByte.Substring(5, 3);
+
+                int dado1 = Convert.ToInt32(dado1Str, 2);
+                Trace.WriteLine(dado1);
+                int dado2 = Convert.ToInt32(dado2Str, 2);
+                Trace.WriteLine(dado2);
+
                 if (jugadorLocal.GetIdAsString() != destino) {
-                    string dado1Str = segundoByte.Substring(2, 3);
-                    string dado2Str = segundoByte.Substring(5, 3);
-
-                    int dado1 = Convert.ToInt32(dado1Str, 2);
-                    Trace.WriteLine(dado1);
-                    int dado2 = Convert.ToInt32(dado2Str, 2);
-                    Trace.WriteLine(dado2);
-
                     dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado1);
                     dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado2);
 
@@ -92,7 +94,22 @@ namespace Monopolio_RS232
                 }
                 else
                 {
-
+                    //this.btnRollDices.Enabled = true;
+                    //if (dado1 != dado2)
+                    //{
+                    //    int nextPlayerId;
+                    //    if (jugadorLocal.getID() == board.getPlayers().Length - 1)
+                    //    {
+                    //        nextPlayerId = 0;
+                    //    } else
+                    //    {
+                    //        nextPlayerId = board.getPlayer(jugadorLocal.getID() + 1).getID();
+                    //    }
+                    //    this.comPort.Write(Instruccion.FormarTrama(
+                    //    Instruccion.FormarPrimerByte(origen, board.getPlayer(nextPlayerId).GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS),
+                    //    Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
+                    //    ), 0, 4);
+                    //}
                 }
             }
 
@@ -121,6 +138,7 @@ namespace Monopolio_RS232
 
         private void btnRollDices_Click(object sender, EventArgs e)
         {
+            //this.btnRollDices.Enabled = false;
             Random randDado = new Random();
             int numeroDado1 = randDado.Next(6) + 1;
             int numeroDado2 = randDado.Next(6) + 1;
