@@ -17,7 +17,6 @@ namespace Monopolio_RS232
     {
         private Form inicial;
         string InputData = string.Empty;
-        private string[] dados = new string[] { "dado1", "dado2", "dado3", "dado4", "dado5", "dado6" };
         private Player jugadorLocal;
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
@@ -26,11 +25,18 @@ namespace Monopolio_RS232
         delegate void SetTextCallback(string text);
         SerialDataReceivedEventHandler dataReceivedSubscription;
 
-        public Principal(Form inicial)
+        public Principal(Form inicial, Board board, Player jugadorLocal)
         {
             InitializeComponent();
             this.inicial = inicial;
             //this.lbPuerto.Text = this.comPort.PortName;
+            this.jugadorLocal = jugadorLocal;
+            Trace.WriteLine(this.jugadorLocal.GetIdAsString());
+            this.btnRollDices.Enabled = false;
+            if (jugadorLocal.GetIdAsString() == "00")
+            {
+                this.btnRollDices.Enabled = true;
+            }
 
             this.btnRollDices.Click += new EventHandler(this.btnRollDices_Click);
             Closing += this.OnWindowClosing;
@@ -84,6 +90,10 @@ namespace Monopolio_RS232
                         Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
                         ), 0, 4);
                 }
+                else
+                {
+
+                }
             }
 
 
@@ -107,11 +117,6 @@ namespace Monopolio_RS232
             dataReceivedSubscription = new System.IO.Ports.SerialDataReceivedEventHandler(OnDatosRecebidos);
             comPort.DataReceived += dataReceivedSubscription;
             this.lbPuerto.Text = this.comPort.PortName;
-        }
-
-        public void SetJugadorLocal(Player jugadorLocal)
-        {
-            this.jugadorLocal = jugadorLocal;
         }
 
         private void btnRollDices_Click(object sender, EventArgs e)

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Monopolio_RS232.Logica
 {
-    abstract class Square
+    public abstract class Square
     {
         String name;
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Monopolio_RS232.Logica
 {
-    class Board
+    public class Board
     {
         int currentTurn = 0;
         int totalPlayer = 0;
