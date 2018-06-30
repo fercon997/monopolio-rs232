@@ -92,24 +92,32 @@ namespace Monopolio_RS232
                         Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
                         ), 0, 4);
                 }
-                else
+                else if (jugadorLocal.GetIdAsString() == destino && jugadorLocal.GetIdAsString() == origen)
                 {
-                    //this.btnRollDices.Enabled = true;
-                    //if (dado1 != dado2)
-                    //{
-                    //    int nextPlayerId;
-                    //    if (jugadorLocal.getID() == board.getPlayers().Length - 1)
-                    //    {
-                    //        nextPlayerId = 0;
-                    //    } else
-                    //    {
-                    //        nextPlayerId = board.getPlayer(jugadorLocal.getID() + 1).getID();
-                    //    }
-                    //    this.comPort.Write(Instruccion.FormarTrama(
-                    //    Instruccion.FormarPrimerByte(origen, board.getPlayer(nextPlayerId).GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS),
-                    //    Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
-                    //    ), 0, 4);
-                    //}
+                    
+                    if (dado1 != dado2)
+                    {
+                        byte nextJugadorLocalId = Convert.ToByte(jugadorLocal.getID() + 1);
+                        string nextJugadorLocalIdStrByte = Instruccion.ByteToString(nextJugadorLocalId);
+                        string nextJugadorLocalIdStr = nextJugadorLocalIdStrByte.Substring(6, 2);
+                        Trace.WriteLine(nextJugadorLocalIdStr);
+                        this.comPort.Write(Instruccion.FormarTrama(
+                        Instruccion.FormarPrimerByte(origen, nextJugadorLocalIdStr, Instruccion.PrimerByte.TIRAR_DADOS),
+                        Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
+                        ), 0, 4);
+                    } else
+                    {
+                        this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
+                        {
+                            this.btnRollDices.Enabled = true;
+                        });
+                    }
+                } else
+                {
+                    this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        this.btnRollDices.Enabled = true;
+                    });
                 }
             }
 
@@ -138,7 +146,7 @@ namespace Monopolio_RS232
 
         private void btnRollDices_Click(object sender, EventArgs e)
         {
-            //this.btnRollDices.Enabled = false;
+            this.btnRollDices.Enabled = false;
             Random randDado = new Random();
             int numeroDado1 = randDado.Next(6) + 1;
             int numeroDado2 = randDado.Next(6) + 1;
