@@ -26,12 +26,12 @@ namespace Monopolio_RS232
         delegate void SetTextCallback(string text);
         SerialDataReceivedEventHandler dataReceivedSubscription;
 
-        public Principal(Form inicial, Board board, Player jugadorLocal)
+        public Principal(Form inicial, Board board)
         {
             InitializeComponent();
             this.inicial = inicial;
             //this.lbPuerto.Text = this.comPort.PortName;
-            this.jugadorLocal = jugadorLocal;
+            this.jugadorLocal = board.getPlayer(0);
             this.board = board;           
             this.btnRollDices.Enabled = false;
             if (jugadorLocal.GetIdAsString() == "00")
@@ -62,6 +62,10 @@ namespace Monopolio_RS232
         */
         private void OnDatosRecebidos(object sender, SerialDataReceivedEventArgs e)
         {
+            if (comPort.BytesToRead < 4)
+            {
+                return;
+            }
 
             byte[] receivedBytes = new byte[4];
             comPort.Read(receivedBytes, 0, 4);
@@ -91,7 +95,7 @@ namespace Monopolio_RS232
                         Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
                         ), 0, 4);
                 }
-                else if (jugadorLocal.GetIdAsString() == destino && jugadorLocal.GetIdAsString() == origen)
+                else if (jugadorLocal.GetIdAsString() == origen)
                 {
                     
                     if (dado1 != dado2)
@@ -99,12 +103,13 @@ namespace Monopolio_RS232
                         byte nextJugadorLocalId = Convert.ToByte(jugadorLocal.getID() + 1);
                         string nextJugadorLocalIdStrByte = Instruccion.ByteToString(nextJugadorLocalId);
                         string nextJugadorLocalIdStr = nextJugadorLocalIdStrByte.Substring(6, 2);
-                        Trace.WriteLine(nextJugadorLocalIdStr);
+                        Trace.WriteLine("Siguiente jugador: " + nextJugadorLocalIdStr);
                         this.comPort.Write(Instruccion.FormarTrama(
                         Instruccion.FormarPrimerByte(origen, nextJugadorLocalIdStr, Instruccion.PrimerByte.TIRAR_DADOS),
                         Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
                         ), 0, 4);
-                    } else
+                    }
+                    else if (dado1 == dado2)
                     {
                         this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
                         {
@@ -147,8 +152,8 @@ namespace Monopolio_RS232
         {
             this.btnRollDices.Enabled = false;
             Random randDado = new Random();
-            int numeroDado1 = randDado.Next(6) + 1;
-            int numeroDado2 = randDado.Next(6) + 1;
+            int numeroDado1 = randDado.Next(1, 7);
+            int numeroDado2 = randDado.Next(1, 7);
             dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado1);
             dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado2);
 

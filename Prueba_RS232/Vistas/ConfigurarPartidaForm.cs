@@ -316,7 +316,7 @@ namespace Monopolio_RS232
 
         private void btnContinue_Click(object sender, EventArgs e)
         {
-            var nextWindow = new Principal(this, BOARD, jugadorLocal);
+            var nextWindow = new Principal(this, BOARD);
             nextWindow.SetComPort(this.comPort);
             // Importante cancelar la subscripcion, asi permitimos a la nueva ventana
             // manejar los datos del puerto
