@@ -11,37 +11,49 @@ namespace Monopolio_RS232.Logica
         int totalPlayer = 0;
         Player[] players;
         Square[] squares = new Square[40];
-        String[] names = new String[] { "House", "Villa", "Town", "City", "Peace", "Village", "Jade", "Soi 4", "White", "Dark" };
 
         public Board()
         {
-            Random rand = new Random();
-            /*
-                TODO: Crear lista con los nombres de las propiedades de verdad,
-                      en el orden que es y con el precio correcto
-             */
+            var propiedades = PropiedadFactory.GenerarTableroDeArchivo(Properties.Resources.Propiedades);
             for (int i = 0; i < squares.Length; i++)
             {
                 if (i == 0)
                 {
                     squares[i] = new GoSquare("GO");
                 }
-                else if (i == 9)
+                else if (i == 10)
                 {
                     squares[i] = new JailSquare("Jail");
                 }
-                else if (i == 19)
+                else if (i == 20)
                 {
                     squares[i] = new VacationSquare("Vacation");
                 }
-                else if (i == 29)
+                else if (i == 30)
                 {
                     squares[i] = new GoToJailSquare("Go to Jail");
                 }
                 else
                 {
-                    squares[i] = new HouseSquare(names[rand.Next(names.Length)] + " " + names[rand.Next(names.Length)], 400 + rand.Next(300));
+                    if (propiedades.ContainsKey(i+1))
+                    {
+                        squares[i] = propiedades[i + 1];
+                    }
+                    else
+                    {
+                        // Arca Comunal, Chance
+                        // TODO: Implementar esto correctamente, deberian tener
+                        //       su propia clase que en el doAction eliga algo
+                        //       al azar que hacer.
+                        squares[i] = new HouseSquare("COMUNAL O CHANCE", 0);
+                    }
                 }
+            }
+
+            int z = 0;
+            foreach(var sq in squares)
+            {
+                Trace.WriteLine(sq.getName() + " " + z++);
             }
         }
 
