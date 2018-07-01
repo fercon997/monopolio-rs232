@@ -19,18 +19,24 @@ namespace Monopolio_RS232.Logica
         private int rent;
         private Group group;
         private int owner = -1;
+        private int positionX;
+        private int positionY;
 
-        public HouseSquare(string name, int price): base(name)
+        public HouseSquare(string name, int price, int positionX, int positionY): base(name, positionX, positionY)
         {
             this.price = price;
+            this.positionX = positionX;
+            this.positionY = positionY;
         }
 
-        public HouseSquare(string name, int position, int price, int rent, Group group): base(name)
+        public HouseSquare(string name, int position, int price, int rent, Group group, int positionX, int positionY): base(name, positionX, positionY)
         {
             this.price = price;
             this.position = position;
             this.rent = rent;
             this.group = group;
+            this.positionX = positionX;
+            this.positionY = positionY;
         }
 
         public void setOwner(int owner)

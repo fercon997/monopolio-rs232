@@ -19,6 +19,7 @@ namespace Monopolio_RS232
         string InputData = string.Empty;
         private Player jugadorLocal;
         private Board board;
+        private bool rolledDices = true;
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
                  object sender, SerialDataReceivedEventArgs e);
@@ -41,6 +42,7 @@ namespace Monopolio_RS232
 
             this.btnRollDices.Click += new EventHandler(this.btnRollDices_Click);
             Closing += this.OnWindowClosing;
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Principal_Paint);
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
@@ -150,7 +152,7 @@ namespace Monopolio_RS232
 
         private void btnRollDices_Click(object sender, EventArgs e)
         {
-            this.btnRollDices.Enabled = false;
+            //this.btnRollDices.Enabled = false;
             Random randDado = new Random();
             int numeroDado1 = randDado.Next(1, 7);
             int numeroDado2 = randDado.Next(1, 7);
@@ -162,6 +164,10 @@ namespace Monopolio_RS232
             string numeroDado2Byte = Instruccion.ByteToString(Convert.ToByte(numeroDado2));
             string numeroDado2Str = numeroDado2Byte.Substring(5);
 
+
+            this.rolledDices = true;
+            this.Invalidate();
+
             this.comPort.Write(Instruccion.FormarTrama(
                 Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS),
                 Instruccion.FormarSegundoByteDados(numeroDado1Str, numeroDado2Str)
@@ -170,9 +176,17 @@ namespace Monopolio_RS232
 
         }
 
-        private void tbDataReceived_TextChanged(object sender, EventArgs e)
+        private void Principal_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
+            e.Graphics.DrawImage(Properties.Resources.tablero, 25, 25, 400, 400);
+            e.Graphics.DrawImage(jugadorLocal.GetImage(), jugadorLocal.GetPositionX(), jugadorLocal.GetPositionY(), 30, 30);
 
+            if (rolledDices)
+            {
+                //jugadorLocal.SetPoisitionX(jugadorLocal.GetPositionX() - (6 * 10));
+                e.Graphics.DrawImage(jugadorLocal.GetImage(), jugadorLocal.GetPositionX(), jugadorLocal.GetPositionY(), 30, 30);
+                this.rolledDices = false;
+            }
         }
     }
 }

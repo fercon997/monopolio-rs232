@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Monopolio_RS232.Logica
 {
@@ -6,6 +7,9 @@ namespace Monopolio_RS232.Logica
     {
         int totalWalk = 0;
         int position = 0;
+        int positionX = 34;//385;
+        int positionY = 209;//385;
+        Image image = Properties.Resources.player1;
         int id;
         String name;
         bool brokeout = false;
@@ -15,6 +19,31 @@ namespace Monopolio_RS232.Logica
         {
             this.id = id;
             this.name = name;
+        }
+
+        public int GetPositionX()
+        {
+            return positionX;
+        }
+
+        public void SetPoisitionX(int positionX)
+        {
+            this.positionX = positionX;
+        }
+
+        public void SetPoisitionY(int positionY)
+        {
+            this.positionY = positionY;
+        }
+
+        public int GetPositionY()
+        {
+            return positionY;
+        }
+
+        public Image GetImage()
+        {
+            return image;
         }
 
         public int getTotalWalk()

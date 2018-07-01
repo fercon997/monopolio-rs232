@@ -36,10 +36,8 @@
             this.btnRollDices = new System.Windows.Forms.Button();
             this.dice2 = new System.Windows.Forms.PictureBox();
             this.dice1 = new System.Windows.Forms.PictureBox();
-            this.pbTablero = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dice2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dice1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbTablero)).BeginInit();
             this.SuspendLayout();
             // 
             // tbDataReceived
@@ -50,7 +48,6 @@
             this.tbDataReceived.Name = "tbDataReceived";
             this.tbDataReceived.Size = new System.Drawing.Size(416, 206);
             this.tbDataReceived.TabIndex = 0;
-            this.tbDataReceived.TextChanged += new System.EventHandler(this.tbDataReceived_TextChanged);
             // 
             // lbPuerto
             // 
@@ -94,17 +91,6 @@
             this.dice1.TabIndex = 3;
             this.dice1.TabStop = false;
             // 
-            // pbTablero
-            // 
-            this.pbTablero.Image = ((System.Drawing.Image)(resources.GetObject("pbTablero.Image")));
-            this.pbTablero.Location = new System.Drawing.Point(71, 50);
-            this.pbTablero.Margin = new System.Windows.Forms.Padding(2);
-            this.pbTablero.Name = "pbTablero";
-            this.pbTablero.Size = new System.Drawing.Size(675, 726);
-            this.pbTablero.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbTablero.TabIndex = 2;
-            this.pbTablero.TabStop = false;
-            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -113,7 +99,6 @@
             this.Controls.Add(this.btnRollDices);
             this.Controls.Add(this.dice2);
             this.Controls.Add(this.dice1);
-            this.Controls.Add(this.pbTablero);
             this.Controls.Add(this.lbPuerto);
             this.Controls.Add(this.tbDataReceived);
             this.Margin = new System.Windows.Forms.Padding(6);
@@ -121,7 +106,6 @@
             this.Text = "Principal";
             ((System.ComponentModel.ISupportInitialize)(this.dice2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dice1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbTablero)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -132,7 +116,6 @@
         private System.Windows.Forms.TextBox tbDataReceived;
         private System.Windows.Forms.Label lbPuerto;
         private System.IO.Ports.SerialPort comPort;
-        private System.Windows.Forms.PictureBox pbTablero;
         private System.Windows.Forms.PictureBox dice1;
         private System.Windows.Forms.PictureBox dice2;
         private System.Windows.Forms.Button btnRollDices;
