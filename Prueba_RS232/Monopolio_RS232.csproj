@@ -47,6 +47,7 @@
     <Compile Include="Comunicacion\DatosRecibidosEvent.cs" />
     <Compile Include="Comunicacion\ServicioTransmision.cs" />
     <Compile Include="Logica\Board.cs" />
+    <Compile Include="Logica\CasualidadSquare.cs" />
     <Compile Include="Logica\GoSquare.cs" />
     <Compile Include="Logica\GoToJailSquare.cs" />
     <Compile Include="Logica\HouseSquare.cs" />

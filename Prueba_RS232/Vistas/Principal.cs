@@ -19,7 +19,11 @@ namespace Monopolio_RS232
         string InputData = string.Empty;
         private Player jugadorLocal;
         private Board board;
-        private bool rolledDices = true;
+        private bool gameStarted = true;
+        private bool rolledDices = false;
+        private int numeroDado1 = 0;
+        private int numeroDado2 = 0;
+        private int currentSquare = 0;
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
                  object sender, SerialDataReceivedEventArgs e);
@@ -42,6 +46,7 @@ namespace Monopolio_RS232
 
             this.btnRollDices.Click += new EventHandler(this.btnRollDices_Click);
             Closing += this.OnWindowClosing;
+            gameStarted = true;
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Principal_Paint);
         }
 
@@ -154,8 +159,8 @@ namespace Monopolio_RS232
         {
             //this.btnRollDices.Enabled = false;
             Random randDado = new Random();
-            int numeroDado1 = randDado.Next(1, 7);
-            int numeroDado2 = randDado.Next(1, 7);
+            numeroDado1 = randDado.Next(1, 7);
+            numeroDado2 = randDado.Next(1, 7);
             dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado1);
             dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado2);
 
@@ -179,11 +184,27 @@ namespace Monopolio_RS232
         private void Principal_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             e.Graphics.DrawImage(Properties.Resources.tablero, 25, 25, 400, 400);
-            e.Graphics.DrawImage(jugadorLocal.GetImage(), jugadorLocal.GetPositionX(), jugadorLocal.GetPositionY(), 30, 30);
+            e.Graphics.DrawImage(jugadorLocal.GetImage(), board.GetSquares()[currentSquare].GetPositionX(), board.GetSquares()[currentSquare].GetPositionY(), 30, 30);
 
             if (rolledDices)
             {
-                //jugadorLocal.SetPoisitionX(jugadorLocal.GetPositionX() - (6 * 10));
+                currentSquare += numeroDado1 + numeroDado2;
+
+                if (currentSquare >= 40)
+                {
+                    currentSquare = currentSquare - (numeroDado1 + numeroDado2);
+                    for (int i = 0; i < numeroDado1 + numeroDado2; i++)
+                    {
+                        currentSquare++;
+                        if (currentSquare == 40)
+                        {
+                            currentSquare = 0;
+                        }
+                    }
+                }
+                Trace.WriteLine("CurrentSquare: " + currentSquare);
+                jugadorLocal.SetPoisitionX(board.GetSquares()[currentSquare].GetPositionX());
+                jugadorLocal.SetPoisitionY(board.GetSquares()[currentSquare].GetPositionY());
                 e.Graphics.DrawImage(jugadorLocal.GetImage(), jugadorLocal.GetPositionX(), jugadorLocal.GetPositionY(), 30, 30);
                 this.rolledDices = false;
             }

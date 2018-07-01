@@ -11,6 +11,24 @@ namespace Monopolio_RS232.Logica
         int totalPlayer = 0;
         Player[] players;
         Square[] squares = new Square[40];
+        Dictionary<int, int> posicionXCasualidades = new Dictionary<int, int>()
+        {
+            {3, 242},
+            {8, 143},
+            {18, 34},
+            {23, 110},
+            {34, 385},
+            {37, 385}
+        };
+        Dictionary<int, int> posicionYCasualidades = new Dictionary<int, int>()
+        {
+            {3, 385},
+            {8, 385},
+            {18, 143},
+            {23, 34},
+            {34, 143},
+            {37, 242}
+        };
 
         public Board()
         {
@@ -45,7 +63,20 @@ namespace Monopolio_RS232.Logica
                         // TODO: Implementar esto correctamente, deberian tener
                         //       su propia clase que en el doAction eliga algo
                         //       al azar que hacer.
-                        squares[i] = new HouseSquare("COMUNAL O CHANCE", 0);
+                        if (posicionXCasualidades.ContainsKey(i+1) && posicionYCasualidades.ContainsKey(i+1))
+                        {
+                            squares[i] = new CasualidadSquare("Casualidad", posicionXCasualidades[i+1], posicionYCasualidades[i+1]);
+                        } else
+                        {
+                            if (i == 4)
+                            {
+                                squares[i] = new HouseSquare("Income Tax", 0, 308, 385);
+                            } else if (i == 38)
+                            {
+                                squares[i] = new HouseSquare("Luxury Tax", 0, 385, 308);
+                            }
+                        }
+                        
                     }
                 }
             }
@@ -55,6 +86,11 @@ namespace Monopolio_RS232.Logica
             {
                 Trace.WriteLine(sq.getName() + " " + z++);
             }
+        }
+
+        public Square[] GetSquares()
+        {
+            return squares;
         }
 
         public void SetPlayers(Player[] players)
