@@ -34,7 +34,8 @@ namespace Monopolio_RS232
             InitializeComponent();
             this.inicial = inicial;
             //this.lbPuerto.Text = this.comPort.PortName;
-            this.jugadorLocal = board.getPlayer(0);
+            this.jugadorLocal = board.getPlayers()[0];
+            Trace.WriteLine("JUGADOR LOCAL: " + this.jugadorLocal.getID());
             this.board = board;           
             this.btnRollDices.Enabled = false;
             if (jugadorLocal.GetIdAsString() == "00")
@@ -77,6 +78,7 @@ namespace Monopolio_RS232
             Trace.WriteLine("Primer byte: " + primerByte);
             Trace.WriteLine("Segundo byte: " + segundoByte);
             string origen = primerByte.Substring(0, 2);
+            Trace.WriteLine(String.Format("StrOrigen: {0}  ToInt32: {1}", origen, Convert.ToInt32(origen, 2)));
             string destino = primerByte.Substring(2, 2);
 
             if (primerByte.Substring(4,4) == Instruccion.PrimerByte.TIRAR_DADOS)
@@ -93,6 +95,20 @@ namespace Monopolio_RS232
                     dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado1);
                     dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado2);
 
+                    var jugadorMoviendose = board.getPlayer(Convert.ToInt32(origen, 2));
+                    Trace.WriteLine("Actualizando posicion del jugador que se movio. Id: " + jugadorMoviendose.getID());
+                    int newPosition = Board.normalizePosition(jugadorMoviendose.getCurrentPosition() + dado1 + dado2);
+                    jugadorMoviendose.setPosition(newPosition);
+                    Square pos = board.GetSquares()[newPosition];
+                    jugadorMoviendose.SetPoisitionX(pos.GetPositionX());
+                    jugadorMoviendose.SetPoisitionY(pos.GetPositionY());
+                    tablero.Invalidate();
+                    Trace.WriteLine(String.Format("Posicion del jugador {0}: {1}, {2} (Casilla: {3})", 
+                        jugadorMoviendose.getID(), 
+                        jugadorMoviendose.GetPositionX(), 
+                        jugadorMoviendose.GetPositionY(),
+                        newPosition));
+
                     this.comPort.Write(Instruccion.FormarTrama(
                         Instruccion.FormarPrimerByte(origen, destino, Instruccion.PrimerByte.TIRAR_DADOS),
                         Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
@@ -107,6 +123,7 @@ namespace Monopolio_RS232
                         string nextJugadorLocalIdStrByte = Instruccion.ByteToString(nextJugadorLocalId);
                         string nextJugadorLocalIdStr = nextJugadorLocalIdStrByte.Substring(6, 2);
                         Trace.WriteLine("Siguiente jugador: " + nextJugadorLocalIdStr);
+                        
                         this.comPort.Write(Instruccion.FormarTrama(
                         Instruccion.FormarPrimerByte(origen, nextJugadorLocalIdStr, Instruccion.PrimerByte.TIRAR_DADOS),
                         Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
@@ -153,17 +170,25 @@ namespace Monopolio_RS232
 
         private void Principal_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            if (rolledDices)
-            {
-                Square currentSquare = board.movePlayer(jugadorLocal, numeroDado1 + numeroDado2);
-                Trace.WriteLine("Current Position: " + jugadorLocal.getCurrentPosition());
+            //if (rolledDices)
+            //{
+                //Square currentSquare = board.movePlayer(jugadorLocal, numeroDado1 + numeroDado2);
+                //Trace.WriteLine("Current Position: " + jugadorLocal.getCurrentPosition());
 
-                jugadorLocal.SetPoisitionX(currentSquare.GetPositionX());
-                jugadorLocal.SetPoisitionY(currentSquare.GetPositionY());
-                e.Graphics.DrawImage(Properties.Resources.player1, jugadorLocal.GetPositionX(), jugadorLocal.GetPositionY(), 30, 30);
+                //jugadorLocal.SetPoisitionX(currentSquare.GetPositionX());
+                //jugadorLocal.SetPoisitionY(currentSquare.GetPositionY());
+                
+                foreach(var j in board.getPlayers())
+                {
+                    var imagen = (Image)Properties.Resources.ResourceManager.GetObject("player" + (j.getID() + 1));
+                    e.Graphics.DrawImage(imagen, j.GetPositionX(), j.GetPositionY(), 30, 30);
+                }
+
+                
                 //e.Graphics.DrawImage(jugadorLocal.GetImage(), jugadorLocal.GetPositionX(), jugadorLocal.GetPositionY(), 30, 30);
-                this.rolledDices = false;
-            }
+                //this.rolledDices = false;
+                
+            //}
         }
 
         private void btnRollDices_Click(object sender, EventArgs e)
@@ -188,6 +213,11 @@ namespace Monopolio_RS232
                 Instruccion.FormarSegundoByteDados(numeroDado1Str, numeroDado2Str)
                 ), 0, 4);
 
+            Square currentSquare = board.movePlayer(jugadorLocal, numeroDado1 + numeroDado2);
+            Trace.WriteLine("Current Position: " + jugadorLocal.getCurrentPosition());
+
+            jugadorLocal.SetPoisitionX(currentSquare.GetPositionX());
+            jugadorLocal.SetPoisitionY(currentSquare.GetPositionY());
             tablero.Invalidate();
         }
     }

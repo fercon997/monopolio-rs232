@@ -137,6 +137,7 @@ namespace Monopolio_RS232.Logica
                     player.nextTurn();
                 }
             }
+            
             return squares[newPosition];
         }
 
@@ -176,9 +177,9 @@ namespace Monopolio_RS232.Logica
             return maxplayer;
         }
 
-        public int normalizePosition(int position)
+        public static int normalizePosition(int position)
         {
-            return position % squares.Length;
+            return position % 40;
         }
 
         public Player getCurrentPlayer()
@@ -201,7 +202,15 @@ namespace Monopolio_RS232.Logica
 
         public Player getPlayer(int id)
         {
-            return players[id];
+            foreach(var p in this.players)
+            {
+                if (p.getID() == id)
+                {
+                    return p;
+                }
+            }
+
+            throw new ArgumentException("Jugador no conseguido", "ID invalido");
         }
 
         public int getTotalSquare()
