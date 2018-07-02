@@ -42,6 +42,8 @@ namespace Monopolio_RS232
             servicioTransmision = new ServicioTransmision(comPort);
             dataReceivedSubscription = new SerialDataReceivedEventHandler(port_DataReceived_1);
             comPort.DataReceived += dataReceivedSubscription;
+
+            btnContinue.Enabled = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -212,7 +214,10 @@ namespace Monopolio_RS232
                             AnunciarJugadores(origen, destino, binaryJugadoresPorAgregar);
                         }
                     }
-                    
+                    this.btnContinue.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        this.btnContinue.Enabled = true;
+                    });
                 }
             } else
             {
