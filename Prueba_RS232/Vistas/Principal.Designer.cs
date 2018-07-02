@@ -68,6 +68,7 @@
             this.btnRollDices.TabIndex = 21;
             this.btnRollDices.Text = "Lanzar dados";
             this.btnRollDices.UseVisualStyleBackColor = true;
+            this.btnRollDices.Click += new System.EventHandler(this.btnRollDices_Click);
             // 
             // dice2
             // 
