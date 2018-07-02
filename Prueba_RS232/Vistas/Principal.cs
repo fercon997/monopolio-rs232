@@ -19,6 +19,10 @@ namespace Monopolio_RS232
         string InputData = string.Empty;
         private Player jugadorLocal;
         private Board board;
+        private bool rolledDices = false;
+        private int numeroDado1 = 0;
+        private int numeroDado2 = 0;
+        private int currentPosition = 0;
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
                  object sender, SerialDataReceivedEventArgs e);
@@ -26,12 +30,12 @@ namespace Monopolio_RS232
         delegate void SetTextCallback(string text);
         SerialDataReceivedEventHandler dataReceivedSubscription;
 
-        public Principal(Form inicial, Board board, Player jugadorLocal)
+        public Principal(Form inicial, Board board)
         {
             InitializeComponent();
             this.inicial = inicial;
             //this.lbPuerto.Text = this.comPort.PortName;
-            this.jugadorLocal = jugadorLocal;
+            this.jugadorLocal = board.getPlayer(0);
             this.board = board;           
             this.btnRollDices.Enabled = false;
             if (jugadorLocal.GetIdAsString() == "00")
@@ -39,8 +43,8 @@ namespace Monopolio_RS232
                 this.btnRollDices.Enabled = true;
             }
 
-            this.btnRollDices.Click += new EventHandler(this.btnRollDices_Click);
             Closing += this.OnWindowClosing;
+            tablero.Paint += new System.Windows.Forms.PaintEventHandler(this.Principal_Paint);
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
@@ -62,6 +66,10 @@ namespace Monopolio_RS232
         */
         private void OnDatosRecebidos(object sender, SerialDataReceivedEventArgs e)
         {
+            if (comPort.BytesToRead < 4)
+            {
+                return;
+            }
 
             byte[] receivedBytes = new byte[4];
             comPort.Read(receivedBytes, 0, 4);
@@ -91,24 +99,33 @@ namespace Monopolio_RS232
                         Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
                         ), 0, 4);
                 }
-                else
+                else if (jugadorLocal.GetIdAsString() == origen)
                 {
-                    //this.btnRollDices.Enabled = true;
-                    //if (dado1 != dado2)
-                    //{
-                    //    int nextPlayerId;
-                    //    if (jugadorLocal.getID() == board.getPlayers().Length - 1)
-                    //    {
-                    //        nextPlayerId = 0;
-                    //    } else
-                    //    {
-                    //        nextPlayerId = board.getPlayer(jugadorLocal.getID() + 1).getID();
-                    //    }
-                    //    this.comPort.Write(Instruccion.FormarTrama(
-                    //    Instruccion.FormarPrimerByte(origen, board.getPlayer(nextPlayerId).GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS),
-                    //    Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
-                    //    ), 0, 4);
-                    //}
+                    
+                    if (dado1 != dado2)
+                    {
+                        byte nextJugadorLocalId = Convert.ToByte(jugadorLocal.getID() + 1);
+                        string nextJugadorLocalIdStrByte = Instruccion.ByteToString(nextJugadorLocalId);
+                        string nextJugadorLocalIdStr = nextJugadorLocalIdStrByte.Substring(6, 2);
+                        Trace.WriteLine("Siguiente jugador: " + nextJugadorLocalIdStr);
+                        this.comPort.Write(Instruccion.FormarTrama(
+                        Instruccion.FormarPrimerByte(origen, nextJugadorLocalIdStr, Instruccion.PrimerByte.TIRAR_DADOS),
+                        Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
+                        ), 0, 4);
+                    }
+                    else if (dado1 == dado2)
+                    {
+                        this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
+                        {
+                            this.btnRollDices.Enabled = true;
+                        });
+                    }
+                } else
+                {
+                    this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        this.btnRollDices.Enabled = true;
+                    });
                 }
             }
 
@@ -135,12 +152,29 @@ namespace Monopolio_RS232
             this.lbPuerto.Text = this.comPort.PortName;
         }
 
+        private void Principal_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
+            //if (rolledDices)
+            //{
+                Square currentSquare = board.movePlayer(jugadorLocal, numeroDado1 + numeroDado2);
+                Trace.WriteLine("Current Position: " + jugadorLocal.getCurrentPosition());
+
+                currentPosition = ((currentPosition + numeroDado1 + numeroDado2) % 40);
+                Trace.WriteLine("Current Position 2: " + currentPosition);
+
+                jugadorLocal.SetPoisitionX(currentSquare.GetPositionX());
+                jugadorLocal.SetPoisitionY(currentSquare.GetPositionY());
+                e.Graphics.DrawImage(jugadorLocal.GetImage(), jugadorLocal.GetPositionX(), jugadorLocal.GetPositionY(), 30, 30);
+                this.rolledDices = false;
+            //}
+        }
+
         private void btnRollDices_Click(object sender, EventArgs e)
         {
             //this.btnRollDices.Enabled = false;
             Random randDado = new Random();
-            int numeroDado1 = randDado.Next(6) + 1;
-            int numeroDado2 = randDado.Next(6) + 1;
+            numeroDado1 = randDado.Next(1, 7);
+            numeroDado2 = randDado.Next(1, 7);
             dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado1);
             dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado2);
 
@@ -149,17 +183,15 @@ namespace Monopolio_RS232
             string numeroDado2Byte = Instruccion.ByteToString(Convert.ToByte(numeroDado2));
             string numeroDado2Str = numeroDado2Byte.Substring(5);
 
+
+            //this.rolledDices = true;
+
             this.comPort.Write(Instruccion.FormarTrama(
                 Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS),
                 Instruccion.FormarSegundoByteDados(numeroDado1Str, numeroDado2Str)
                 ), 0, 4);
 
-
-        }
-
-        private void tbDataReceived_TextChanged(object sender, EventArgs e)
-        {
-
+            tablero.Invalidate();
         }
     }
 }

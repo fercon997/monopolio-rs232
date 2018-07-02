@@ -9,7 +9,7 @@ namespace Monopolio_RS232.Logica
     {
         /*
             Este metodo carga el archivo de texto con las propiedades y sus
-            respectivos datos, y devuelve un Diccionario fromado por la 
+            respectivos datos, y devuelve un Diccionario formado por la 
             posicion y el Square correspondiente a la propiedad.
         */
         public static Dictionary<int, Square> GenerarTableroDeArchivo(string informacion)
@@ -27,8 +27,10 @@ namespace Monopolio_RS232.Logica
                 int precio = Convert.ToInt32(split[2]);
                 int renta = Convert.ToInt32(split[3]);
                 Group grupo = PropiedadFactory.StringToGroup(split[4].Trim());
+                int positionX = Convert.ToInt32(split[5]);
+                int positionY = Convert.ToInt32(split[6]);
 
-                var propiedad = new HouseSquare(split[0], posicion, precio, renta, grupo);
+                var propiedad = new HouseSquare(split[0], posicion, precio, renta, grupo, positionX, positionY);
                 Trace.WriteLine(posicion);
                 result.Add(propiedad.GetPosition(), propiedad);
             }
