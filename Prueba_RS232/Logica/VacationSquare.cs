@@ -7,7 +7,7 @@ namespace Monopolio_RS232.Logica
 {
     class VacationSquare: Square
     {
-        public VacationSquare(String name): base(name, 34, 34)
+        public VacationSquare(String name): base(name, 9, 9)
          {
 
         }

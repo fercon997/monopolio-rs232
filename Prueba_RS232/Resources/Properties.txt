@@ -1,28 +1,28 @@
-Mediterranean Ave.,2,60,2,Purple,342,385
-Baltic Ave.,4,60,4,Purple,275,385
-Oriental Ave.,7,100,6,Light-Blue,176,385
-Vermont Ave.,9,100,6,Light-Blue,110,385
-Connecticut Ave.,10,120,8,Light-Blue,76,385
-St. Charles Place,12,140,10,Violet,34,342
-States Ave.,14,140,10,Violet,34,275
-Virginia Ave.,15,160,12,Violet,34,242
-St. James Place,17,180,14,Orange,34,176
-Tennessee Ave.,19,180,14,Orange,34,110
-New York Ave.,20,200,16,Orange,34,76
-Kentucky Ave.,22,220,18,Red,77,34
-Indiana Ave.,24,220,18,Red,144,34
-Illinois Ave.,25,240,20,Red,177,34
-Atlantic Ave.,27,260,22,Yellow,243,34
-Ventnor Ave.,28,260,22,Yellow,276,34
-Marvin Gardens,30,280,24,Yellow,342,34
-Pacific Ave.,32,300,26,Dark-Green,385,77
-North Carolina Ave.,33,300,26,Dark-Green,385,110
-Pennsylvania Ave.,35,320,28,Dark-Green,385,176
-Park Place,38,350,35,Dark-Blue,385,275
-Boardwalk,40,400,50,Dark-Blue,385,342
-Electric Company,13,150,4,Utilities,34,308
-Water Works,29,150,4,Utilities,308,34
-Reading Railroad,6,200,25,Railroad,209,385
-Pennsylvania Railroad,16,200,25,Railroad,34,209
-B. & O. Railroad,26,200,25,Railroad,210,34
-Short Line Railroad,36,200,25,Railroad,385,209
+Mediterranean Ave.,2,60,2,Purple,317,360
+Baltic Ave.,4,60,4,Purple,250,360
+Oriental Ave.,7,100,6,Light-Blue,151,360
+Vermont Ave.,9,100,6,Light-Blue,85,360
+Connecticut Ave.,10,120,8,Light-Blue,51,360
+St. Charles Place,12,140,10,Violet,9,342
+States Ave.,14,140,10,Violet,9,250
+Virginia Ave.,15,160,12,Violet,9,217
+St. James Place,17,180,14,Orange,9,151
+Tennessee Ave.,19,180,14,Orange,9,85
+New York Ave.,20,200,16,Orange,9,51
+Kentucky Ave.,22,220,18,Red,52,9
+Indiana Ave.,24,220,18,Red,119,9
+Illinois Ave.,25,240,20,Red,152,9
+Atlantic Ave.,27,260,22,Yellow,218,9
+Ventnor Ave.,28,260,22,Yellow,251,9
+Marvin Gardens,30,280,24,Yellow,317,9
+Pacific Ave.,32,300,26,Dark-Green,360,52
+North Carolina Ave.,33,300,26,Dark-Green,360,85
+Pennsylvania Ave.,35,320,28,Dark-Green,360,151
+Park Place,38,350,35,Dark-Blue,360,250
+Boardwalk,40,400,50,Dark-Blue,360,317
+Electric Company,13,150,4,Utilities,9,283
+Water Works,29,150,4,Utilities,283,9
+Reading Railroad,6,200,25,Railroad,148,360
+Pennsylvania Railroad,16,200,25,Railroad,9,148
+B. & O. Railroad,26,200,25,Railroad,149,9
+Short Line Railroad,36,200,25,Railroad,360,148

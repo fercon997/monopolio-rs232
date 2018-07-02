@@ -36,8 +36,10 @@
             this.btnRollDices = new System.Windows.Forms.Button();
             this.dice2 = new System.Windows.Forms.PictureBox();
             this.dice1 = new System.Windows.Forms.PictureBox();
+            this.tablero = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dice2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dice1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tablero)).BeginInit();
             this.SuspendLayout();
             // 
             // tbDataReceived
@@ -92,11 +94,22 @@
             this.dice1.TabIndex = 3;
             this.dice1.TabStop = false;
             // 
+            // tablero
+            // 
+            this.tablero.Image = global::Monopolio_RS232.Properties.Resources.tablero;
+            this.tablero.Location = new System.Drawing.Point(50, 50);
+            this.tablero.Name = "tablero";
+            this.tablero.Size = new System.Drawing.Size(800, 770);
+            this.tablero.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.tablero.TabIndex = 22;
+            this.tablero.TabStop = false;
+            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1469, 846);
+            this.Controls.Add(this.tablero);
             this.Controls.Add(this.btnRollDices);
             this.Controls.Add(this.dice2);
             this.Controls.Add(this.dice1);
@@ -107,6 +120,7 @@
             this.Text = "Principal";
             ((System.ComponentModel.ISupportInitialize)(this.dice2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dice1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tablero)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -120,5 +134,6 @@
         private System.Windows.Forms.PictureBox dice1;
         private System.Windows.Forms.PictureBox dice2;
         private System.Windows.Forms.Button btnRollDices;
+        private System.Windows.Forms.PictureBox tablero;
     }
 }

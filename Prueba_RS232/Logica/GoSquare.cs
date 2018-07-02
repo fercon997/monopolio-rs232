@@ -8,7 +8,7 @@ namespace Monopolio_RS232.Logica
     class GoSquare: Square
     {
 
-        public GoSquare(String name) : base(name, 385, 385)
+        public GoSquare(String name) : base(name, 360, 360)
         {
            
         }

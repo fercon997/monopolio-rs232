@@ -7,8 +7,8 @@ namespace Monopolio_RS232.Logica
     {
         int totalWalk = 0;
         int position = 0;
-        int positionX = 385;
-        int positionY = 385;
+        int positionX = 360;
+        int positionY = 360;
         Image image = Properties.Resources.player1;
         int id;
         String name;

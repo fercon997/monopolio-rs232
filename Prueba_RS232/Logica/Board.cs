@@ -13,21 +13,21 @@ namespace Monopolio_RS232.Logica
         Square[] squares = new Square[40];
         Dictionary<int, int> posicionXCasualidades = new Dictionary<int, int>()
         {
-            {3, 242},
-            {8, 143},
-            {18, 34},
-            {23, 110},
-            {34, 385},
-            {37, 385}
+            {3, 217},
+            {8, 118},
+            {18, 9},
+            {23, 85},
+            {34, 360},
+            {37, 360}
         };
         Dictionary<int, int> posicionYCasualidades = new Dictionary<int, int>()
         {
-            {3, 385},
-            {8, 385},
-            {18, 143},
-            {23, 34},
-            {34, 143},
-            {37, 242}
+            {3, 360},
+            {8, 360},
+            {18, 117},
+            {23, 9},
+            {34, 118},
+            {37, 217}
         };
 
         public Board()
@@ -70,10 +70,10 @@ namespace Monopolio_RS232.Logica
                         {
                             if (i == 4)
                             {
-                                squares[i] = new HouseSquare("Income Tax", 0, 308, 385);
+                                squares[i] = new HouseSquare("Income Tax", 0, 283, 360);
                             } else if (i == 38)
                             {
-                                squares[i] = new HouseSquare("Luxury Tax", 0, 385, 308);
+                                squares[i] = new HouseSquare("Luxury Tax", 0, 360, 283);
                             }
                         }
                         

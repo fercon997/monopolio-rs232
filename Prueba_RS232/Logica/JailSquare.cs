@@ -7,7 +7,7 @@ namespace Monopolio_RS232.Logica
 {
     class JailSquare: Square
     {
-        public JailSquare(String name): base(name, 34, 385)
+        public JailSquare(String name): base(name, 9, 360)
         {
 
         }

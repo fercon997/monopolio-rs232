@@ -44,7 +44,7 @@ namespace Monopolio_RS232
             }
 
             Closing += this.OnWindowClosing;
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Principal_Paint);
+            tablero.Paint += new System.Windows.Forms.PaintEventHandler(this.Principal_Paint);
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
@@ -154,9 +154,6 @@ namespace Monopolio_RS232
 
         private void Principal_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            e.Graphics.DrawImage(Properties.Resources.tablero, 25, 25, 400, 400);
-            //e.Graphics.DrawImage(jugadorLocal.GetImage(), board.GetSquares()[currentPosition].GetPositionX(), board.GetSquares()[currentPosition].GetPositionY(), 30, 30);
-
             //if (rolledDices)
             //{
                 Square currentSquare = board.movePlayer(jugadorLocal, numeroDado1 + numeroDado2);
@@ -188,12 +185,13 @@ namespace Monopolio_RS232
 
 
             //this.rolledDices = true;
-            this.Invalidate();
 
             this.comPort.Write(Instruccion.FormarTrama(
                 Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS),
                 Instruccion.FormarSegundoByteDados(numeroDado1Str, numeroDado2Str)
                 ), 0, 4);
+
+            tablero.Invalidate();
         }
     }
 }
