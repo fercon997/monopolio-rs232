@@ -108,7 +108,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1469, 846);
+            this.ClientSize = new System.Drawing.Size(1469, 879);
             this.Controls.Add(this.tablero);
             this.Controls.Add(this.btnRollDices);
             this.Controls.Add(this.dice2);

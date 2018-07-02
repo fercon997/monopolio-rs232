@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Drawing;
 
 namespace Monopolio_RS232.Logica
 {

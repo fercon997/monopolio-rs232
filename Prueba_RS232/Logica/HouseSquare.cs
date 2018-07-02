@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Windows.Forms;
 using System.Diagnostics;
 
 namespace Monopolio_RS232.Logica
@@ -60,17 +59,28 @@ namespace Monopolio_RS232.Logica
             if (owner < 0)
             {
                 Trace.WriteLine(player, player.getName() + ", do you want to buy " + getName() + "?");
-                Random rand = new Random();
-                if (NextBoolean())
+
+                DialogResult dialogResult = MessageBox.Show("Quieres comprar esta propiedad?\nPrecio: " + price, this.getName(), MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
                 {
-                    Trace.WriteLine(player, player.getName() + " buy " + getName() + " for " + price);
-                    owner = player.getID();
-                    player.getMoney().substractMoney(price);
+                    Trace.WriteLine(player, player.getName() + " compró la casa");
                 }
-                else
+                else if (dialogResult == DialogResult.No)
                 {
-                    Trace.WriteLine(player, player.getName() + " don't want to buy " + getName());
+                    Trace.WriteLine(player, player.getName() + " NO compró la casa");
                 }
+
+                //Random rand = new Random();
+                //if (NextBoolean())
+                //{
+                //    Trace.WriteLine(player, player.getName() + " buy " + getName() + " for " + price);
+                //    owner = player.getID();
+                //    player.getMoney().substractMoney(price);
+                //}
+                //else
+                //{
+                //    Trace.WriteLine(player, player.getName() + " don't want to buy " + getName());
+                //}
             }
             else
             {
