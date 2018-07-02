@@ -19,10 +19,9 @@ namespace Monopolio_RS232
         string InputData = string.Empty;
         private Player jugadorLocal;
         private Board board;
-        private bool rolledDices = false;
+        private bool rolledDices = true;
         private int numeroDado1 = 0;
         private int numeroDado2 = 0;
-        private int currentPosition = 0;
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
                  object sender, SerialDataReceivedEventArgs e);
@@ -154,19 +153,17 @@ namespace Monopolio_RS232
 
         private void Principal_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            //if (rolledDices)
-            //{
+            if (rolledDices)
+            {
                 Square currentSquare = board.movePlayer(jugadorLocal, numeroDado1 + numeroDado2);
                 Trace.WriteLine("Current Position: " + jugadorLocal.getCurrentPosition());
 
-                currentPosition = ((currentPosition + numeroDado1 + numeroDado2) % 40);
-                Trace.WriteLine("Current Position 2: " + currentPosition);
-
                 jugadorLocal.SetPoisitionX(currentSquare.GetPositionX());
                 jugadorLocal.SetPoisitionY(currentSquare.GetPositionY());
-                e.Graphics.DrawImage(jugadorLocal.GetImage(), jugadorLocal.GetPositionX(), jugadorLocal.GetPositionY(), 30, 30);
+                e.Graphics.DrawImage(Properties.Resources.player1, jugadorLocal.GetPositionX(), jugadorLocal.GetPositionY(), 30, 30);
+                //e.Graphics.DrawImage(jugadorLocal.GetImage(), jugadorLocal.GetPositionX(), jugadorLocal.GetPositionY(), 30, 30);
                 this.rolledDices = false;
-            //}
+            }
         }
 
         private void btnRollDices_Click(object sender, EventArgs e)
@@ -184,7 +181,7 @@ namespace Monopolio_RS232
             string numeroDado2Str = numeroDado2Byte.Substring(5);
 
 
-            //this.rolledDices = true;
+            this.rolledDices = true;
 
             this.comPort.Write(Instruccion.FormarTrama(
                 Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS),

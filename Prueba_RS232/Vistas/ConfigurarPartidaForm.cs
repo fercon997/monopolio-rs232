@@ -4,6 +4,7 @@ using System.IO.Ports;
 using System.Windows.Forms;
 using Monopolio_RS232.Logica;
 using System.Diagnostics;
+using System.Drawing;
 using Monopolio_RS232.Comunicacion;
 
 namespace Monopolio_RS232

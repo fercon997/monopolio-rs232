@@ -9,7 +9,7 @@ namespace Monopolio_RS232.Logica
         int position = 0;
         int positionX = 360;
         int positionY = 360;
-        Image image = Properties.Resources.player1;
+        Image image;
         int id;
         String name;
         bool brokeout = false;

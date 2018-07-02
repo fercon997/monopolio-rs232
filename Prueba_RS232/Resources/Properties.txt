@@ -3,7 +3,7 @@ Baltic Ave.,4,60,4,Purple,250,360
 Oriental Ave.,7,100,6,Light-Blue,151,360
 Vermont Ave.,9,100,6,Light-Blue,85,360
 Connecticut Ave.,10,120,8,Light-Blue,51,360
-St. Charles Place,12,140,10,Violet,9,342
+St. Charles Place,12,140,10,Violet,9,317
 States Ave.,14,140,10,Violet,9,250
 Virginia Ave.,15,160,12,Violet,9,217
 St. James Place,17,180,14,Orange,9,151
