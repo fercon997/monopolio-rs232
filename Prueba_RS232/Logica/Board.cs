@@ -96,6 +96,16 @@ namespace Monopolio_RS232.Logica
 
         public void SetPlayers(Player[] players)
         {
+            /*
+           Array.Sort(players, delegate (Player p1, Player p2)
+            {
+                return p1.getID().CompareTo(p2.getID());
+
+            });
+            foreach(var pl in players)
+            {
+                Trace.WriteLine("PL: " + pl.getID());
+            }*/
             this.players = players;
         }
 

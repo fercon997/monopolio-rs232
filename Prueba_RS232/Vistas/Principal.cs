@@ -78,8 +78,8 @@ namespace Monopolio_RS232
             Trace.WriteLine("Primer byte: " + primerByte);
             Trace.WriteLine("Segundo byte: " + segundoByte);
             string origen = primerByte.Substring(0, 2);
-            Trace.WriteLine(String.Format("StrOrigen: {0}  ToInt32: {1}", origen, Convert.ToInt32(origen, 2)));
             string destino = primerByte.Substring(2, 2);
+            Trace.WriteLine(String.Format("Origen: {0}\nDestino: {1}", origen, destino));
 
             if (primerByte.Substring(4,4) == Instruccion.PrimerByte.TIRAR_DADOS)
             {
@@ -87,14 +87,18 @@ namespace Monopolio_RS232
                 string dado2Str = segundoByte.Substring(5, 3);
 
                 int dado1 = Convert.ToInt32(dado1Str, 2);
-                Trace.WriteLine(dado1);
+                Trace.WriteLine("Dado 1: " + dado1);
                 int dado2 = Convert.ToInt32(dado2Str, 2);
-                Trace.WriteLine(dado2);
+                Trace.WriteLine("Dado 2: " + dado2);
 
                 if (jugadorLocal.GetIdAsString() != destino) {
+                    this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        this.btnRollDices.Enabled = false;
+                    });
                     dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado1);
                     dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado2);
-
+                    // Actualizamos la posicion del jugador que se esta moviendo
                     var jugadorMoviendose = board.getPlayer(Convert.ToInt32(origen, 2));
                     Trace.WriteLine("Actualizando posicion del jugador que se movio. Id: " + jugadorMoviendose.getID());
                     int newPosition = Board.normalizePosition(jugadorMoviendose.getCurrentPosition() + dado1 + dado2);
@@ -116,19 +120,27 @@ namespace Monopolio_RS232
                 }
                 else if (jugadorLocal.GetIdAsString() == origen)
                 {
-                    
                     if (dado1 != dado2)
                     {
-                        byte nextJugadorLocalId = Convert.ToByte(jugadorLocal.getID() + 1);
+                        int nextPlayer = jugadorLocal.getID() + 1;
+                        if (jugadorLocal.getID() == board.getPlayers().Length)
+                            nextPlayer = 0;
+
+                        byte nextJugadorLocalId = Convert.ToByte(nextPlayer);
                         string nextJugadorLocalIdStrByte = Instruccion.ByteToString(nextJugadorLocalId);
                         string nextJugadorLocalIdStr = nextJugadorLocalIdStrByte.Substring(6, 2);
                         Trace.WriteLine("Siguiente jugador: " + nextJugadorLocalIdStr);
-                        
+
+                        this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
+                        {
+                            this.btnRollDices.Enabled = false;
+                        });
                         this.comPort.Write(Instruccion.FormarTrama(
                         Instruccion.FormarPrimerByte(origen, nextJugadorLocalIdStr, Instruccion.PrimerByte.TIRAR_DADOS),
                         Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
                         ), 0, 4);
                     }
+                    
                     else if (dado1 == dado2)
                     {
                         this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
@@ -136,12 +148,16 @@ namespace Monopolio_RS232
                             this.btnRollDices.Enabled = true;
                         });
                     }
-                } else
+                } else if (jugadorLocal.GetIdAsString() == destino)
                 {
+                    Trace.WriteLine(String.Format("Jugador local: {0}  Destino: {1}", jugadorLocal.GetIdAsString(), destino));
                     this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
                     {
                         this.btnRollDices.Enabled = true;
                     });
+                } else // Creo que nunca llegara hasta aqui
+                {
+                    Trace.WriteLine("No creo que pase");
                 }
             }
 
