@@ -74,6 +74,10 @@ namespace Monopolio_RS232
             byte[] receivedBytes = new byte[4];
             comPort.Read(receivedBytes, 0, 4);
             string primerByte = Instruccion.ByteToString(receivedBytes[1]);
+            this.BeginInvoke((MethodInvoker)delegate ()
+            {
+                lbxHistoria.Items.Add("Trama recibida: " + primerByte);
+            });
             string segundoByte = Instruccion.ByteToString(receivedBytes[2]);
             Trace.WriteLine("Primer byte: " + primerByte);
             Trace.WriteLine("Segundo byte: " + segundoByte);
@@ -92,9 +96,10 @@ namespace Monopolio_RS232
                 Trace.WriteLine("Dado 2: " + dado2);
 
                 if (jugadorLocal.GetIdAsString() != destino) {
-                    this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
+                    this.BeginInvoke((MethodInvoker)delegate ()
                     {
                         this.btnRollDices.Enabled = false;
+                        lbxHistoria.Items.Add("Jugador que le toca: " + origen);
                     });
                     dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado1);
                     dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado2);
@@ -123,7 +128,7 @@ namespace Monopolio_RS232
                     if (dado1 != dado2)
                     {
                         int nextPlayer = jugadorLocal.getID() + 1;
-                        if (jugadorLocal.getID() == board.getPlayers().Length)
+                        if (jugadorLocal.getID() == board.getPlayers().Length - 1)
                             nextPlayer = 0;
 
                         byte nextJugadorLocalId = Convert.ToByte(nextPlayer);
@@ -131,9 +136,11 @@ namespace Monopolio_RS232
                         string nextJugadorLocalIdStr = nextJugadorLocalIdStrByte.Substring(6, 2);
                         Trace.WriteLine("Siguiente jugador: " + nextJugadorLocalIdStr);
 
-                        this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
+                        this.BeginInvoke((MethodInvoker)delegate ()
                         {
                             this.btnRollDices.Enabled = false;
+                            lbxHistoria.Items.Add("Siguiente jugador: " + nextJugadorLocalIdStr);
+                            lbxHistoria.Items.Add("     Trama: " + Instruccion.ByteToString(Instruccion.FormarPrimerByte(origen, nextJugadorLocalIdStr, Instruccion.PrimerByte.TIRAR_DADOS)));
                         });
                         this.comPort.Write(Instruccion.FormarTrama(
                         Instruccion.FormarPrimerByte(origen, nextJugadorLocalIdStr, Instruccion.PrimerByte.TIRAR_DADOS),
@@ -143,17 +150,19 @@ namespace Monopolio_RS232
                     
                     else if (dado1 == dado2)
                     {
-                        this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
+                        this.BeginInvoke((MethodInvoker)delegate ()
                         {
                             this.btnRollDices.Enabled = true;
+                            lbxHistoria.Items.Add("Dobles");
                         });
                     }
                 } else if (jugadorLocal.GetIdAsString() == destino)
                 {
                     Trace.WriteLine(String.Format("Jugador local: {0}  Destino: {1}", jugadorLocal.GetIdAsString(), destino));
-                    this.btnRollDices.BeginInvoke((MethodInvoker)delegate ()
+                    this.BeginInvoke((MethodInvoker)delegate ()
                     {
                         this.btnRollDices.Enabled = true;
+                        lbxHistoria.Items.Add("SOY YO: " + jugadorLocal.GetIdAsString());
                     });
                 } else // Creo que nunca llegara hasta aqui
                 {
@@ -172,7 +181,6 @@ namespace Monopolio_RS232
 
         private void SetText(string text)
         {
-            this.tbDataReceived.Text += text;
             
         }
 
@@ -223,7 +231,10 @@ namespace Monopolio_RS232
 
 
             this.rolledDices = true;
-
+            this.BeginInvoke((MethodInvoker)delegate ()
+            {
+                lbxHistoria.Items.Add("Lanzar dados: " + Instruccion.ByteToString(Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS)));
+            });
             this.comPort.Write(Instruccion.FormarTrama(
                 Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS),
                 Instruccion.FormarSegundoByteDados(numeroDado1Str, numeroDado2Str)
