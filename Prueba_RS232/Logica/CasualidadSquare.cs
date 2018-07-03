@@ -11,9 +11,9 @@ namespace Monopolio_RS232.Logica
         {
         }
 
-        public override void doAction(Player player, Board board)
+        public override int doAction(Player player, Board board)
         {
-
+            return 0;
         }
     }
 }

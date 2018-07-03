@@ -11,10 +11,11 @@ namespace Monopolio_RS232.Logica
         {
         }
 
-        public override void doAction(Player player, Board board)
+        public override int doAction(Player player, Board board)
         {
             Trace.WriteLine(player, player.getName() + "has go to Jail");
             board.movePlayer(player, -board.getTotalSquare() / 2, false);
+            return 0;
         }
     }
 }

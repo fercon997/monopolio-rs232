@@ -12,11 +12,12 @@ namespace Monopolio_RS232.Logica
 
         }
 
-        public override void doAction(Player player, Board board)
+        public override int doAction(Player player, Board board)
         {
             Random rand = new Random();
             Square square = board.movePlayer(player, rand.Next(board.getTotalSquare()), false);
             Trace.WriteLine(player, player.getName() + " has go to vacation at " + square.getName());
+            return 0;
         }
     }
 }

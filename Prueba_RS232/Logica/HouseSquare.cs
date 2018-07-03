@@ -54,7 +54,7 @@ namespace Monopolio_RS232.Logica
             return rand.Next(100) % 2 == 0;
         }
 
-        public override void doAction(Player player, Board board)
+        public override int doAction(Player player, Board board)
         {
             if (owner < 0)
             {
@@ -63,11 +63,18 @@ namespace Monopolio_RS232.Logica
                 DialogResult dialogResult = MessageBox.Show("Quieres comprar esta propiedad?\nPrecio: " + price, this.getName(), MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    Trace.WriteLine(player, player.getName() + " compró la casa");
+                    //if (player.getMoney().getMoney() - price < 0)
+                    //{
+                        player.getMoney().substractMoney(price);
+                        owner = player.getID();
+                        Trace.WriteLine(player, player.getName() + " compró la casa");
+                        return 1;
+                    //} 
                 }
                 else if (dialogResult == DialogResult.No)
                 {
                     Trace.WriteLine(player, player.getName() + " NO compró la casa");
+                    return 0;
                 }
 
                 //Random rand = new Random();
@@ -81,6 +88,8 @@ namespace Monopolio_RS232.Logica
                 //{
                 //    Trace.WriteLine(player, player.getName() + " don't want to buy " + getName());
                 //}
+                Trace.WriteLine("Esto se está ejecutando?");
+                return 0;
             }
             else
             {
@@ -91,6 +100,7 @@ namespace Monopolio_RS232.Logica
                     player.getMoney().substractMoney(lost);
                     board.getPlayer(owner).getMoney().addMoney(lost);
                 }
+                return 3;
             }
         }
 
