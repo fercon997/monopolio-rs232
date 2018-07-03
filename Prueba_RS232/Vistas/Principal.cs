@@ -19,7 +19,6 @@ namespace Monopolio_RS232
         string InputData = string.Empty;
         private Player jugadorLocal;
         private Board board;
-        private bool rolledDices = true;
         private int numeroDado1 = 0;
         private int numeroDado2 = 0;
 
@@ -99,6 +98,7 @@ namespace Monopolio_RS232
                     this.BeginInvoke((MethodInvoker)delegate ()
                     {
                         this.btnRollDices.Enabled = false;
+                        this.btnFinalizarTurno.Enabled = false;
                         lbxHistoria.Items.Add("Jugador que le toca: " + origen);
                     });
                     dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado1);
@@ -127,25 +127,11 @@ namespace Monopolio_RS232
                 {
                     if (dado1 != dado2)
                     {
-                        int nextPlayer = jugadorLocal.getID() + 1;
-                        if (jugadorLocal.getID() == board.getPlayers().Length - 1)
-                            nextPlayer = 0;
-
-                        byte nextJugadorLocalId = Convert.ToByte(nextPlayer);
-                        string nextJugadorLocalIdStrByte = Instruccion.ByteToString(nextJugadorLocalId);
-                        string nextJugadorLocalIdStr = nextJugadorLocalIdStrByte.Substring(6, 2);
-                        Trace.WriteLine("Siguiente jugador: " + nextJugadorLocalIdStr);
-
+                        // Aqui deberiamos hacer las acciones que si de comprar, etc
                         this.BeginInvoke((MethodInvoker)delegate ()
                         {
-                            this.btnRollDices.Enabled = false;
-                            lbxHistoria.Items.Add("Siguiente jugador: " + nextJugadorLocalIdStr);
-                            lbxHistoria.Items.Add("     Trama: " + Instruccion.ByteToString(Instruccion.FormarPrimerByte(origen, nextJugadorLocalIdStr, Instruccion.PrimerByte.TIRAR_DADOS)));
+                            this.btnFinalizarTurno.Enabled = true;
                         });
-                        this.comPort.Write(Instruccion.FormarTrama(
-                        Instruccion.FormarPrimerByte(origen, nextJugadorLocalIdStr, Instruccion.PrimerByte.TIRAR_DADOS),
-                        Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
-                        ), 0, 4);
                     }
                     
                     else if (dado1 == dado2)
@@ -153,6 +139,7 @@ namespace Monopolio_RS232
                         this.BeginInvoke((MethodInvoker)delegate ()
                         {
                             this.btnRollDices.Enabled = true;
+                            this.btnFinalizarTurno.Enabled = false;
                             lbxHistoria.Items.Add("Dobles");
                         });
                     }
@@ -230,6 +217,7 @@ namespace Monopolio_RS232
                     var imagen = (Image)Properties.Resources.ResourceManager.GetObject("player" + (j.getID() + 1));
                     e.Graphics.DrawImage(imagen, j.GetPositionX(), j.GetPositionY(), 30, 30);
                 }
+            actualizarDatosJugadorLocal();
 
                 
                 //e.Graphics.DrawImage(jugadorLocal.GetImage(), jugadorLocal.GetPositionX(), jugadorLocal.GetPositionY(), 30, 30);
@@ -240,7 +228,7 @@ namespace Monopolio_RS232
 
         private void btnRollDices_Click(object sender, EventArgs e)
         {
-            //this.btnRollDices.Enabled = false;
+            this.btnRollDices.Enabled = false;
             Random randDado = new Random();
             numeroDado1 = randDado.Next(1, 7);
             numeroDado2 = randDado.Next(1, 7);
@@ -252,12 +240,8 @@ namespace Monopolio_RS232
             string numeroDado2Byte = Instruccion.ByteToString(Convert.ToByte(numeroDado2));
             string numeroDado2Str = numeroDado2Byte.Substring(5);
 
-
-            this.rolledDices = true;
-            this.BeginInvoke((MethodInvoker)delegate ()
-            {
-                lbxHistoria.Items.Add("Lanzar dados: " + Instruccion.ByteToString(Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS)));
-            });
+            this.btnFinalizarTurno.Enabled = true;
+            lbxHistoria.Items.Add("Lanzar dados: " + Instruccion.ByteToString(Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS)));
             this.comPort.Write(Instruccion.FormarTrama(
                 Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.TIRAR_DADOS),
                 Instruccion.FormarSegundoByteDados(numeroDado1Str, numeroDado2Str)
@@ -287,6 +271,36 @@ namespace Monopolio_RS232
                 Convert.ToByte("000" + board.GetHouseBits(jugadorLocal.getCurrentPosition()), 2)
                 ), 0, 4);
             }
+        }
+
+        private void btnFinalizarTurno_Click(object sender, EventArgs e)
+        {
+            int nextPlayer = jugadorLocal.getID() + 1;
+            if (jugadorLocal.getID() == board.getPlayers().Length - 1)
+                nextPlayer = 0;
+
+            byte nextJugadorLocalId = Convert.ToByte(nextPlayer);
+            string nextJugadorLocalIdStrByte = Instruccion.ByteToString(nextJugadorLocalId);
+            string nextJugadorLocalIdStr = nextJugadorLocalIdStrByte.Substring(6, 2);
+            Trace.WriteLine("Siguiente jugador: " + nextJugadorLocalIdStr);
+
+            this.btnRollDices.Enabled = false;
+            this.btnFinalizarTurno.Enabled = false;
+            lbxHistoria.Items.Add("Siguiente jugador: " + nextJugadorLocalIdStr);
+            lbxHistoria.Items.Add("     Trama: " + Instruccion.ByteToString(Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), nextJugadorLocalIdStr, Instruccion.PrimerByte.TIRAR_DADOS)));
+            // Mandamos 01 y 01 en los dados pero realmente este valor no afecta, solo importa que sea != 0
+            this.comPort.Write(Instruccion.FormarTrama(
+            Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), nextJugadorLocalIdStr, Instruccion.PrimerByte.TIRAR_DADOS),
+            Instruccion.FormarSegundoByteDados("01", "01")
+            ), 0, 4);
+        }
+
+        private void actualizarDatosJugadorLocal()
+        {
+            this.BeginInvoke((MethodInvoker)delegate ()
+            {
+                lbDineroDisponible.Text = this.jugadorLocal.getMoney().getMoney().ToString();
+            });
         }
     }
 }
