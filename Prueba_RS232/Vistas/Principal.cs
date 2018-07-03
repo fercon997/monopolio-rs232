@@ -158,12 +158,14 @@ namespace Monopolio_RS232
             } else if (primerByte.Substring(4, 4) == Instruccion.PrimerByte.PROPIEDADES)
             {
                 string propiedadComprada = segundoByte.Substring(3, 5);
+                int posicionPropiedad = board.GetHousePositionFromBits(propiedadComprada);
 
                 if (jugadorLocal.GetIdAsString() != destino)
                 {
+
                     this.BeginInvoke((MethodInvoker)delegate ()
                     {
-                        lbxHistoria.Items.Add("Jugador " + origen + " compró la propiedad " + propiedadComprada);
+                        lbxHistoria.Items.Add("Jugador " + origen + " compró la propiedad " + board.GetSquares()[posicionPropiedad].getName());
                     });
 
                     this.comPort.Write(Instruccion.FormarTrama(
@@ -175,7 +177,7 @@ namespace Monopolio_RS232
                 {
                     this.BeginInvoke((MethodInvoker)delegate ()
                     {
-                        lbxHistoria.Items.Add("Compré la propiedad " + propiedadComprada);
+                        lbxHistoria.Items.Add("Compré la propiedad " + board.GetSquares()[posicionPropiedad].getName());
                     });
                 }
             }

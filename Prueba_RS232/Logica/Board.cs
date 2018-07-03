@@ -144,6 +144,18 @@ namespace Monopolio_RS232.Logica
             return houseBits[position];
         }
 
+        public int GetHousePositionFromBits(String bits)
+        {
+            foreach (KeyValuePair<int, String> dic in houseBits)
+            {
+                if (dic.Value == bits)
+                {
+                    return dic.Key;
+                }
+            }
+            return 0;
+        }
+
         public void GeneratePlayers(int totalPlayer)
         {
             
