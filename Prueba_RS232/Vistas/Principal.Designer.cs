@@ -40,7 +40,7 @@
             this.tabHistoria = new System.Windows.Forms.TabPage();
             this.lbxHistoria = new System.Windows.Forms.ListBox();
             this.tabPropiedades = new System.Windows.Forms.TabPage();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.lbxPropiedades = new System.Windows.Forms.ListBox();
             this.btnFinalizarTurno = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lbDineroDisponible = new System.Windows.Forms.Label();
@@ -55,19 +55,19 @@
             // lbPuerto
             // 
             this.lbPuerto.AutoSize = true;
-            this.lbPuerto.Location = new System.Drawing.Point(1843, 23);
-            this.lbPuerto.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lbPuerto.Location = new System.Drawing.Point(1382, 19);
+            this.lbPuerto.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lbPuerto.Name = "lbPuerto";
-            this.lbPuerto.Size = new System.Drawing.Size(99, 32);
+            this.lbPuerto.Size = new System.Drawing.Size(75, 25);
             this.lbPuerto.TabIndex = 1;
             this.lbPuerto.Text = "Puerto";
             // 
             // btnRollDices
             // 
-            this.btnRollDices.Location = new System.Drawing.Point(1352, 238);
-            this.btnRollDices.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnRollDices.Location = new System.Drawing.Point(1014, 192);
+            this.btnRollDices.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnRollDices.Name = "btnRollDices";
-            this.btnRollDices.Size = new System.Drawing.Size(414, 55);
+            this.btnRollDices.Size = new System.Drawing.Size(310, 44);
             this.btnRollDices.TabIndex = 21;
             this.btnRollDices.Text = "Lanzar dados";
             this.btnRollDices.UseVisualStyleBackColor = true;
@@ -76,10 +76,10 @@
             // dice2
             // 
             this.dice2.Image = ((System.Drawing.Image)(resources.GetObject("dice2.Image")));
-            this.dice2.Location = new System.Drawing.Point(1605, 62);
-            this.dice2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dice2.Location = new System.Drawing.Point(1204, 50);
+            this.dice2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dice2.Name = "dice2";
-            this.dice2.Size = new System.Drawing.Size(161, 141);
+            this.dice2.Size = new System.Drawing.Size(121, 114);
             this.dice2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.dice2.TabIndex = 4;
             this.dice2.TabStop = false;
@@ -87,10 +87,10 @@
             // dice1
             // 
             this.dice1.Image = ((System.Drawing.Image)(resources.GetObject("dice1.Image")));
-            this.dice1.Location = new System.Drawing.Point(1352, 62);
-            this.dice1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dice1.Location = new System.Drawing.Point(1014, 50);
+            this.dice1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dice1.Name = "dice1";
-            this.dice1.Size = new System.Drawing.Size(161, 141);
+            this.dice1.Size = new System.Drawing.Size(121, 114);
             this.dice1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.dice1.TabIndex = 3;
             this.dice1.TabStop = false;
@@ -98,10 +98,9 @@
             // tablero
             // 
             this.tablero.Image = global::Monopolio_RS232.Properties.Resources.tablero;
-            this.tablero.Location = new System.Drawing.Point(67, 62);
-            this.tablero.Margin = new System.Windows.Forms.Padding(4);
+            this.tablero.Location = new System.Drawing.Point(50, 50);
             this.tablero.Name = "tablero";
-            this.tablero.Size = new System.Drawing.Size(1067, 955);
+            this.tablero.Size = new System.Drawing.Size(800, 770);
             this.tablero.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.tablero.TabIndex = 22;
             this.tablero.TabStop = false;
@@ -110,19 +109,21 @@
             // 
             this.tabControl.Controls.Add(this.tabHistoria);
             this.tabControl.Controls.Add(this.tabPropiedades);
-            this.tabControl.Location = new System.Drawing.Point(1217, 334);
+            this.tabControl.Location = new System.Drawing.Point(913, 269);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(666, 683);
+            this.tabControl.Size = new System.Drawing.Size(500, 551);
             this.tabControl.TabIndex = 24;
             // 
             // tabHistoria
             // 
             this.tabHistoria.Controls.Add(this.lbxHistoria);
-            this.tabHistoria.Location = new System.Drawing.Point(10, 48);
+            this.tabHistoria.Location = new System.Drawing.Point(8, 39);
+            this.tabHistoria.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabHistoria.Name = "tabHistoria";
-            this.tabHistoria.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHistoria.Size = new System.Drawing.Size(646, 625);
+            this.tabHistoria.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabHistoria.Size = new System.Drawing.Size(484, 504);
             this.tabHistoria.TabIndex = 0;
             this.tabHistoria.Text = "Historia";
             this.tabHistoria.UseVisualStyleBackColor = true;
@@ -130,40 +131,44 @@
             // lbxHistoria
             // 
             this.lbxHistoria.FormattingEnabled = true;
-            this.lbxHistoria.ItemHeight = 31;
-            this.lbxHistoria.Location = new System.Drawing.Point(3, 0);
+            this.lbxHistoria.ItemHeight = 25;
+            this.lbxHistoria.Location = new System.Drawing.Point(2, 0);
+            this.lbxHistoria.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.lbxHistoria.Name = "lbxHistoria";
-            this.lbxHistoria.Size = new System.Drawing.Size(643, 624);
+            this.lbxHistoria.Size = new System.Drawing.Size(483, 504);
             this.lbxHistoria.TabIndex = 0;
             // 
             // tabPropiedades
             // 
-            this.tabPropiedades.Controls.Add(this.listBox2);
-            this.tabPropiedades.Location = new System.Drawing.Point(10, 48);
+            this.tabPropiedades.Controls.Add(this.lbxPropiedades);
+            this.tabPropiedades.Location = new System.Drawing.Point(8, 39);
+            this.tabPropiedades.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabPropiedades.Name = "tabPropiedades";
-            this.tabPropiedades.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPropiedades.Size = new System.Drawing.Size(646, 625);
+            this.tabPropiedades.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPropiedades.Size = new System.Drawing.Size(484, 504);
             this.tabPropiedades.TabIndex = 1;
             this.tabPropiedades.Text = "Propiedades";
             this.tabPropiedades.UseVisualStyleBackColor = true;
             // 
-            // listBox2
+            // lbxPropiedades
             // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.ItemHeight = 31;
-            this.listBox2.Items.AddRange(new object[] {
+            this.lbxPropiedades.FormattingEnabled = true;
+            this.lbxPropiedades.ItemHeight = 25;
+            this.lbxPropiedades.Items.AddRange(new object[] {
             "Propiedades"});
-            this.listBox2.Location = new System.Drawing.Point(3, 6);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(643, 624);
-            this.listBox2.TabIndex = 25;
+            this.lbxPropiedades.Location = new System.Drawing.Point(2, 5);
+            this.lbxPropiedades.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lbxPropiedades.Name = "lbxPropiedades";
+            this.lbxPropiedades.Size = new System.Drawing.Size(483, 504);
+            this.lbxPropiedades.TabIndex = 25;
             // 
             // btnFinalizarTurno
             // 
             this.btnFinalizarTurno.Enabled = false;
-            this.btnFinalizarTurno.Location = new System.Drawing.Point(1616, 1037);
+            this.btnFinalizarTurno.Location = new System.Drawing.Point(1212, 836);
+            this.btnFinalizarTurno.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnFinalizarTurno.Name = "btnFinalizarTurno";
-            this.btnFinalizarTurno.Size = new System.Drawing.Size(267, 55);
+            this.btnFinalizarTurno.Size = new System.Drawing.Size(200, 44);
             this.btnFinalizarTurno.TabIndex = 26;
             this.btnFinalizarTurno.Text = "Finalizar turno";
             this.btnFinalizarTurno.UseVisualStyleBackColor = true;
@@ -172,9 +177,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(61, 1049);
+            this.label1.Location = new System.Drawing.Point(46, 846);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(245, 32);
+            this.label1.Size = new System.Drawing.Size(185, 25);
             this.label1.TabIndex = 27;
             this.label1.Text = "Dinero disponible:";
             // 
@@ -182,17 +188,18 @@
             // 
             this.lbDineroDisponible.AutoSize = true;
             this.lbDineroDisponible.ForeColor = System.Drawing.Color.ForestGreen;
-            this.lbDineroDisponible.Location = new System.Drawing.Point(321, 1049);
+            this.lbDineroDisponible.Location = new System.Drawing.Point(241, 846);
+            this.lbDineroDisponible.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbDineroDisponible.Name = "lbDineroDisponible";
-            this.lbDineroDisponible.Size = new System.Drawing.Size(31, 32);
+            this.lbDineroDisponible.Size = new System.Drawing.Size(24, 25);
             this.lbDineroDisponible.TabIndex = 28;
             this.lbDineroDisponible.Text = "0";
             // 
             // Principal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1972, 1133);
+            this.ClientSize = new System.Drawing.Size(1479, 914);
             this.Controls.Add(this.lbDineroDisponible);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnFinalizarTurno);
@@ -202,7 +209,7 @@
             this.Controls.Add(this.dice2);
             this.Controls.Add(this.dice1);
             this.Controls.Add(this.lbPuerto);
-            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "Principal";
             this.Text = "Principal";
             ((System.ComponentModel.ISupportInitialize)(this.dice2)).EndInit();
@@ -227,7 +234,7 @@
         private System.Windows.Forms.TabPage tabHistoria;
         private System.Windows.Forms.ListBox lbxHistoria;
         private System.Windows.Forms.TabPage tabPropiedades;
-        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.ListBox lbxPropiedades;
         private System.Windows.Forms.Button btnFinalizarTurno;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbDineroDisponible;

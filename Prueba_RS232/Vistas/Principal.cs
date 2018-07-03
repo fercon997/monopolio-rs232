@@ -177,6 +177,7 @@ namespace Monopolio_RS232
                 {
                     this.BeginInvoke((MethodInvoker)delegate ()
                     {
+                        lbxPropiedades.Items.Add(posicionPropiedad + " " + board.GetSquares()[posicionPropiedad].getName());
                         lbxHistoria.Items.Add("Compré la propiedad " + board.GetSquares()[posicionPropiedad].getName());
                     });
                 }
