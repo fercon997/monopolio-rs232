@@ -38,9 +38,12 @@
             this.tablero = new System.Windows.Forms.PictureBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabHistoria = new System.Windows.Forms.TabPage();
-            this.tabPropiedades = new System.Windows.Forms.TabPage();
             this.lbxHistoria = new System.Windows.Forms.ListBox();
+            this.tabPropiedades = new System.Windows.Forms.TabPage();
             this.listBox2 = new System.Windows.Forms.ListBox();
+            this.btnFinalizarTurno = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lbDineroDisponible = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dice2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dice1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tablero)).BeginInit();
@@ -52,7 +55,7 @@
             // lbPuerto
             // 
             this.lbPuerto.AutoSize = true;
-            this.lbPuerto.Location = new System.Drawing.Point(1810, 1040);
+            this.lbPuerto.Location = new System.Drawing.Point(1843, 23);
             this.lbPuerto.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.lbPuerto.Name = "lbPuerto";
             this.lbPuerto.Size = new System.Drawing.Size(99, 32);
@@ -61,10 +64,10 @@
             // 
             // btnRollDices
             // 
-            this.btnRollDices.Location = new System.Drawing.Point(1365, 236);
+            this.btnRollDices.Location = new System.Drawing.Point(1352, 238);
             this.btnRollDices.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnRollDices.Name = "btnRollDices";
-            this.btnRollDices.Size = new System.Drawing.Size(328, 55);
+            this.btnRollDices.Size = new System.Drawing.Size(414, 55);
             this.btnRollDices.TabIndex = 21;
             this.btnRollDices.Text = "Lanzar dados";
             this.btnRollDices.UseVisualStyleBackColor = true;
@@ -73,7 +76,7 @@
             // dice2
             // 
             this.dice2.Image = ((System.Drawing.Image)(resources.GetObject("dice2.Image")));
-            this.dice2.Location = new System.Drawing.Point(1575, 62);
+            this.dice2.Location = new System.Drawing.Point(1605, 62);
             this.dice2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dice2.Name = "dice2";
             this.dice2.Size = new System.Drawing.Size(161, 141);
@@ -84,7 +87,7 @@
             // dice1
             // 
             this.dice1.Image = ((System.Drawing.Image)(resources.GetObject("dice1.Image")));
-            this.dice1.Location = new System.Drawing.Point(1305, 62);
+            this.dice1.Location = new System.Drawing.Point(1352, 62);
             this.dice1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dice1.Name = "dice1";
             this.dice1.Size = new System.Drawing.Size(161, 141);
@@ -96,7 +99,7 @@
             // 
             this.tablero.Image = global::Monopolio_RS232.Properties.Resources.tablero;
             this.tablero.Location = new System.Drawing.Point(67, 62);
-            this.tablero.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tablero.Margin = new System.Windows.Forms.Padding(4);
             this.tablero.Name = "tablero";
             this.tablero.Size = new System.Drawing.Size(1067, 955);
             this.tablero.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -124,6 +127,15 @@
             this.tabHistoria.Text = "Historia";
             this.tabHistoria.UseVisualStyleBackColor = true;
             // 
+            // lbxHistoria
+            // 
+            this.lbxHistoria.FormattingEnabled = true;
+            this.lbxHistoria.ItemHeight = 31;
+            this.lbxHistoria.Location = new System.Drawing.Point(3, 0);
+            this.lbxHistoria.Name = "lbxHistoria";
+            this.lbxHistoria.Size = new System.Drawing.Size(643, 624);
+            this.lbxHistoria.TabIndex = 0;
+            // 
             // tabPropiedades
             // 
             this.tabPropiedades.Controls.Add(this.listBox2);
@@ -134,15 +146,6 @@
             this.tabPropiedades.TabIndex = 1;
             this.tabPropiedades.Text = "Propiedades";
             this.tabPropiedades.UseVisualStyleBackColor = true;
-            // 
-            // lbxHistoria
-            // 
-            this.lbxHistoria.FormattingEnabled = true;
-            this.lbxHistoria.ItemHeight = 31;
-            this.lbxHistoria.Location = new System.Drawing.Point(3, 0);
-            this.lbxHistoria.Name = "lbxHistoria";
-            this.lbxHistoria.Size = new System.Drawing.Size(643, 624);
-            this.lbxHistoria.TabIndex = 0;
             // 
             // listBox2
             // 
@@ -155,11 +158,44 @@
             this.listBox2.Size = new System.Drawing.Size(643, 624);
             this.listBox2.TabIndex = 25;
             // 
+            // btnFinalizarTurno
+            // 
+            this.btnFinalizarTurno.Enabled = false;
+            this.btnFinalizarTurno.Location = new System.Drawing.Point(1616, 1037);
+            this.btnFinalizarTurno.Name = "btnFinalizarTurno";
+            this.btnFinalizarTurno.Size = new System.Drawing.Size(267, 55);
+            this.btnFinalizarTurno.TabIndex = 26;
+            this.btnFinalizarTurno.Text = "Finalizar turno";
+            this.btnFinalizarTurno.UseVisualStyleBackColor = true;
+            this.btnFinalizarTurno.Click += new System.EventHandler(this.btnFinalizarTurno_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(61, 1049);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(245, 32);
+            this.label1.TabIndex = 27;
+            this.label1.Text = "Dinero disponible:";
+            // 
+            // lbDineroDisponible
+            // 
+            this.lbDineroDisponible.AutoSize = true;
+            this.lbDineroDisponible.ForeColor = System.Drawing.Color.ForestGreen;
+            this.lbDineroDisponible.Location = new System.Drawing.Point(321, 1049);
+            this.lbDineroDisponible.Name = "lbDineroDisponible";
+            this.lbDineroDisponible.Size = new System.Drawing.Size(31, 32);
+            this.lbDineroDisponible.TabIndex = 28;
+            this.lbDineroDisponible.Text = "0";
+            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1959, 1090);
+            this.ClientSize = new System.Drawing.Size(1972, 1133);
+            this.Controls.Add(this.lbDineroDisponible);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnFinalizarTurno);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.tablero);
             this.Controls.Add(this.btnRollDices);
@@ -192,5 +228,8 @@
         private System.Windows.Forms.ListBox lbxHistoria;
         private System.Windows.Forms.TabPage tabPropiedades;
         private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.Button btnFinalizarTurno;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbDineroDisponible;
     }
 }

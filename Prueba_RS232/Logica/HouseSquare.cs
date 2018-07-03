@@ -64,6 +64,7 @@ namespace Monopolio_RS232.Logica
                 if (dialogResult == DialogResult.Yes)
                 {
                     Trace.WriteLine(player, player.getName() + " compró la casa");
+                    player.getMoney().substractMoney(this.price);
                 }
                 else if (dialogResult == DialogResult.No)
                 {
