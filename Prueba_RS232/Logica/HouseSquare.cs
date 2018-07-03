@@ -54,6 +54,11 @@ namespace Monopolio_RS232.Logica
             return rand.Next(100) % 2 == 0;
         }
 
+        public void SetOwner(int owner)
+        {
+            this.owner = owner;
+        }
+
         public override int doAction(Player player, Board board)
         {
             if (owner < 0)
@@ -99,10 +104,9 @@ namespace Monopolio_RS232.Logica
             {
                 if (owner != player.getID())
                 {
-                    int lost = price * 70 / 100;
-                    Trace.WriteLine(player, player.getName() + " lost " + lost + " money to " + board.getPlayer(owner).getName());
-                    player.getMoney().substractMoney(lost);
-                    board.getPlayer(owner).getMoney().addMoney(lost);
+                    Trace.WriteLine(player, player.getName() + " lost " + rent + " money to " + board.getPlayer(owner).getName());
+                    player.getMoney().substractMoney(rent);
+                    board.getPlayer(owner).getMoney().addMoney(rent);
                 }
                 return 3;
             }

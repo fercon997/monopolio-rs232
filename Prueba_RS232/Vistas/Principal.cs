@@ -86,109 +86,125 @@ namespace Monopolio_RS232
 
             if (primerByte.Substring(4,4) == Instruccion.PrimerByte.TIRAR_DADOS)
             {
-                string dado1Str = segundoByte.Substring(2, 3);
-                string dado2Str = segundoByte.Substring(5, 3);
-
-                int dado1 = Convert.ToInt32(dado1Str, 2);
-                Trace.WriteLine("Dado 1: " + dado1);
-                int dado2 = Convert.ToInt32(dado2Str, 2);
-                Trace.WriteLine("Dado 2: " + dado2);
-
-                if (jugadorLocal.GetIdAsString() != destino) {
-                    this.BeginInvoke((MethodInvoker)delegate ()
-                    {
-                        this.btnRollDices.Enabled = false;
-                        this.btnFinalizarTurno.Enabled = false;
-                        lbxHistoria.Items.Add("Jugador que le toca: " + origen);
-                    });
-                    dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado1);
-                    dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado2);
-                    // Actualizamos la posicion del jugador que se esta moviendo
-                    var jugadorMoviendose = board.getPlayer(Convert.ToInt32(origen, 2));
-                    Trace.WriteLine("Actualizando posicion del jugador que se movio. Id: " + jugadorMoviendose.getID());
-                    int newPosition = Board.normalizePosition(jugadorMoviendose.getCurrentPosition() + dado1 + dado2);
-                    jugadorMoviendose.setPosition(newPosition);
-                    Square pos = board.GetSquares()[newPosition];
-                    jugadorMoviendose.SetPoisitionX(pos.GetPositionX());
-                    jugadorMoviendose.SetPoisitionY(pos.GetPositionY());
-                    tablero.Invalidate();
-                    Trace.WriteLine(String.Format("Posicion del jugador {0}: {1}, {2} (Casilla: {3})", 
-                        jugadorMoviendose.getID(), 
-                        jugadorMoviendose.GetPositionX(), 
-                        jugadorMoviendose.GetPositionY(),
-                        newPosition));
-
-                    this.comPort.Write(Instruccion.FormarTrama(
-                        Instruccion.FormarPrimerByte(origen, destino, Instruccion.PrimerByte.TIRAR_DADOS),
-                        Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
-                        ), 0, 4);
-                }
-                else if (jugadorLocal.GetIdAsString() == origen)
-                {
-                    if (dado1 != dado2)
-                    {
-                        // Aqui deberiamos hacer las acciones que si de comprar, etc
-                        this.BeginInvoke((MethodInvoker)delegate ()
-                        {
-                            this.btnFinalizarTurno.Enabled = true;
-                        });
-                    }
-                    
-                    else if (dado1 == dado2)
-                    {
-                        this.BeginInvoke((MethodInvoker)delegate ()
-                        {
-                            this.btnRollDices.Enabled = true;
-                            this.btnFinalizarTurno.Enabled = false;
-                            lbxHistoria.Items.Add("Dobles");
-                        });
-                    }
-                } else if (jugadorLocal.GetIdAsString() == destino)
-                {
-                    Trace.WriteLine(String.Format("Jugador local: {0}  Destino: {1}", jugadorLocal.GetIdAsString(), destino));
-                    this.BeginInvoke((MethodInvoker)delegate ()
-                    {
-                        this.btnRollDices.Enabled = true;
-                        lbxHistoria.Items.Add("SOY YO: " + jugadorLocal.GetIdAsString());
-                    });
-                } else // Creo que nunca llegara hasta aqui
-                {
-                    Trace.WriteLine("No creo que pase");
-                }
-            } else if (primerByte.Substring(4, 4) == Instruccion.PrimerByte.PROPIEDADES)
-            {
-                string propiedadComprada = segundoByte.Substring(3, 5);
-                int posicionPropiedad = board.GetHousePositionFromBits(propiedadComprada);
-
-                if (jugadorLocal.GetIdAsString() != destino)
-                {
-
-                    this.BeginInvoke((MethodInvoker)delegate ()
-                    {
-                        lbxHistoria.Items.Add("Jugador " + origen + " compró la propiedad " + board.GetSquares()[posicionPropiedad].getName());
-                    });
-
-                    this.comPort.Write(Instruccion.FormarTrama(
-                        Instruccion.FormarPrimerByte(origen, destino, Instruccion.PrimerByte.PROPIEDADES),
-                        Convert.ToByte("000" + propiedadComprada, 2)
-                        ), 0, 4);
-                }
-                else
-                {
-                    this.BeginInvoke((MethodInvoker)delegate ()
-                    {
-                        lbxPropiedades.Items.Add(posicionPropiedad + " " + board.GetSquares()[posicionPropiedad].getName());
-                        lbxHistoria.Items.Add("Compré la propiedad " + board.GetSquares()[posicionPropiedad].getName());
-                    });
-                }
+                leerTramaTirarDados(origen, destino, segundoByte);
             }
-
+            else if (primerByte.Substring(4, 4) == Instruccion.PrimerByte.PROPIEDADES)
+            {
+                leerTramaPropiedades(origen, destino, segundoByte);
+            }
 
             InputData = comPort.ReadExisting();
             Console.WriteLine();
             if (InputData != String.Empty)
             {
                 this.BeginInvoke(new SetTextCallback(SetText), new object[] { InputData });
+            }
+        }
+
+        private void leerTramaTirarDados(String origen, String destino, String segundoByte)
+        {
+            string dado1Str = segundoByte.Substring(2, 3);
+            string dado2Str = segundoByte.Substring(5, 3);
+
+            int dado1 = Convert.ToInt32(dado1Str, 2);
+            Trace.WriteLine("Dado 1: " + dado1);
+            int dado2 = Convert.ToInt32(dado2Str, 2);
+            Trace.WriteLine("Dado 2: " + dado2);
+
+            if (jugadorLocal.GetIdAsString() != destino)
+            {
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    this.btnRollDices.Enabled = false;
+                    this.btnFinalizarTurno.Enabled = false;
+                    lbxHistoria.Items.Add("Jugador que le toca: " + origen);
+                });
+                dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado1);
+                dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + dado2);
+                // Actualizamos la posicion del jugador que se esta moviendo
+                var jugadorMoviendose = board.getPlayer(Convert.ToInt32(origen, 2));
+                Trace.WriteLine("Actualizando posicion del jugador que se movio. Id: " + jugadorMoviendose.getID());
+                int newPosition = Board.normalizePosition(jugadorMoviendose.getCurrentPosition() + dado1 + dado2);
+                jugadorMoviendose.setPosition(newPosition);
+                Square pos = board.GetSquares()[newPosition];
+                jugadorMoviendose.SetPoisitionX(pos.GetPositionX());
+                jugadorMoviendose.SetPoisitionY(pos.GetPositionY());
+                tablero.Invalidate();
+                Trace.WriteLine(String.Format("Posicion del jugador {0}: {1}, {2} (Casilla: {3})",
+                    jugadorMoviendose.getID(),
+                    jugadorMoviendose.GetPositionX(),
+                    jugadorMoviendose.GetPositionY(),
+                    newPosition));
+
+                this.comPort.Write(Instruccion.FormarTrama(
+                    Instruccion.FormarPrimerByte(origen, destino, Instruccion.PrimerByte.TIRAR_DADOS),
+                    Instruccion.FormarSegundoByteDados(dado1Str, dado2Str)
+                    ), 0, 4);
+            }
+            else if (jugadorLocal.GetIdAsString() == origen)
+            {
+                if (dado1 != dado2)
+                {
+                    // Aqui deberiamos hacer las acciones que si de comprar, etc
+                    this.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        this.btnFinalizarTurno.Enabled = true;
+                    });
+                }
+
+                else if (dado1 == dado2)
+                {
+                    this.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        this.btnRollDices.Enabled = true;
+                        this.btnFinalizarTurno.Enabled = false;
+                        lbxHistoria.Items.Add("Dobles");
+                    });
+                }
+            }
+            else if (jugadorLocal.GetIdAsString() == destino)
+            {
+                Trace.WriteLine(String.Format("Jugador local: {0}  Destino: {1}", jugadorLocal.GetIdAsString(), destino));
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    this.btnRollDices.Enabled = true;
+                    lbxHistoria.Items.Add("SOY YO: " + jugadorLocal.GetIdAsString());
+                });
+            }
+            else // Creo que nunca llegara hasta aqui
+            {
+                Trace.WriteLine("No creo que pase");
+            }
+        }
+
+        private void leerTramaPropiedades(String origen, String destino, String segundoByte)
+        {
+            string propiedadComprada = segundoByte.Substring(3, 5);
+            int posicionPropiedad = board.GetHousePositionFromBits(propiedadComprada);
+
+            if (jugadorLocal.GetIdAsString() != destino)
+            {
+                byte origenByte = Convert.ToByte(origen);
+                int origenNumber = Convert.ToInt32(origenByte);
+
+                board.GetSquares()[posicionPropiedad].SetOwner(origenNumber);
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    lbxHistoria.Items.Add("Jugador " + origen + " compró la propiedad " + board.GetSquares()[posicionPropiedad].getName());
+                });
+
+                this.comPort.Write(Instruccion.FormarTrama(
+                    Instruccion.FormarPrimerByte(origen, destino, Instruccion.PrimerByte.PROPIEDADES),
+                    Convert.ToByte("000" + propiedadComprada, 2)
+                    ), 0, 4);
+            }
+            else
+            {
+                this.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    lbxPropiedades.Items.Add(posicionPropiedad + " " + board.GetSquares()[posicionPropiedad].getName());
+                    lbxHistoria.Items.Add("Compré la propiedad " + board.GetSquares()[posicionPropiedad].getName());
+                });
             }
         }
 
@@ -233,8 +249,8 @@ namespace Monopolio_RS232
         {
             this.btnRollDices.Enabled = false;
             Random randDado = new Random();
-            numeroDado1 = randDado.Next(1, 7);
-            numeroDado2 = randDado.Next(1, 7);
+            numeroDado1 = 5;//randDado.Next(1, 7);
+            numeroDado2 = 3;//randDado.Next(1, 7);
             dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado1);
             dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado2);
 
