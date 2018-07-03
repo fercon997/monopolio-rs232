@@ -257,12 +257,14 @@ namespace Monopolio_RS232
             tablero.Invalidate();
 
             int resultado = currentSquare.doAction(jugadorLocal, board);
+            Trace.WriteLine("New player money: " + jugadorLocal.getMoney().getMoney());
             // Esto estaba así en el board, no se si haga falta porque tal vez podamos validarlo dentro del doAction
             if (jugadorLocal.getMoney().isBrokeOut())
             {
                 Trace.WriteLine(jugadorLocal, jugadorLocal.getName() + " has been broke out!");
                 jugadorLocal.setBrokeOut(true);
             }
+            actualizarDatosJugadorLocal();
 
             // Aquí empieza lo bueno
             if (resultado == 1)

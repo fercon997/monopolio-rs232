@@ -65,8 +65,12 @@ namespace Monopolio_RS232.Logica
                 {
                     //if (player.getMoney().getMoney() - price < 0)
                     //{
+                    Trace.WriteLine("RESTANDO DINERO");
+                    Trace.WriteLine(player.getMoney().getMoney());
                         player.getMoney().substractMoney(price);
-                        owner = player.getID();
+                    Trace.WriteLine(player.getMoney().getMoney());
+
+                    owner = player.getID();
                         Trace.WriteLine(player, player.getName() + " compró la casa");
                         return 1;
                     //} 
