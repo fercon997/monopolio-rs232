@@ -32,6 +32,6 @@ namespace Monopolio_RS232.Logica
             return positionY;
         }
 
-        public abstract void doAction(Player player, Board board);
+        public abstract int doAction(Player player, Board board);
     }
 }

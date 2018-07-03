@@ -155,6 +155,29 @@ namespace Monopolio_RS232
                 {
                     Trace.WriteLine("No creo que pase");
                 }
+            } else if (primerByte.Substring(4, 4) == Instruccion.PrimerByte.PROPIEDADES)
+            {
+                string propiedadComprada = segundoByte.Substring(3, 5);
+
+                if (jugadorLocal.GetIdAsString() != destino)
+                {
+                    this.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        lbxHistoria.Items.Add("Jugador " + origen + " compró la propiedad " + propiedadComprada);
+                    });
+
+                    this.comPort.Write(Instruccion.FormarTrama(
+                        Instruccion.FormarPrimerByte(origen, destino, Instruccion.PrimerByte.PROPIEDADES),
+                        Convert.ToByte("000" + propiedadComprada, 2)
+                        ), 0, 4);
+                }
+                else
+                {
+                    this.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        lbxHistoria.Items.Add("Compré la propiedad " + propiedadComprada);
+                    });
+                }
             }
 
 
@@ -230,6 +253,24 @@ namespace Monopolio_RS232
             jugadorLocal.SetPoisitionX(currentSquare.GetPositionX());
             jugadorLocal.SetPoisitionY(currentSquare.GetPositionY());
             tablero.Invalidate();
+
+            int resultado = currentSquare.doAction(jugadorLocal, board);
+            // Esto estaba así en el board, no se si haga falta porque tal vez podamos validarlo dentro del doAction
+            if (jugadorLocal.getMoney().isBrokeOut())
+            {
+                Trace.WriteLine(jugadorLocal, jugadorLocal.getName() + " has been broke out!");
+                jugadorLocal.setBrokeOut(true);
+            }
+
+            // Aquí empieza lo bueno
+            if (resultado == 1)
+            {
+                Trace.WriteLine("Debería enviar el mensaje");
+                this.comPort.Write(Instruccion.FormarTrama(
+                Instruccion.FormarPrimerByte(jugadorLocal.GetIdAsString(), jugadorLocal.GetIdAsString(), Instruccion.PrimerByte.PROPIEDADES),
+                Convert.ToByte("000" + board.GetHouseBits(jugadorLocal.getCurrentPosition()), 2)
+                ), 0, 4);
+            }
         }
 
         private void btnFinalizarTurno_Click(object sender, EventArgs e)

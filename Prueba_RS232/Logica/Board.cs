@@ -139,6 +139,11 @@ namespace Monopolio_RS232.Logica
             this.players = players;
         }
 
+        public String GetHouseBits(int position)
+        {
+            return houseBits[position];
+        }
+
         public void GeneratePlayers(int totalPlayer)
         {
             
@@ -164,19 +169,19 @@ namespace Monopolio_RS232.Logica
             int newPosition = normalizePosition(player.getCurrentPosition() + face);
             player.setPosition(newPosition);
             Trace.WriteLine(player, player.getName() + " goes to " + squares[player.getCurrentPosition()].getName());
-            squares[newPosition].doAction(player, this);
-            if (player.getMoney().isBrokeOut())
-            {
-                Trace.WriteLine(player, player.getName() + " has been broke out!");
-                player.setBrokeOut(true);
-            }
-            else
-            {
-                if (count)
-                {
-                    player.nextTurn();
-                }
-            }
+            //squares[newPosition].doAction(player, this);
+            //if (player.getMoney().isBrokeOut())
+            //{
+            //    Trace.WriteLine(player, player.getName() + " has been broke out!");
+            //    player.setBrokeOut(true);
+            //}
+            //else
+            //{
+            //    if (count)
+            //   {
+            //        player.nextTurn();
+            //    }
+            //}
             
             return squares[newPosition];
         }
