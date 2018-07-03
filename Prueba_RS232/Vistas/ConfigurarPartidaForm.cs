@@ -250,14 +250,14 @@ namespace Monopolio_RS232
 
         private void SetText(string text)
         {
-            this.rtbIncoming.Text += text;
+            this.rtbIncoming.Text += text + Environment.NewLine;
         }      
 
         private void btnPortState_Click(object sender, EventArgs e)
         {
-            if (btnPortState.Text == "Open")
+            if (btnPortState.Text == "Abrir")
             {
-                btnPortState.Text = "Close";
+                btnPortState.Text = "Cerrar";
                 comPort.PortName = Convert.ToString(cboPorts.Text);
                 comPort.BaudRate = Convert.ToInt32(cboBaudRate.Text);
                 comPort.DataBits = Convert.ToInt16(cboDataBits.Text);
@@ -273,9 +273,9 @@ namespace Monopolio_RS232
                     MessageBox.Show(ex.Message);
                 }
             }
-            else if (btnPortState.Text == "Close")
+            else if (btnPortState.Text == "Cerrar")
             {
-                btnPortState.Text = "Open";
+                btnPortState.Text = "Abrir";
                 comPort.Close();
             }
         }
@@ -284,7 +284,8 @@ namespace Monopolio_RS232
         {
             try
             {
-                comPort.Write("Hello World!");
+                byte[] buffer = { 0x7E, 0x0, 0x0, 0x7E };
+                comPort.Write(buffer, 0, 4);
             } catch(InvalidOperationException ex)
             {
                 MessageBox.Show(ex.Message);
@@ -334,8 +335,6 @@ namespace Monopolio_RS232
 
         private void btnCrearPartida_Click(object sender, EventArgs e)
         {
-            btnUnirseAPartida.Enabled = false;
-            this.JOIN_MATCH = true;
             // Enviar trama de inicio de partida
             this.jugadorLocal = new Player(0, "Creador de partida");
             this.SetJugador(jugadorLocal);
@@ -352,15 +351,6 @@ namespace Monopolio_RS232
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        private void btnUnirseAPartida_Click(object sender, EventArgs e)
-        {
-            /*
-                Esperar a que recibamos una instruccion de inicio de partida           
-            */
-            
-            this.JOIN_MATCH = true;
         }
 
         private void SetJugador(Player jugador)
