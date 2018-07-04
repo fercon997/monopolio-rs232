@@ -11,7 +11,7 @@ namespace Monopolio_RS232.Logica
         UTILITY, RAILROAD
     }
 
-    class HouseSquare: Square
+    class HouseSquare : Square
     {
         private int price;
         private int position;
@@ -21,14 +21,14 @@ namespace Monopolio_RS232.Logica
         private int positionX;
         private int positionY;
 
-        public HouseSquare(string name, int price, int positionX, int positionY): base(name, positionX, positionY)
+        public HouseSquare(string name, int price, int positionX, int positionY) : base(name, positionX, positionY)
         {
             this.price = price;
             this.positionX = positionX;
             this.positionY = positionY;
         }
 
-        public HouseSquare(string name, int position, int price, int rent, Group group, int positionX, int positionY): base(name, positionX, positionY)
+        public HouseSquare(string name, int position, int price, int rent, Group group, int positionX, int positionY) : base(name, positionX, positionY)
         {
             this.price = price;
             this.position = position;
@@ -43,6 +43,16 @@ namespace Monopolio_RS232.Logica
             this.owner = owner;
         }
 
+        public int getOwner()
+        {
+            return owner;
+        }
+
+        public int getRent()
+        {
+            return rent;
+        }
+
         public int getPrice()
         {
             return this.price;
@@ -52,11 +62,6 @@ namespace Monopolio_RS232.Logica
         {
             Random rand = new Random();
             return rand.Next(100) % 2 == 0;
-        }
-
-        public void SetOwner(int owner)
-        {
-            this.owner = owner;
         }
 
         public override int doAction(Player player, Board board)
@@ -72,12 +77,12 @@ namespace Monopolio_RS232.Logica
                     //{
                     Trace.WriteLine("RESTANDO DINERO");
                     Trace.WriteLine(player.getMoney().getMoney());
-                        player.getMoney().substractMoney(price);
+                    player.getMoney().substractMoney(price);
                     Trace.WriteLine(player.getMoney().getMoney());
 
                     owner = player.getID();
-                        Trace.WriteLine(player, player.getName() + " compró la casa");
-                        return 1;
+                    Trace.WriteLine(player, player.getName() + " compró la casa");
+                    return 1;
                     //} 
                 }
                 else if (dialogResult == DialogResult.No)
@@ -107,14 +112,16 @@ namespace Monopolio_RS232.Logica
                     Trace.WriteLine(player, player.getName() + " lost " + rent + " money to " + board.getPlayer(owner).getName());
                     player.getMoney().substractMoney(rent);
                     board.getPlayer(owner).getMoney().addMoney(rent);
+                    Trace.WriteLine("Owner money: " + board.getPlayer(owner).getMoney().getMoney());
                 }
-                return 3;
+                return 2;
+
             }
         }
 
         public int GetPosition()
         {
             return this.position;
-       }
+        }
     }
 }
