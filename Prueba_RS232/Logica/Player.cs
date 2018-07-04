@@ -9,6 +9,7 @@ namespace Monopolio_RS232.Logica
         int position = 0;
         int positionX = 360;
         int positionY = 360;
+        bool isInJail = false;
         Image image;
         int id;
         String name;
@@ -85,6 +86,16 @@ namespace Monopolio_RS232.Logica
         public int getID()
         {
             return this.id;
+        }
+
+        public void setIsInJail(bool isInJail)
+        {
+            this.isInJail = isInJail;
+        }
+
+        public bool getIsInJail()
+        {
+            return isInJail;
         }
 
         public void setBrokeOut(bool brokeout)

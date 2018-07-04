@@ -21,6 +21,8 @@ namespace Monopolio_RS232
         private Board board;
         private int numeroDado1 = 0;
         private int numeroDado2 = 0;
+        private int dobles = 0;
+        private String ultimoOrigen = "00";
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
                  object sender, SerialDataReceivedEventArgs e);
@@ -124,30 +126,47 @@ namespace Monopolio_RS232
                 // Actualizamos la posicion del jugador que se esta moviendo
                 var jugadorMoviendose = board.getPlayer(Convert.ToInt32(origen, 2));
                 Trace.WriteLine("Actualizando posicion del jugador que se movio. Id: " + jugadorMoviendose.getID());
-                int newPosition = Board.normalizePosition(jugadorMoviendose.getCurrentPosition() + dado1 + dado2);
-                jugadorMoviendose.setPosition(newPosition);
-                Square pos = board.GetSquares()[newPosition];
-                jugadorMoviendose.SetPoisitionX(pos.GetPositionX());
-                jugadorMoviendose.SetPoisitionY(pos.GetPositionY());
-                if (pos.GetType() == typeof(HouseSquare))
+
+                if ((ultimoOrigen == origen) && (dado1 == dado2))
                 {
-                    HouseSquare posHouse = (HouseSquare)pos;
-                    pos = (HouseSquare)pos;
-                    if ((posHouse.getOwner() != jugadorMoviendose.getID()) && (posHouse.getOwner() >= 0))
+                    dobles++;
+                    if (dobles == 3)
                     {
-                        Trace.WriteLine(jugadorMoviendose, jugadorMoviendose.getName() + " lost " + posHouse.getRent() + " money to " + board.getPlayer(posHouse.getOwner()).getName());
-                        jugadorMoviendose.getMoney().substractMoney(posHouse.getRent());
-                        board.getPlayer(posHouse.getOwner()).getMoney().addMoney(posHouse.getRent());
-                        Trace.WriteLine("Owner money: " + board.getPlayer(posHouse.getOwner()).getMoney().getMoney());
-                        actualizarDatosJugadorLocal();
+                        dobles = 0;
+                        jugadorMoviendose.SetPoisitionX(9);
+                        jugadorMoviendose.SetPoisitionY(360);
+                        jugadorMoviendose.setIsInJail(true);
                     }
                 }
+                else
+                {
+                    dobles = 0;
+                    int newPosition = Board.normalizePosition(jugadorMoviendose.getCurrentPosition() + dado1 + dado2);
+                    jugadorMoviendose.setPosition(newPosition);
+                    Square pos = board.GetSquares()[newPosition];
+                    jugadorMoviendose.SetPoisitionX(pos.GetPositionX());
+                    jugadorMoviendose.SetPoisitionY(pos.GetPositionY());
+                    if (pos.GetType() == typeof(HouseSquare))
+                    {
+                        HouseSquare posHouse = (HouseSquare)pos;
+                        pos = (HouseSquare)pos;
+                        if ((posHouse.getOwner() != jugadorMoviendose.getID()) && (posHouse.getOwner() >= 0))
+                        {
+                            Trace.WriteLine(jugadorMoviendose, jugadorMoviendose.getName() + " lost " + posHouse.getRent() + " money to " + board.getPlayer(posHouse.getOwner()).getName());
+                            jugadorMoviendose.getMoney().substractMoney(posHouse.getRent());
+                            board.getPlayer(posHouse.getOwner()).getMoney().addMoney(posHouse.getRent());
+                            Trace.WriteLine("Owner money: " + board.getPlayer(posHouse.getOwner()).getMoney().getMoney());
+                            actualizarDatosJugadorLocal();
+                        }
+                    }
+                    Trace.WriteLine(String.Format("Posicion del jugador {0}: {1}, {2} (Casilla: {3})",
+                   jugadorMoviendose.getID(),
+                   jugadorMoviendose.GetPositionX(),
+                   jugadorMoviendose.GetPositionY(),
+                   newPosition));
+                }
                 tablero.Invalidate();
-                Trace.WriteLine(String.Format("Posicion del jugador {0}: {1}, {2} (Casilla: {3})",
-                    jugadorMoviendose.getID(),
-                    jugadorMoviendose.GetPositionX(),
-                    jugadorMoviendose.GetPositionY(),
-                    newPosition));
+               
 
                 this.comPort.Write(Instruccion.FormarTrama(
                     Instruccion.FormarPrimerByte(origen, destino, Instruccion.PrimerByte.TIRAR_DADOS),
@@ -156,24 +175,38 @@ namespace Monopolio_RS232
             }
             else if (jugadorLocal.GetIdAsString() == origen)
             {
-                if (dado1 != dado2)
+                if (jugadorLocal.getIsInJail())
                 {
-                    // Aqui deberiamos hacer las acciones que si de comprar, etc
                     this.BeginInvoke((MethodInvoker)delegate ()
                     {
+                        this.btnRollDices.Enabled = false;
                         this.btnFinalizarTurno.Enabled = true;
+                        lbxHistoria.Items.Add("Carcel");
                     });
                 }
-
-                else if (dado1 == dado2)
+                else
                 {
-                    this.BeginInvoke((MethodInvoker)delegate ()
+                    if (dado1 != dado2)
                     {
-                        this.btnRollDices.Enabled = true;
-                        this.btnFinalizarTurno.Enabled = false;
-                        lbxHistoria.Items.Add("Dobles");
-                    });
+                        // Aqui deberiamos hacer las acciones que si de comprar, etc
+                        this.BeginInvoke((MethodInvoker)delegate ()
+                        {
+                            this.btnFinalizarTurno.Enabled = true;
+                        });
+                    }
+
+                    else if (dado1 == dado2)
+                    {
+
+                        this.BeginInvoke((MethodInvoker)delegate ()
+                        {
+                            this.btnRollDices.Enabled = true;
+                            this.btnFinalizarTurno.Enabled = false;
+                            lbxHistoria.Items.Add("Dobles");
+                        });
+                    }
                 }
+                
             }
             else if (jugadorLocal.GetIdAsString() == destino)
             {
@@ -267,8 +300,8 @@ namespace Monopolio_RS232
         {
             this.btnRollDices.Enabled = false;
             Random randDado = new Random();
-            numeroDado1 = randDado.Next(1, 7);
-            numeroDado2 = randDado.Next(1, 7);
+            numeroDado1 = 5;//randDado.Next(1, 7);
+            numeroDado2 = 5;//randDado.Next(1, 7);
             dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado1);
             dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado2);
 
@@ -284,7 +317,7 @@ namespace Monopolio_RS232
                 Instruccion.FormarSegundoByteDados(numeroDado1Str, numeroDado2Str)
                 ), 0, 4);
 
-            Square currentSquare = board.movePlayer(jugadorLocal, numeroDado1 + numeroDado2);
+            Square currentSquare = board.movePlayer(jugadorLocal, numeroDado1, numeroDado2);
             Trace.WriteLine("Current Position: " + jugadorLocal.getCurrentPosition());
 
             jugadorLocal.SetPoisitionX(currentSquare.GetPositionX());

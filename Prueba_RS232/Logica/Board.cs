@@ -10,6 +10,7 @@ namespace Monopolio_RS232.Logica
     {
         int currentTurn = 0;
         int totalPlayer = 0;
+        int dobles = 0;
         Player[] players;
         Square[] squares = new Square[40];
         Dictionary<int, int> posicionXCasualidades = new Dictionary<int, int>()
@@ -167,18 +168,28 @@ namespace Monopolio_RS232.Logica
             }       
         }
 
-        public Square movePlayer(Player player, int face)
+        public Square movePlayer(Player player, int dado1, int dado2)
         {
-            return movePlayer(player, face, true);
+            return movePlayer(player, dado1, dado2, true);
         }
 
-        public Square movePlayer(Player player, int face, bool count)
+        public Square movePlayer(Player player, int dado1, int dado2, bool count)
         {
             if (player.isBrokeOut())
             {
                 return squares[player.getCurrentPosition()];
             }
-            int newPosition = normalizePosition(player.getCurrentPosition() + face);
+            if (dado1 == dado2)
+            {
+                dobles++;
+                if (dobles == 3)
+                {
+                    dobles = 0;
+                    player.setIsInJail(true);
+                    return squares[10];
+                }
+            }
+            int newPosition = normalizePosition(player.getCurrentPosition() + dado1 + dado2);
             player.setPosition(newPosition);
             Trace.WriteLine(player, player.getName() + " goes to " + squares[player.getCurrentPosition()].getName());
             //squares[newPosition].doAction(player, this);
