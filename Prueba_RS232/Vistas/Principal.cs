@@ -22,6 +22,7 @@ namespace Monopolio_RS232
         private int numeroDado1 = 0;
         private int numeroDado2 = 0;
         private int dobles = 0;
+        int lastPosition = 0;
         private String ultimoOrigen = "00";
 
         internal delegate void SerialDataReceivedEventHandlerDelegate(
@@ -143,6 +144,10 @@ namespace Monopolio_RS232
                 {
                     dobles = 0;
                     int newPosition = Board.normalizePosition(jugadorMoviendose.getCurrentPosition() + dado1 + dado2);
+                    if (jugadorMoviendose.getCurrentPosition() > newPosition)
+                    {
+                        jugadorMoviendose.getMoney().addMoney(200);
+                    }
                     jugadorMoviendose.setPosition(newPosition);
                     Square pos = board.GetSquares()[newPosition];
                     jugadorMoviendose.SetPoisitionX(pos.GetPositionX());
@@ -301,8 +306,8 @@ namespace Monopolio_RS232
         {
             this.btnRollDices.Enabled = false;
             Random randDado = new Random();
-            numeroDado1 = 5;//randDado.Next(1, 7);
-            numeroDado2 = 5;//randDado.Next(1, 7);
+            numeroDado1 = randDado.Next(1, 7);
+            numeroDado2 = randDado.Next(1, 7);
             dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado1);
             dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado2);
 

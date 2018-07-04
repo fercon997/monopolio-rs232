@@ -194,6 +194,10 @@ namespace Monopolio_RS232.Logica
             }
             int newPosition = normalizePosition(player.getCurrentPosition() + dado1 + dado2);
             Trace.WriteLine("Normalized position: " + newPosition);
+            if (player.getCurrentPosition() > newPosition)
+            {
+                player.getMoney().addMoney(200);
+            }
             player.setPosition(newPosition);
             Trace.WriteLine(player, player.getName() + " goes to " + squares[player.getCurrentPosition()].getName());
             //squares[newPosition].doAction(player, this);
