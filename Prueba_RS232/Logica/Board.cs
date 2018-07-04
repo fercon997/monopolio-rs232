@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Monopolio_RS232.Logica
 {
@@ -12,9 +13,10 @@ namespace Monopolio_RS232.Logica
         int totalPlayer = 0;
         Player[] players;
         Square[] squares = new Square[40];
+
         Dictionary<int, int> posicionXCasualidades = new Dictionary<int, int>()
         {
-            {3, 217},
+            {3, 300},
             {8, 118},
             {18, 9},
             {23, 85},
@@ -99,15 +101,26 @@ namespace Monopolio_RS232.Logica
                             squares[i] = new CasualidadSquare("Casualidad", posicionXCasualidades[i+1], posicionYCasualidades[i+1]);
                         } else
                         {
-                            if (i == 4)
+                            switch(i)
                             {
-                                squares[i] = new HouseSquare("Income Tax", 0, 283, 360);
-                            } else if (i == 38)
-                            {
-                                squares[i] = new HouseSquare("Luxury Tax", 0, 360, 283);
+                                case 4:
+                                    int distancia = squares[3].GetPositionX() - squares[1].GetPositionX();
+                                    squares[i] = new TaxSquare("Income Tax", squares[3].GetPositionX() + distancia / 2, 360, 200);
+                                    break;
+
+                                case 38:
+                                    distancia = squares[36].GetPositionY() - squares[37].GetPositionY();
+                                    squares[i] = new TaxSquare("Luxury Tax", squares[36].GetPositionX(), squares[37].GetPositionY() - distancia, 100);
+                                    break;
+
+                                case 2:
+                                case 17:
+                                case 33:
+                                    squares[i] = new ArcaComunalSquare("Community Chest 1", posicionXCasualidades[i + 1], posicionYCasualidades[i + 1]);
+                                    break;
+
                             }
                         }
-                        
                     }
                 }
             }
@@ -126,16 +139,6 @@ namespace Monopolio_RS232.Logica
 
         public void SetPlayers(Player[] players)
         {
-            /*
-           Array.Sort(players, delegate (Player p1, Player p2)
-            {
-                return p1.getID().CompareTo(p2.getID());
-
-            });
-            foreach(var pl in players)
-            {
-                Trace.WriteLine("PL: " + pl.getID());
-            }*/
             this.players = players;
         }
 
@@ -179,6 +182,7 @@ namespace Monopolio_RS232.Logica
                 return squares[player.getCurrentPosition()];
             }
             int newPosition = normalizePosition(player.getCurrentPosition() + face);
+            Trace.WriteLine("Normalized position: " + newPosition);
             player.setPosition(newPosition);
             Trace.WriteLine(player, player.getName() + " goes to " + squares[player.getCurrentPosition()].getName());
             //squares[newPosition].doAction(player, this);

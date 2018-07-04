@@ -1,91 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Monopolio_RS232.Logica
 {
-    public class ArcaComunalSquare : Square
+    class ArcaComunalSquare : Square
     {
         private Random random;
-        public ArcaComunalSquare(string nombre, Random random): base(nombre)
+        private string[] manejados = { "10000", "10101", "10110", "11111" };
+
+        public ArcaComunalSquare(string name, int posicionX, int posicionY) : base(name, posicionX, posicionY)
         {
-            this.random = random;
+            random = new Random();
         }
 
-        public override void doAction(Player player, Board board)
+        public override int doAction(Player player, Board board)
         {
-            int r = random.Next(0, 16);
+            int randIndex = random.Next(0, manejados.Length);
 
-            switch (r)
+            AplicarAccion(player, board, manejados[randIndex]);
+
+            return 0;
+        }
+
+        public static void AplicarAccion(Player player, Board board, string accion)
+        {
+            Trace.WriteLine("Ejecutando casualidad: " + accion);
+            switch (accion)
             {
-                // El jugador paga $50 a cada jugador
-                case 0:
-                    if (player.getMoney().getMoney() < 50*board.getPlayers().Length)
+                // Jugador paga 50 a cada jugador
+                case "10000":
+                    foreach(var pl in board.getPlayers())
                     {
-                        // No tiene suficiente para pagar, me imagino que
-                        // quiebra y ya
-                        player.setBrokeOut(true);
-                    } else
-                    {
-                        // Recorremos los jugadores y pagamos 50 a cada uno
-                        foreach(var jugador in board.getPlayers())
-                        {
-                            if (jugador.getID() != player.getID())
-                            {
-                                player.getMoney().substractMoney(50);
-                                jugador.getMoney().addMoney(50);
-                            }
-                        }
+                        player.getMoney().substractMoney(50);
+                        pl.getMoney().addMoney(50);
                     }
                     break;
 
-                // El jugador va a la carcel
-                case 1:
-                    player.GoToJail();
+                case "10101":
+                    player.getMoney().addMoney(150);
                     break;
 
-                // Jugador puede salir gratis de la carcel
-                case 2:
-                    player.GiveJailPass();
+                case "10110":
+                    player.getMoney().substractMoney(15);
                     break;
 
-                case 3:
-                    break;
-
-                case 4:
-                    break;
-
-                case 5:
-                    break;
-
-                case 6:
-                    break;
-
-                case 7:
-                    break;
-
-                case 8:
-                    break;
-
-                case 9:
-                    break;
-
-                case 10:
-                    break;
-
-                case 11:
-                    break;
-
-                case 12:
-                    break;
-
-                case 13:
-                    break;
-
-                case 14:
-                    break;
-
-                case 15:
+                case "11111":
+                    player.getMoney().addMoney(100);
                     break;
             }
         }

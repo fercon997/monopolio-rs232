@@ -26,6 +26,8 @@ namespace Monopolio_RS232
                  object sender, SerialDataReceivedEventArgs e);
 
         delegate void SetTextCallback(string text);
+        delegate void AddToHistoryCallback(string text);
+
         SerialDataReceivedEventHandler dataReceivedSubscription;
 
         public Principal(Form inicial, Board board)
@@ -41,7 +43,6 @@ namespace Monopolio_RS232
             {
                 this.btnRollDices.Enabled = true;
             }
-
             Closing += this.OnWindowClosing;
             tablero.Paint += new System.Windows.Forms.PaintEventHandler(this.Principal_Paint);
         }
@@ -187,7 +188,7 @@ namespace Monopolio_RS232
                 byte origenByte = Convert.ToByte(origen);
                 int origenNumber = Convert.ToInt32(origenByte);
 
-                board.GetSquares()[posicionPropiedad].SetOwner(origenNumber);
+                // board.GetSquares()[posicionPropiedad].SetOwner(origenNumber);
                 this.BeginInvoke((MethodInvoker)delegate ()
                 {
                     lbxHistoria.Items.Add("Jugador " + origen + " compró la propiedad " + board.GetSquares()[posicionPropiedad].getName());
@@ -208,7 +209,7 @@ namespace Monopolio_RS232
             }
         }
 
-        private void SetText(string text)
+        public static void SetText(string text)
         {
             
         }
@@ -249,8 +250,8 @@ namespace Monopolio_RS232
         {
             this.btnRollDices.Enabled = false;
             Random randDado = new Random();
-            numeroDado1 = 5;//randDado.Next(1, 7);
-            numeroDado2 = 3;//randDado.Next(1, 7);
+            numeroDado1 = randDado.Next(1, 7);
+            numeroDado2 = randDado.Next(1, 7);
             dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado1);
             dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado2);
 
