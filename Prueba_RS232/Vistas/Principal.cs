@@ -129,6 +129,19 @@ namespace Monopolio_RS232
                 Square pos = board.GetSquares()[newPosition];
                 jugadorMoviendose.SetPoisitionX(pos.GetPositionX());
                 jugadorMoviendose.SetPoisitionY(pos.GetPositionY());
+                if (pos.GetType() == typeof(HouseSquare))
+                {
+                    HouseSquare posHouse = (HouseSquare)pos;
+                    pos = (HouseSquare)pos;
+                    if ((posHouse.getOwner() != jugadorMoviendose.getID()) && (posHouse.getOwner() >= 0))
+                    {
+                        Trace.WriteLine(jugadorMoviendose, jugadorMoviendose.getName() + " lost " + posHouse.getRent() + " money to " + board.getPlayer(posHouse.getOwner()).getName());
+                        jugadorMoviendose.getMoney().substractMoney(posHouse.getRent());
+                        board.getPlayer(posHouse.getOwner()).getMoney().addMoney(posHouse.getRent());
+                        Trace.WriteLine("Owner money: " + board.getPlayer(posHouse.getOwner()).getMoney().getMoney());
+                        actualizarDatosJugadorLocal();
+                    }
+                }
                 tablero.Invalidate();
                 Trace.WriteLine(String.Format("Posicion del jugador {0}: {1}, {2} (Casilla: {3})",
                     jugadorMoviendose.getID(),
@@ -187,7 +200,11 @@ namespace Monopolio_RS232
                 byte origenByte = Convert.ToByte(origen);
                 int origenNumber = Convert.ToInt32(origenByte);
 
-                board.GetSquares()[posicionPropiedad].SetOwner(origenNumber);
+                HouseSquare propiedad = (HouseSquare)board.GetSquares()[posicionPropiedad];
+                Trace.WriteLine("Owner: " + origenNumber);
+                Trace.WriteLine("Player: " + board.getPlayer(origenNumber).getID());
+                propiedad.setOwner(origenNumber);
+
                 this.BeginInvoke((MethodInvoker)delegate ()
                 {
                     lbxHistoria.Items.Add("Jugador " + origen + " compró la propiedad " + board.GetSquares()[posicionPropiedad].getName());
@@ -200,6 +217,7 @@ namespace Monopolio_RS232
             }
             else
             {
+                
                 this.BeginInvoke((MethodInvoker)delegate ()
                 {
                     lbxPropiedades.Items.Add(posicionPropiedad + " " + board.GetSquares()[posicionPropiedad].getName());
@@ -249,8 +267,8 @@ namespace Monopolio_RS232
         {
             this.btnRollDices.Enabled = false;
             Random randDado = new Random();
-            numeroDado1 = 5;//randDado.Next(1, 7);
-            numeroDado2 = 3;//randDado.Next(1, 7);
+            numeroDado1 = randDado.Next(1, 7);
+            numeroDado2 = randDado.Next(1, 7);
             dice1.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado1);
             dice2.Image = (Image)Properties.Resources.ResourceManager.GetObject("dado" + numeroDado2);
 
